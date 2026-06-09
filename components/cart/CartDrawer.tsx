@@ -40,10 +40,15 @@ export function CartDrawer() {
       <Dialog.Trigger asChild>
         <button
           type="button"
-          className="fixed bottom-5 right-5 z-30 inline-flex max-w-[calc(100vw-2.5rem)] items-center gap-2 rounded-full bg-forest px-5 py-3 text-sm font-semibold text-white shadow-lg transition-colors hover:bg-forest-dark cursor-pointer 2xl:hidden"
+          className="fixed right-5 bottom-[calc(1.25rem+env(safe-area-inset-bottom,0px))] z-30 inline-flex max-w-[calc(100vw-2.5rem)] items-center gap-2 rounded-full bg-forest px-4 py-3 text-sm font-semibold text-white shadow-lg transition-colors hover:bg-forest-dark cursor-pointer 2xl:hidden sm:px-5"
         >
-          <ShoppingCart className="h-5 w-5" aria-hidden="true" />
-          {count} · {formatEUR(total)}
+          <ShoppingCart className="h-5 w-5 shrink-0" aria-hidden="true" />
+          <span className="flex min-w-0 flex-col items-start leading-tight sm:flex-row sm:items-center sm:gap-1.5">
+            <span className="whitespace-nowrap">
+              {count} article{count > 1 ? "s" : ""}
+            </span>
+            <span className="tabular-nums">{formatEUR(total)}</span>
+          </span>
         </button>
       </Dialog.Trigger>
 
@@ -68,10 +73,10 @@ export function CartDrawer() {
             ))}
           </div>
 
-          <div className="border-t border-sand-300 bg-white px-5 py-4">
-            <div className="flex items-center justify-between">
+          <div className="border-t border-sand-300 bg-white px-5 pt-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))]">
+            <div className="space-y-1 sm:flex sm:flex-wrap sm:items-baseline sm:justify-between sm:gap-x-3 sm:gap-y-1">
               <span className="text-sm text-bark-muted">Total estimatif HTVA</span>
-              <span className="font-display text-xl font-semibold text-forest-dark">
+              <span className="block font-display text-xl font-semibold tabular-nums whitespace-nowrap text-forest-dark">
                 {formatEUR(total)}
               </span>
             </div>

@@ -35,19 +35,19 @@ export function CartLineItem({ line }: CartLineItemProps) {
         : `${formatEUR(unitPrice)} / unité HTVA`;
 
   return (
-    <div className="flex gap-3 py-4">
+    <div className="flex flex-col gap-3 py-4 sm:flex-row sm:items-start">
       <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-semibold text-forest-dark">
+        <p className="break-words text-sm font-semibold text-forest-dark">
           {getProductDisplayTitle(product)}
         </p>
         {getProductDisplaySubtitle(product) && (
-          <p className="truncate text-xs text-bark-muted">
+          <p className="break-words text-xs text-bark-muted">
             {getProductDisplaySubtitle(product)}
           </p>
         )}
-        <p className="truncate text-xs text-bark-muted">{category.title}</p>
-        <p className="mt-1 text-xs text-bark-muted">{unitLine}</p>
-        <div className="mt-2 flex items-center gap-3">
+        <p className="break-words text-xs text-bark-muted">{category.title}</p>
+        <p className="mt-1 break-words text-xs text-bark-muted">{unitLine}</p>
+        <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-2">
           <QuantityStepper
             value={quantity}
             onChange={(q) => setQuantity(product.id, q)}
@@ -56,13 +56,13 @@ export function CartLineItem({ line }: CartLineItemProps) {
           />
           {isPalette && piecesPerPalette ? (
             <span className="text-xs text-bark-muted">
-              = {quantity * piecesPerPalette} pièces
+              = {quantity * piecesPerPalette} pièce{quantity * piecesPerPalette > 1 ? "s" : ""}
             </span>
           ) : null}
           <button
             type="button"
             onClick={() => removeItem(product.id)}
-            className="inline-flex items-center gap-1 text-xs text-bark-muted transition-colors hover:text-terracotta cursor-pointer"
+            className="inline-flex min-h-11 items-center gap-1 text-xs text-bark-muted transition-colors hover:text-terracotta cursor-pointer"
             aria-label={`Retirer ${product.label} du panier`}
           >
             <Trash2 className="h-4 w-4" aria-hidden="true" />
@@ -70,8 +70,9 @@ export function CartLineItem({ line }: CartLineItemProps) {
           </button>
         </div>
       </div>
-      <div className="text-right">
-        <p className="text-sm font-semibold text-forest-dark">
+      <div className="flex w-full shrink-0 items-center justify-between gap-3 border-t border-sand-200 pt-3 sm:w-auto sm:block sm:border-0 sm:pt-0 sm:text-right">
+        <span className="text-xs font-medium text-bark-muted sm:hidden">Sous-total</span>
+        <p className="text-base font-semibold tabular-nums whitespace-nowrap text-forest-dark sm:text-sm">
           {lineTotal !== null ? formatEUR(lineTotal) : formatPrice(unitPrice)}
         </p>
       </div>

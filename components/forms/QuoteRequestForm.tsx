@@ -103,7 +103,7 @@ export function QuoteRequestForm({ items, onSubmitted }: QuoteRequestFormProps) 
   };
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="relative space-y-4">
+    <form onSubmit={handleSubmit} noValidate className="relative space-y-4 pb-2">
       <HoneypotField />
       <div className="grid gap-4 sm:grid-cols-2">
         <TextField

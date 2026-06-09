@@ -143,7 +143,7 @@ export default async function CataloguePage({ searchParams }: CataloguePageProps
         </div>
       </div>
 
-      <div className="mx-auto max-w-[88rem] gap-8 px-4 py-10 sm:px-6 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:px-8 2xl:grid-cols-[220px_minmax(0,1fr)_300px]">
+      <div className="mx-auto max-w-[88rem] gap-8 px-4 py-10 pb-[calc(6rem+env(safe-area-inset-bottom,0px))] sm:px-6 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:px-8 2xl:grid-cols-[220px_minmax(0,1fr)_300px] 2xl:pb-10">
         <details className="mb-6 rounded-card border border-sand-300 bg-white lg:hidden">
           <summary className="flex cursor-pointer items-center justify-between px-4 py-3 font-medium text-forest-dark">
             Familles de produits

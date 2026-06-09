@@ -44,9 +44,9 @@ export function CartSummary() {
             ))}
           </div>
           <div className="border-t border-sand-200 px-5 py-4">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
               <span className="text-sm text-bark-muted">Total estimatif HTVA</span>
-              <span className="font-display text-xl font-semibold text-forest-dark">
+              <span className="font-display text-xl font-semibold tabular-nums text-forest-dark">
                 {formatEUR(total)}
               </span>
             </div>

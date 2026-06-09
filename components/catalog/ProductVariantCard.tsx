@@ -153,7 +153,7 @@ export function ProductVariantCard({
             <p className="text-xs font-medium uppercase tracking-wide text-bark-muted">
               Prix sélectionné
             </p>
-            <p className="mt-1 font-display text-3xl font-semibold text-forest-dark sm:text-4xl">
+            <p className="mt-1 break-words font-display text-3xl font-semibold tabular-nums text-forest-dark sm:text-4xl">
               {pricing.unitPrice !== null
                 ? formatEUR(pricing.unitPrice)
                 : formatPrice(product.prixUnitaireHTVA)}

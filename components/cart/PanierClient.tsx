@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ShoppingCart, CheckCircle2, Download, Trash2, ArrowLeft, Info, ArrowDown } from "lucide-react";
 import {
@@ -21,6 +21,19 @@ export function PanierClient() {
   const clear = useCartStore((s) => s.clear);
   const [result, setResult] = useState<QuoteSubmitResult | null>(null);
   const [confirmClear, setConfirmClear] = useState(false);
+  const [formInView, setFormInView] = useState(false);
+
+  useEffect(() => {
+    const form = document.getElementById("quote-form");
+    if (!form) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setFormInView(entry.isIntersecting && entry.intersectionRatio >= 0.25),
+      { threshold: [0, 0.25, 0.5] },
+    );
+    observer.observe(form);
+    return () => observer.disconnect();
+  }, []);
 
   const resolved = resolveCartItems(items);
   const total = selectCartTotalHTVA(resolved);
@@ -59,8 +72,8 @@ export function PanierClient() {
 
   return (
     <>
-      <div className="grid gap-8 pb-24 xl:grid-cols-[minmax(0,1fr)_minmax(320px,400px)] xl:pb-0">
-        <section aria-labelledby="recap-title" className="order-2 xl:order-1">
+      <div className="grid gap-8 pb-[calc(10rem+env(safe-area-inset-bottom,0px))] xl:grid-cols-[minmax(0,1fr)_minmax(320px,400px)] xl:pb-0">
+        <section aria-labelledby="recap-title" className="order-1 min-w-0 xl:order-1">
           <div className="flex items-center justify-between">
             <h2 id="recap-title" className="font-display text-xl font-semibold text-forest-dark">
               Votre sélection
@@ -98,17 +111,19 @@ export function PanierClient() {
             )}
           </div>
 
-          <div className="mt-4 divide-y divide-sand-200 rounded-card border border-sand-300 bg-white px-5 shadow-card">
+          <div className="mt-4 min-w-0 divide-y divide-sand-200 rounded-card border border-sand-300 bg-white px-4 shadow-card sm:px-5">
             {resolved.map((line) => (
               <CartLineItem key={line.product.id} line={line} />
             ))}
           </div>
 
-          <div className="mt-4 flex items-center justify-between rounded-card border border-sand-300 bg-sage-soft/50 px-5 py-4">
-            <span className="text-sm font-medium text-forest-dark">Total estimatif HTVA</span>
-            <span className="font-display text-2xl font-semibold text-forest-dark">
-              {formatEUR(total)}
-            </span>
+          <div className="mt-4 rounded-card border border-sand-300 bg-sage-soft/50 px-5 py-4">
+            <div className="space-y-1 sm:flex sm:flex-wrap sm:items-baseline sm:justify-between sm:gap-x-4 sm:gap-y-1">
+              <span className="text-sm font-medium text-forest-dark">Total estimatif HTVA</span>
+              <span className="block font-display text-2xl font-semibold tabular-nums whitespace-nowrap text-forest-dark">
+                {formatEUR(total)}
+              </span>
+            </div>
           </div>
           {onRequest && (
             <p className="mt-2 flex items-start gap-1.5 text-xs text-bark-muted">
@@ -127,7 +142,7 @@ export function PanierClient() {
           </Link>
         </section>
 
-        <section id="quote-form" aria-labelledby="form-title" className="order-1 scroll-mt-24 xl:order-2">
+        <section id="quote-form" aria-labelledby="form-title" className="order-2 min-w-0 scroll-mt-24 xl:order-2">
           <div className="rounded-card border border-sand-300 bg-white p-5 shadow-card sm:p-6">
             <h2 id="form-title" className="font-display text-xl font-semibold text-forest-dark">
               Vos coordonnées
@@ -146,16 +161,23 @@ export function PanierClient() {
         </section>
       </div>
 
-      <div className="fixed inset-x-0 bottom-0 z-20 border-t border-sand-300 bg-white/95 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-lg backdrop-blur xl:hidden">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3">
-          <div>
+      <div
+        aria-hidden={formInView}
+        className={`fixed inset-x-0 bottom-0 z-20 border-t border-sand-300 bg-white px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] shadow-lg transition-transform duration-300 ease-out xl:hidden ${
+          formInView ? "pointer-events-none translate-y-full" : "translate-y-0"
+        }`}
+      >
+        <div className="mx-auto max-w-6xl space-y-2">
+          <div className="flex items-baseline justify-between gap-4">
             <p className="text-xs text-bark-muted">Total estimatif HTVA</p>
-            <p className="font-display text-lg font-semibold text-forest-dark">{formatEUR(total)}</p>
+            <p className="shrink-0 font-display text-xl font-semibold tabular-nums whitespace-nowrap text-forest-dark">
+              {formatEUR(total)}
+            </p>
           </div>
           <button
             type="button"
             onClick={scrollToForm}
-            className="inline-flex min-h-11 items-center gap-2 rounded-full bg-forest px-5 text-sm font-semibold text-white hover:bg-forest-dark cursor-pointer"
+            className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-forest px-5 text-sm font-semibold text-white hover:bg-forest-dark cursor-pointer"
           >
             <ArrowDown className="h-4 w-4" aria-hidden="true" />
             Vers le formulaire
