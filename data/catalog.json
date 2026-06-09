@@ -1,0 +1,1656 @@
+{
+  "generatedAt": "2026-06-02T19:44:11.215600",
+  "source": "doc/Eshop.xlsx",
+  "currency": "EUR",
+  "taxNote": "Tous les prix sont HTVA",
+  "categories": [
+    {
+      "id": "piquets-en-robiniers-faux-acacia-ronds",
+      "title": "Piquets en robiniers faux acacia ronds",
+      "parent": null,
+      "parentTitle": null,
+      "format": "palette",
+      "dualPricing": true,
+      "notes": [
+        "Possibilité d'avoir d'autres dimensions sur commandes.",
+        "Prix dégressif si achat par camion complet.",
+        "Possibilité de livraison par achat camion complet (supplément).",
+        "Nos piquets sont choisis directement chez les producteurs afin d'obtenir la meilleure qualité. Nous choisissons les piquets pour leur densité, leur rapport aubier/duramen ainsi que pour leur rectitude. C'est la raison pour laquelle nos piquets d'acacia proviennent de forêts denses aux conditions climatiques rudes (Hongrie/Roumanie/Estonie/...).",
+        "Nos piquets d'acacia ont une durabilité très élevée (supérieure à 25 ans) sans aucun traitement."
+      ],
+      "products": [
+        {
+          "id": "piquets-en-robiniers-faux-acacia-ronds-160-cm-diametre-8-10-cm-0",
+          "label": "Piquets en robiniers faux acacia — 160 cm diamètre 8/10 cm",
+          "article": "Piquets en robiniers faux acacia",
+          "reference": "160 cm diamètre 8/10 cm",
+          "prixUnitaireHTVA": 5.02,
+          "disponibilite": "Sur commande",
+          "details": {
+            "nombre_par_palette": "100",
+            "nombre_par_palette_camion": "100",
+            "note_camion": "Sur commande"
+          },
+          "prixCamionCompletHTVA": 4.64
+        },
+        {
+          "id": "piquets-en-robiniers-faux-acacia-ronds-160-cm-diametre-10-12-cm-1",
+          "label": "Piquets en robiniers faux acacia — 160 cm diamètre 10/12 cm",
+          "article": "Piquets en robiniers faux acacia",
+          "reference": "160 cm diamètre 10/12 cm",
+          "prixUnitaireHTVA": 7.49,
+          "disponibilite": "Sur commande",
+          "details": {
+            "nombre_par_palette": "75",
+            "nombre_par_palette_camion": "75",
+            "note_camion": "Sur commande"
+          },
+          "prixCamionCompletHTVA": 6.93
+        },
+        {
+          "id": "piquets-en-robiniers-faux-acacia-ronds-180-cm-diametre-8-10-cm-2",
+          "label": "Piquets en robiniers faux acacia — 180 cm diamètre 8/10 cm",
+          "article": "Piquets en robiniers faux acacia",
+          "reference": "180 cm diamètre 8/10 cm",
+          "prixUnitaireHTVA": 5.64,
+          "disponibilite": "En stock",
+          "details": {
+            "nombre_par_palette": "100",
+            "nombre_par_palette_camion": "100",
+            "note_camion": "En stock"
+          },
+          "prixCamionCompletHTVA": 5.22
+        },
+        {
+          "id": "piquets-en-robiniers-faux-acacia-ronds-180-cm-diametre-10-12-cm-3",
+          "label": "Piquets en robiniers faux acacia — 180 cm diamètre 10/12 cm",
+          "article": "Piquets en robiniers faux acacia",
+          "reference": "180 cm diamètre 10/12 cm",
+          "prixUnitaireHTVA": 8.43,
+          "disponibilite": "En stock",
+          "details": {
+            "nombre_par_palette": "75",
+            "nombre_par_palette_camion": "75",
+            "note_camion": "En stock"
+          },
+          "prixCamionCompletHTVA": 7.8
+        },
+        {
+          "id": "piquets-en-robiniers-faux-acacia-ronds-200-cm-diametre-8-10-cm-4",
+          "label": "Piquets en robiniers faux acacia — 200 cm diamètre 8/10 cm",
+          "article": "Piquets en robiniers faux acacia",
+          "reference": "200 cm diamètre 8/10 cm",
+          "prixUnitaireHTVA": 6.27,
+          "disponibilite": "En stock",
+          "details": {
+            "nombre_par_palette": "100",
+            "nombre_par_palette_camion": "100",
+            "note_camion": "En stock"
+          },
+          "prixCamionCompletHTVA": 5.81
+        },
+        {
+          "id": "piquets-en-robiniers-faux-acacia-ronds-200-cm-diametre-10-12-cm-5",
+          "label": "Piquets en robiniers faux acacia — 200 cm diamètre 10/12 cm",
+          "article": "Piquets en robiniers faux acacia",
+          "reference": "200 cm diamètre 10/12 cm",
+          "prixUnitaireHTVA": 9.37,
+          "disponibilite": "En stock",
+          "details": {
+            "nombre_par_palette": "75",
+            "nombre_par_palette_camion": "75",
+            "note_camion": "En stock"
+          },
+          "prixCamionCompletHTVA": 8.67
+        },
+        {
+          "id": "piquets-en-robiniers-faux-acacia-ronds-250-cm-diametre-8-10-cm-6",
+          "label": "Piquets en robiniers faux acacia — 250 cm diamètre 8/10 cm",
+          "article": "Piquets en robiniers faux acacia",
+          "reference": "250 cm diamètre 8/10 cm",
+          "prixUnitaireHTVA": 7.84,
+          "disponibilite": "En stock",
+          "details": {
+            "nombre_par_palette": "100",
+            "nombre_par_palette_camion": "100",
+            "note_camion": "En stock"
+          },
+          "prixCamionCompletHTVA": 7.26
+        },
+        {
+          "id": "piquets-en-robiniers-faux-acacia-ronds-250-cm-diametre-10-12-cm-7",
+          "label": "Piquets en robiniers faux acacia — 250 cm diamètre 10/12 cm",
+          "article": "Piquets en robiniers faux acacia",
+          "reference": "250 cm diamètre 10/12 cm",
+          "prixUnitaireHTVA": 11.71,
+          "disponibilite": "En stock",
+          "details": {
+            "nombre_par_palette": "75",
+            "nombre_par_palette_camion": "75",
+            "note_camion": "En stock"
+          },
+          "prixCamionCompletHTVA": 10.84
+        },
+        {
+          "id": "piquets-en-robiniers-faux-acacia-ronds-300-cm-diametre-10-12-cm-8",
+          "label": "Piquets en robiniers faux acacia — 300 cm diamètre 10/12 cm",
+          "article": "Piquets en robiniers faux acacia",
+          "reference": "300 cm diamètre 10/12 cm",
+          "prixUnitaireHTVA": 14.05,
+          "disponibilite": "En stock",
+          "details": {
+            "nombre_par_palette": "75",
+            "nombre_par_palette_camion": "75",
+            "note_camion": "En stock"
+          },
+          "prixCamionCompletHTVA": 13.01
+        },
+        {
+          "id": "piquets-en-robiniers-faux-acacia-ronds-350-cm-diametre-10-12-cm-9",
+          "label": "Piquets en robiniers faux acacia — 350 cm diamètre 10/12 cm",
+          "article": "Piquets en robiniers faux acacia",
+          "reference": "350 cm diamètre 10/12 cm",
+          "prixUnitaireHTVA": 18.86,
+          "disponibilite": "Sur commande",
+          "details": {
+            "nombre_par_palette": "60",
+            "nombre_par_palette_camion": "60",
+            "note_camion": "Sur commande"
+          },
+          "prixCamionCompletHTVA": 17.46
+        },
+        {
+          "id": "piquets-en-robiniers-faux-acacia-ronds-350-cm-diametre-12-14-cm-10",
+          "label": "Piquets en robiniers faux acacia — 350 cm diamètre 12/14 cm",
+          "article": "Piquets en robiniers faux acacia",
+          "reference": "350 cm diamètre 12/14 cm",
+          "prixUnitaireHTVA": 26.34,
+          "disponibilite": "Sur commande",
+          "details": {
+            "nombre_par_palette": "50",
+            "nombre_par_palette_camion": "50",
+            "note_camion": "Sur commande"
+          },
+          "prixCamionCompletHTVA": 24.39
+        },
+        {
+          "id": "piquets-en-robiniers-faux-acacia-ronds-450-cm-diametre-12-14-cm-11",
+          "label": "Piquets en robiniers faux acacia — 450 cm diamètre 12/14 cm",
+          "article": "Piquets en robiniers faux acacia",
+          "reference": "450 cm diamètre 12/14 cm",
+          "prixUnitaireHTVA": 33.87,
+          "disponibilite": "Sur commande",
+          "details": {
+            "nombre_par_palette": "50",
+            "nombre_par_palette_camion": "50",
+            "note_camion": "Sur commande"
+          },
+          "prixCamionCompletHTVA": 31.36
+        }
+      ]
+    },
+    {
+      "id": "grillage-a-mailles-progressives",
+      "title": "Grillage à mailles progressives",
+      "parent": "morel-wire-grillages-barbeles-et-fils-galvanises",
+      "parentTitle": "Morel Wire (grillages, barbelés et fils galvanisés)",
+      "format": "grillage",
+      "dualPricing": false,
+      "notes": [],
+      "products": [
+        {
+          "id": "grillage-a-mailles-progressives-8-80-15-0",
+          "label": "Grillage — 8/80/15",
+          "article": "Grillage",
+          "reference": "8/80/15",
+          "prixUnitaireHTVA": 175.0,
+          "disponibilite": "En stock",
+          "details": {
+            "metres_par_rlx": "100 mètres"
+          }
+        },
+        {
+          "id": "grillage-a-mailles-progressives-10-100-15-1",
+          "label": "Grillage — 10/100/15",
+          "article": "Grillage",
+          "reference": "10/100/15",
+          "prixUnitaireHTVA": 217.0,
+          "disponibilite": "En stock",
+          "details": {
+            "metres_par_rlx": "100 mètres"
+          }
+        },
+        {
+          "id": "grillage-a-mailles-progressives-11-122-15-2",
+          "label": "Grillage — 11/122/15",
+          "article": "Grillage",
+          "reference": "11/122/15",
+          "prixUnitaireHTVA": 259.0,
+          "disponibilite": "En stock",
+          "details": {
+            "metres_par_rlx": "100 mètres"
+          }
+        },
+        {
+          "id": "grillage-a-mailles-progressives-13-150-15-3",
+          "label": "Grillage — 13/150/15",
+          "article": "Grillage",
+          "reference": "13/150/15",
+          "prixUnitaireHTVA": 310.0,
+          "disponibilite": "En stock",
+          "details": {
+            "metres_par_rlx": "100 mètres"
+          }
+        },
+        {
+          "id": "grillage-a-mailles-progressives-17-200-15-4",
+          "label": "Grillage — 17/200/15",
+          "article": "Grillage",
+          "reference": "17/200/15",
+          "prixUnitaireHTVA": 400.0,
+          "disponibilite": "En stock",
+          "details": {
+            "metres_par_rlx": "100 mètres"
+          }
+        },
+        {
+          "id": "grillage-a-mailles-progressives-20-244-15-5",
+          "label": "Grillage — 20/244/15",
+          "article": "Grillage",
+          "reference": "20/244/15",
+          "prixUnitaireHTVA": 465.0,
+          "disponibilite": "En stock",
+          "details": {
+            "metres_par_rlx": "100 mètres"
+          }
+        }
+      ]
+    },
+    {
+      "id": "grillage-a-mailles-identiques",
+      "title": "Grillage à mailles identiques",
+      "parent": "morel-wire-grillages-barbeles-et-fils-galvanises",
+      "parentTitle": "Morel Wire (grillages, barbelés et fils galvanisés)",
+      "format": "grillage",
+      "dualPricing": false,
+      "notes": [],
+      "products": [
+        {
+          "id": "grillage-a-mailles-identiques-13-122-7-5-0",
+          "label": "Grillage — 13/122/7,5",
+          "article": "Grillage",
+          "reference": "13/122/7,5",
+          "prixUnitaireHTVA": 384.0,
+          "disponibilite": "En stock",
+          "details": {
+            "metres_par_rlx": "100"
+          }
+        },
+        {
+          "id": "grillage-a-mailles-identiques-13-122-5-1",
+          "label": "Grillage — 13/122/5",
+          "article": "Grillage",
+          "reference": "13/122/5",
+          "prixUnitaireHTVA": 440.0,
+          "disponibilite": "En stock",
+          "details": {
+            "metres_par_rlx": "100"
+          }
+        },
+        {
+          "id": "grillage-a-mailles-identiques-15-140-7-5-2",
+          "label": "Grillage — 15/140/7,5",
+          "article": "Grillage",
+          "reference": "15/140/7,5",
+          "prixUnitaireHTVA": 434.0,
+          "disponibilite": "En stock",
+          "details": {
+            "metres_par_rlx": "100"
+          }
+        },
+        {
+          "id": "grillage-a-mailles-identiques-16-150-5-3",
+          "label": "Grillage — 16/150/5",
+          "article": "Grillage",
+          "reference": "16/150/5",
+          "prixUnitaireHTVA": 588.0,
+          "disponibilite": "En stock",
+          "details": {
+            "metres_par_rlx": "100"
+          }
+        },
+        {
+          "id": "grillage-a-mailles-identiques-19-180-5-4",
+          "label": "Grillage — 19/180/5",
+          "article": "Grillage",
+          "reference": "19/180/5",
+          "prixUnitaireHTVA": 682.0,
+          "disponibilite": "En stock",
+          "details": {
+            "metres_par_rlx": "100"
+          }
+        }
+      ]
+    },
+    {
+      "id": "barbeles-morel-barbed",
+      "title": "Barbelés Morel Barbed",
+      "parent": "morel-wire-grillages-barbeles-et-fils-galvanises",
+      "parentTitle": "Morel Wire (grillages, barbelés et fils galvanisés)",
+      "format": "grillage",
+      "dualPricing": false,
+      "notes": [],
+      "products": [
+        {
+          "id": "barbeles-morel-barbed-2-x-1-7-mm-high-tensile-0",
+          "label": "Barbelé — 2 x 1,7 mm high tensile",
+          "article": "Barbelé",
+          "reference": "2 x 1,7 mm high tensile",
+          "prixUnitaireHTVA": 79.0,
+          "disponibilite": "En stock",
+          "details": {
+            "metres_par_rlx": "500"
+          }
+        },
+        {
+          "id": "barbeles-morel-barbed-2-x-2-mm-high-tensile-1",
+          "label": "Barbelé — 2 x 2 mm high tensile",
+          "article": "Barbelé",
+          "reference": "2 x 2 mm high tensile",
+          "prixUnitaireHTVA": 105.0,
+          "disponibilite": "Sur commande",
+          "details": {
+            "metres_par_rlx": "500"
+          }
+        }
+      ]
+    },
+    {
+      "id": "fil-galvanise-morel-wire",
+      "title": "Fil galvanisé Morel Wire",
+      "parent": "morel-wire-grillages-barbeles-et-fils-galvanises",
+      "parentTitle": "Morel Wire (grillages, barbelés et fils galvanisés)",
+      "format": "grillage",
+      "dualPricing": false,
+      "notes": [
+        "Possibilité de créer des dimensions sur mesure en fonction de la quantité"
+      ],
+      "products": [
+        {
+          "id": "fil-galvanise-morel-wire-2-5-mm-high-tensile-0",
+          "label": "Fil galvanisé — 2,5 mm high tensile",
+          "article": "Fil galvanisé",
+          "reference": "2,5 mm high tensile",
+          "prixUnitaireHTVA": 105.0,
+          "disponibilite": "En stock",
+          "details": {
+            "metres_par_rlx": "625"
+          }
+        },
+        {
+          "id": "fil-galvanise-morel-wire-2-5-mm-low-tensile-1",
+          "label": "Fil galvanisé — 2,5 mm Low Tensile",
+          "article": "Fil galvanisé",
+          "reference": "2,5 mm Low Tensile",
+          "prixUnitaireHTVA": 15.0,
+          "disponibilite": "En stock",
+          "details": {
+            "metres_par_rlx": "125"
+          }
+        }
+      ]
+    },
+    {
+      "id": "barrieres-fixes-en-7-tubes-h-120-cm",
+      "title": "Barrières fixes en 7 tubes H.120 cm",
+      "parent": "barrieres-galvanisees",
+      "parentTitle": "Barrières galvanisées",
+      "format": "standard_note",
+      "dualPricing": false,
+      "notes": [],
+      "products": [
+        {
+          "id": "barrieres-fixes-en-7-tubes-h-120-cm-365-cm-0",
+          "label": "7 tubes fixes — 365 cm",
+          "article": "7 tubes fixes",
+          "reference": "365 cm",
+          "prixUnitaireHTVA": 133.53,
+          "disponibilite": "En stock",
+          "details": {}
+        },
+        {
+          "id": "barrieres-fixes-en-7-tubes-h-120-cm-460-cm-1",
+          "label": "7 tubes fixes — 460 cm",
+          "article": "7 tubes fixes",
+          "reference": "460 cm",
+          "prixUnitaireHTVA": 163.5,
+          "disponibilite": "En stock",
+          "details": {}
+        },
+        {
+          "id": "barrieres-fixes-en-7-tubes-h-120-cm-600-cm-2",
+          "label": "7 tubes fixes — 600 cm",
+          "article": "7 tubes fixes",
+          "reference": "600 cm",
+          "prixUnitaireHTVA": 220.0,
+          "disponibilite": "En stock",
+          "details": {}
+        }
+      ]
+    },
+    {
+      "id": "barrieres-extensibles-en-5-tubes-h-120-cm",
+      "title": "Barrières extensibles en 5 tubes H.120 cm",
+      "parent": "barrieres-galvanisees",
+      "parentTitle": "Barrières galvanisées",
+      "format": "standard_note",
+      "dualPricing": false,
+      "notes": [],
+      "products": [
+        {
+          "id": "barrieres-extensibles-en-5-tubes-h-120-cm-4-5-metres-0",
+          "label": "Extensibles — 4 => 5 mètres",
+          "article": "Extensibles",
+          "reference": "4 => 5 mètres",
+          "prixUnitaireHTVA": 265.0,
+          "disponibilite": "En stock",
+          "details": {}
+        },
+        {
+          "id": "barrieres-extensibles-en-5-tubes-h-120-cm-5-6-metres-1",
+          "label": "Extensibles — 5 => 6 mètres",
+          "article": "Extensibles",
+          "reference": "5 => 6 mètres",
+          "prixUnitaireHTVA": 300.0,
+          "disponibilite": "En stock",
+          "details": {}
+        }
+      ]
+    },
+    {
+      "id": "barrieres-demi-grillagees-h-120-cm",
+      "title": "Barrières demi grillagées H.120 cm",
+      "parent": "barrieres-galvanisees",
+      "parentTitle": "Barrières galvanisées",
+      "format": "standard_note",
+      "dualPricing": false,
+      "notes": [],
+      "products": [
+        {
+          "id": "barrieres-demi-grillagees-h-120-cm-120-cm-0",
+          "label": "Demi grillagées — 120 cm",
+          "article": "Demi grillagées",
+          "reference": "120 cm",
+          "prixUnitaireHTVA": 113.62,
+          "disponibilite": "En stock",
+          "details": {}
+        },
+        {
+          "id": "barrieres-demi-grillagees-h-120-cm-300-cm-1",
+          "label": "Demi grillagées — 300 cm",
+          "article": "Demi grillagées",
+          "reference": "300 cm",
+          "prixUnitaireHTVA": 161.24,
+          "disponibilite": "En stock",
+          "details": {}
+        },
+        {
+          "id": "barrieres-demi-grillagees-h-120-cm-365-cm-2",
+          "label": "Demi grillagées — 365 cm",
+          "article": "Demi grillagées",
+          "reference": "365 cm",
+          "prixUnitaireHTVA": 181.2,
+          "disponibilite": "En stock",
+          "details": {}
+        },
+        {
+          "id": "barrieres-demi-grillagees-h-120-cm-460-cm-3",
+          "label": "Demi grillagées — 460 cm",
+          "article": "Demi grillagées",
+          "reference": "460 cm",
+          "prixUnitaireHTVA": 221.09,
+          "disponibilite": "En stock",
+          "details": {}
+        }
+      ]
+    },
+    {
+      "id": "barrieres-entierement-grillagees-h-150-cm-et-h-180-cm",
+      "title": "Barrières entièrement grillagées H.150 cm et H.180 cm",
+      "parent": "barrieres-galvanisees",
+      "parentTitle": "Barrières galvanisées",
+      "format": "standard_note",
+      "dualPricing": false,
+      "notes": [],
+      "products": [
+        {
+          "id": "barrieres-entierement-grillagees-h-150-cm-et-h-180-cm-h-150-x-120-cm-0",
+          "label": "Entièrement grillagée — H.150 x 120 cm",
+          "article": "Entièrement grillagée",
+          "reference": "H.150 x 120 cm",
+          "prixUnitaireHTVA": 266.02,
+          "disponibilite": "En stock",
+          "details": {}
+        },
+        {
+          "id": "barrieres-entierement-grillagees-h-150-cm-et-h-180-cm-h-150-x-365-cm-1",
+          "label": "Entièrement grillagée — H.150 x 365 cm",
+          "article": "Entièrement grillagée",
+          "reference": "H.150 x 365 cm",
+          "prixUnitaireHTVA": 453.83,
+          "disponibilite": "En stock",
+          "details": {}
+        },
+        {
+          "id": "barrieres-entierement-grillagees-h-150-cm-et-h-180-cm-h-150-x-460-cm-2",
+          "label": "Entièrement grillagée — H.150 x 460 cm",
+          "article": "Entièrement grillagée",
+          "reference": "H.150 x 460 cm",
+          "prixUnitaireHTVA": 563.8,
+          "disponibilite": "En stock",
+          "details": {}
+        },
+        {
+          "id": "barrieres-entierement-grillagees-h-150-cm-et-h-180-cm-h-180-x-120-cm-3",
+          "label": "Entièrement grillagée — H.180 x 120 cm",
+          "article": "Entièrement grillagée",
+          "reference": "H.180 x 120 cm",
+          "prixUnitaireHTVA": 266.02,
+          "disponibilite": "En stock",
+          "details": {}
+        },
+        {
+          "id": "barrieres-entierement-grillagees-h-150-cm-et-h-180-cm-h-180-x-365-cm-4",
+          "label": "Entièrement grillagée — H.180 x 365 cm",
+          "article": "Entièrement grillagée",
+          "reference": "H.180 x 365 cm",
+          "prixUnitaireHTVA": 453.83,
+          "disponibilite": "En stock",
+          "details": {}
+        },
+        {
+          "id": "barrieres-entierement-grillagees-h-150-cm-et-h-180-cm-h-180-x-460-cm-5",
+          "label": "Entièrement grillagée — H.180 x 460 cm",
+          "article": "Entièrement grillagée",
+          "reference": "H.180 x 460 cm",
+          "prixUnitaireHTVA": 563.8,
+          "disponibilite": "En stock",
+          "details": {}
+        }
+      ]
+    },
+    {
+      "id": "poteaux-galvanises-pour-barrieres",
+      "title": "Poteaux galvanisés pour barrières",
+      "parent": "barrieres-galvanisees",
+      "parentTitle": "Barrières galvanisées",
+      "format": "poteaux_barriere",
+      "dualPricing": false,
+      "notes": [],
+      "products": [
+        {
+          "id": "poteaux-galvanises-pour-barrieres-barrieres-h120-cm-0",
+          "label": "Poteaux barrières galvanisées — Barrières H120 cm",
+          "article": "Poteaux barrières galvanisées",
+          "reference": "Barrières H120 cm",
+          "prixUnitaireHTVA": 80.0,
+          "disponibilite": "En stock",
+          "details": {
+            "modele": "Support"
+          }
+        },
+        {
+          "id": "poteaux-galvanises-pour-barrieres-barrieres-h120-cm-1",
+          "label": "Poteaux barrières galvanisées — Barrières H120 cm",
+          "article": "Poteaux barrières galvanisées",
+          "reference": "Barrières H120 cm",
+          "prixUnitaireHTVA": 64.7,
+          "disponibilite": "En stock",
+          "details": {
+            "modele": "Récepteur"
+          }
+        },
+        {
+          "id": "poteaux-galvanises-pour-barrieres-barrieres-h150-cm-2",
+          "label": "Poteaux barrières galvanisées — Barrières H150 cm",
+          "article": "Poteaux barrières galvanisées",
+          "reference": "Barrières H150 cm",
+          "prixUnitaireHTVA": 148.38,
+          "disponibilite": "En stock",
+          "details": {
+            "modele": "Support"
+          }
+        },
+        {
+          "id": "poteaux-galvanises-pour-barrieres-barrieres-h150-cm-3",
+          "label": "Poteaux barrières galvanisées — Barrières H150 cm",
+          "article": "Poteaux barrières galvanisées",
+          "reference": "Barrières H150 cm",
+          "prixUnitaireHTVA": 138.7,
+          "disponibilite": "En stock",
+          "details": {
+            "modele": "Récepteur"
+          }
+        },
+        {
+          "id": "poteaux-galvanises-pour-barrieres-barrieres-h180-cm-4",
+          "label": "Poteaux barrières galvanisées — Barrières H180 cm",
+          "article": "Poteaux barrières galvanisées",
+          "reference": "Barrières H180 cm",
+          "prixUnitaireHTVA": 148.38,
+          "disponibilite": "En stock",
+          "details": {
+            "modele": "Support"
+          }
+        },
+        {
+          "id": "poteaux-galvanises-pour-barrieres-barrieres-h180-cm-5",
+          "label": "Poteaux barrières galvanisées — Barrières H180 cm",
+          "article": "Poteaux barrières galvanisées",
+          "reference": "Barrières H180 cm",
+          "prixUnitaireHTVA": 138.7,
+          "disponibilite": "En stock",
+          "details": {
+            "modele": "Récepteur"
+          }
+        }
+      ]
+    },
+    {
+      "id": "quincailleries-pour-barrieres-galvanisees",
+      "title": "Quincailleries pour barrières galvanisées",
+      "parent": "barrieres-galvanisees",
+      "parentTitle": "Barrières galvanisées",
+      "format": "quincaillerie_simple",
+      "dualPricing": false,
+      "notes": [],
+      "products": [
+        {
+          "id": "quincailleries-pour-barrieres-galvanisees-paire-de-gonds-0",
+          "label": "Quincailleries — Paire de gonds",
+          "article": "Quincailleries",
+          "reference": "Paire de gonds",
+          "prixUnitaireHTVA": 24.32,
+          "disponibilite": null,
+          "details": {}
+        },
+        {
+          "id": "quincailleries-pour-barrieres-galvanisees-illets-fermeture-1",
+          "label": "Quincailleries — Œillets fermeture",
+          "article": "Quincailleries",
+          "reference": "Œillets fermeture",
+          "prixUnitaireHTVA": 11.13,
+          "disponibilite": null,
+          "details": {}
+        },
+        {
+          "id": "quincailleries-pour-barrieres-galvanisees-levier-de-fermeture-2",
+          "label": "Quincailleries — Levier de fermeture",
+          "article": "Quincailleries",
+          "reference": "Levier de fermeture",
+          "prixUnitaireHTVA": 23.84,
+          "disponibilite": null,
+          "details": {}
+        },
+        {
+          "id": "quincailleries-pour-barrieres-galvanisees-baionettes-3",
+          "label": "Quincailleries — Baionettes",
+          "article": "Quincailleries",
+          "reference": "Baionettes",
+          "prixUnitaireHTVA": 23.0,
+          "disponibilite": null,
+          "details": {}
+        }
+      ]
+    },
+    {
+      "id": "passage-canadien",
+      "title": "Passage canadien",
+      "parent": "barrieres-galvanisees",
+      "parentTitle": "Barrières galvanisées",
+      "format": "passage_canadien",
+      "dualPricing": false,
+      "notes": [
+        "Possibilité de créer des barrières et autres projets sur mesure. Nous sommes équipés d'un atelier complet en ferronnerie + agréation."
+      ],
+      "products": [
+        {
+          "id": "passage-canadien-3-65-m-x-2-8-m-0",
+          "label": "Passages canadiens poids lourds — 3,65 m x 2,8 m",
+          "article": "Passages canadiens poids lourds",
+          "reference": null,
+          "prixUnitaireHTVA": 2150.0,
+          "disponibilite": "En stock",
+          "details": {
+            "taille": "3,65 m x 2,8 m"
+          }
+        }
+      ]
+    },
+    {
+      "id": "barrieres-anglaises-en-bois-exotique-h-120-cm",
+      "title": "Barrières anglaises en bois exotique H.120 cm",
+      "parent": "barrieres-anglaises",
+      "parentTitle": "Barrières anglaises",
+      "format": "standard_note",
+      "dualPricing": false,
+      "notes": [],
+      "products": [
+        {
+          "id": "barrieres-anglaises-en-bois-exotique-h-120-cm-120-cm-0",
+          "label": "Barrières anglaises en bois exotique — 120 cm",
+          "article": "Barrières anglaises en bois exotique",
+          "reference": "120 cm",
+          "prixUnitaireHTVA": 265.0,
+          "disponibilite": "En stock",
+          "details": {}
+        },
+        {
+          "id": "barrieres-anglaises-en-bois-exotique-h-120-cm-150-cm-1",
+          "label": "Barrières anglaises en bois exotique — 150 cm",
+          "article": "Barrières anglaises en bois exotique",
+          "reference": "150 cm",
+          "prixUnitaireHTVA": 300.0,
+          "disponibilite": "En stock",
+          "details": {}
+        },
+        {
+          "id": "barrieres-anglaises-en-bois-exotique-h-120-cm-180-cm-2",
+          "label": "Barrières anglaises en bois exotique — 180 cm",
+          "article": "Barrières anglaises en bois exotique",
+          "reference": "180 cm",
+          "prixUnitaireHTVA": 335.0,
+          "disponibilite": "En stock",
+          "details": {}
+        },
+        {
+          "id": "barrieres-anglaises-en-bois-exotique-h-120-cm-210-cm-3",
+          "label": "Barrières anglaises en bois exotique — 210 cm",
+          "article": "Barrières anglaises en bois exotique",
+          "reference": "210 cm",
+          "prixUnitaireHTVA": 380.0,
+          "disponibilite": "En stock",
+          "details": {}
+        },
+        {
+          "id": "barrieres-anglaises-en-bois-exotique-h-120-cm-240-cm-4",
+          "label": "Barrières anglaises en bois exotique — 240 cm",
+          "article": "Barrières anglaises en bois exotique",
+          "reference": "240 cm",
+          "prixUnitaireHTVA": 420.0,
+          "disponibilite": "En stock",
+          "details": {}
+        },
+        {
+          "id": "barrieres-anglaises-en-bois-exotique-h-120-cm-270-cm-5",
+          "label": "Barrières anglaises en bois exotique — 270 cm",
+          "article": "Barrières anglaises en bois exotique",
+          "reference": "270 cm",
+          "prixUnitaireHTVA": 455.0,
+          "disponibilite": "Sur commande",
+          "details": {}
+        },
+        {
+          "id": "barrieres-anglaises-en-bois-exotique-h-120-cm-300-cm-6",
+          "label": "Barrières anglaises en bois exotique — 300 cm",
+          "article": "Barrières anglaises en bois exotique",
+          "reference": "300 cm",
+          "prixUnitaireHTVA": 490.0,
+          "disponibilite": "En stock",
+          "details": {}
+        },
+        {
+          "id": "barrieres-anglaises-en-bois-exotique-h-120-cm-330-cm-7",
+          "label": "Barrières anglaises en bois exotique — 330 cm",
+          "article": "Barrières anglaises en bois exotique",
+          "reference": "330 cm",
+          "prixUnitaireHTVA": 535.0,
+          "disponibilite": "Sur commande",
+          "details": {}
+        },
+        {
+          "id": "barrieres-anglaises-en-bois-exotique-h-120-cm-360-cm-8",
+          "label": "Barrières anglaises en bois exotique — 360 cm",
+          "article": "Barrières anglaises en bois exotique",
+          "reference": "360 cm",
+          "prixUnitaireHTVA": 600.0,
+          "disponibilite": "Sur commande",
+          "details": {}
+        }
+      ]
+    },
+    {
+      "id": "poteaux-en-bois-exotique-pour-barrieres-anglaises",
+      "title": "Poteaux en bois exotique pour barrières anglaises",
+      "parent": "barrieres-anglaises",
+      "parentTitle": "Barrières anglaises",
+      "format": "standard_note",
+      "dualPricing": false,
+      "notes": [],
+      "products": [
+        {
+          "id": "poteaux-en-bois-exotique-pour-barrieres-anglaises-poteaux-en-okan-h-250-cm-en-15",
+          "label": "Poteaux barrières — Poteaux en okan H.250 cm en 15 x 15 cm tête diamant",
+          "article": "Poteaux barrières",
+          "reference": "Poteaux en okan H.250 cm en 15 x 15 cm tête diamant",
+          "prixUnitaireHTVA": 150.0,
+          "disponibilite": "En stock",
+          "details": {}
+        }
+      ]
+    },
+    {
+      "id": "quincailleries-pour-barrieres-anglaises",
+      "title": "Quincailleries pour barrières anglaises",
+      "parent": "barrieres-anglaises",
+      "parentTitle": "Barrières anglaises",
+      "format": "standard_note",
+      "dualPricing": false,
+      "notes": [],
+      "products": [
+        {
+          "id": "quincailleries-pour-barrieres-anglaises-kit-charnieres-reglables-0",
+          "label": "Quincailleries — Kit charnières réglables",
+          "article": "Quincailleries",
+          "reference": "Kit charnières réglables",
+          "prixUnitaireHTVA": 31.45,
+          "disponibilite": "En stock",
+          "details": {}
+        },
+        {
+          "id": "quincailleries-pour-barrieres-anglaises-fermeture-oscillante-1",
+          "label": "Quincailleries — Fermeture oscillante",
+          "article": "Quincailleries",
+          "reference": "Fermeture oscillante",
+          "prixUnitaireHTVA": 9.43,
+          "disponibilite": "En stock",
+          "details": {}
+        },
+        {
+          "id": "quincailleries-pour-barrieres-anglaises-baionnette-2",
+          "label": "Quincailleries — Baionnette",
+          "article": "Quincailleries",
+          "reference": "Baionnette",
+          "prixUnitaireHTVA": 8.97,
+          "disponibilite": "En stock",
+          "details": {}
+        },
+        {
+          "id": "quincailleries-pour-barrieres-anglaises-serrure-a-ressort-3",
+          "label": "Quincailleries — Serrure à ressort",
+          "article": "Quincailleries",
+          "reference": "Serrure à ressort",
+          "prixUnitaireHTVA": 12.36,
+          "disponibilite": "En stock",
+          "details": {}
+        },
+        {
+          "id": "quincailleries-pour-barrieres-anglaises-verrou-lourd-4",
+          "label": "Quincailleries — Verrou lourd",
+          "article": "Quincailleries",
+          "reference": "Verrou lourd",
+          "prixUnitaireHTVA": 6.34,
+          "disponibilite": "En stock",
+          "details": {}
+        },
+        {
+          "id": "quincailleries-pour-barrieres-anglaises-levier-de-fermeture-5",
+          "label": "Quincailleries — Levier de fermeture",
+          "article": "Quincailleries",
+          "reference": "Levier de fermeture",
+          "prixUnitaireHTVA": 9.08,
+          "disponibilite": "En stock",
+          "details": {}
+        }
+      ]
+    },
+    {
+      "id": "brande-de-bruyere-epaisse-100-opaque",
+      "title": "Brande de bruyère épaisse 100 % opaque",
+      "parent": "brandes-de-bruyere",
+      "parentTitle": "Brandes de bruyère",
+      "format": "grillage",
+      "dualPricing": false,
+      "notes": [],
+      "products": [
+        {
+          "id": "brande-de-bruyere-epaisse-100-opaque-150-cm-0",
+          "label": "Brande de bruyère épaisse — 150 cm",
+          "article": "Brande de bruyère épaisse",
+          "reference": "150 cm",
+          "prixUnitaireHTVA": 57.21,
+          "disponibilite": null,
+          "details": {
+            "metres_par_rlx": "3 mètres"
+          }
+        },
+        {
+          "id": "brande-de-bruyere-epaisse-100-opaque-180-cm-1",
+          "label": "Brande de bruyère épaisse — 180 cm",
+          "article": "Brande de bruyère épaisse",
+          "reference": "180 cm",
+          "prixUnitaireHTVA": 68.65,
+          "disponibilite": null,
+          "details": {
+            "metres_par_rlx": "3 mètres"
+          }
+        },
+        {
+          "id": "brande-de-bruyere-epaisse-100-opaque-200-cm-2",
+          "label": "Brande de bruyère épaisse — 200 cm",
+          "article": "Brande de bruyère épaisse",
+          "reference": "200 cm",
+          "prixUnitaireHTVA": 76.27,
+          "disponibilite": null,
+          "details": {
+            "metres_par_rlx": "3 mètres"
+          }
+        }
+      ]
+    },
+    {
+      "id": "outillage-et-accessoires-clotures",
+      "title": "Outillage et accessoires clôtures",
+      "parent": null,
+      "parentTitle": null,
+      "format": "outillage",
+      "dualPricing": false,
+      "notes": [],
+      "products": [
+        {
+          "id": "outillage-et-accessoires-clotures-stockade-st315i-0",
+          "label": "Clameuse — Stockade ST315I",
+          "article": "Clameuse",
+          "reference": "Stockade ST315I",
+          "prixUnitaireHTVA": 1090.0,
+          "disponibilite": "En stock",
+          "details": {}
+        },
+        {
+          "id": "outillage-et-accessoires-clotures-consommable-st-315i-1",
+          "label": "Clameuse — Consommable ST 315I",
+          "article": "Clameuse",
+          "reference": "Consommable ST 315I",
+          "prixUnitaireHTVA": 150.0,
+          "disponibilite": "En stock",
+          "details": {
+            "quantite_pack": "1800 clames + 3 cartouches de gaz"
+          }
+        },
+        {
+          "id": "outillage-et-accessoires-clotures-easy-petrol-post-driver-50-cc-2",
+          "label": "Enfonce pieux thermique — Easy Petrol Post Driver 50 CC",
+          "article": "Enfonce pieux thermique",
+          "reference": "Easy Petrol Post Driver 50 CC",
+          "prixUnitaireHTVA": 3125.0,
+          "disponibilite": "En stock",
+          "details": {}
+        },
+        {
+          "id": "outillage-et-accessoires-clotures-adaptateur-pour-cornieres-metalliques-3",
+          "label": "Enfonce pieux thermique — Adaptateur pour cornières métalliques",
+          "article": "Enfonce pieux thermique",
+          "reference": "Adaptateur pour cornières métalliques",
+          "prixUnitaireHTVA": 117.0,
+          "disponibilite": "En stock",
+          "details": {}
+        },
+        {
+          "id": "outillage-et-accessoires-clotures-pour-mini-pelles-et-autres-4",
+          "label": "Dérouleuse de grillage — Pour mini pelles et autres",
+          "article": "Dérouleuse de grillage",
+          "reference": "Pour mini pelles et autres",
+          "prixUnitaireHTVA": 7200.0,
+          "disponibilite": "En stock",
+          "details": {}
+        },
+        {
+          "id": "outillage-et-accessoires-clotures-cloche-de-battage-pour-brise-roche-5",
+          "label": "Cloche enfonce pieux — Cloche de battage pour brise roche",
+          "article": "Cloche enfonce pieux",
+          "reference": "Cloche de battage pour brise roche",
+          "prixUnitaireHTVA": "Sur demande",
+          "disponibilite": "Sur commande",
+          "details": {}
+        },
+        {
+          "id": "outillage-et-accessoires-clotures-protech-evo-6",
+          "label": "Autoporteur télécommandé — Protech Evo",
+          "article": "Autoporteur télécommandé",
+          "reference": "Protech Evo",
+          "prixUnitaireHTVA": "Sur demande",
+          "disponibilite": "Sur commande",
+          "details": {}
+        },
+        {
+          "id": "outillage-et-accessoires-clotures-gripple-plus-medium-7",
+          "label": "Gripple — Gripple plus médium",
+          "article": "Gripple",
+          "reference": "Gripple plus médium",
+          "prixUnitaireHTVA": 18.8,
+          "disponibilite": "En stock",
+          "details": {
+            "quantite_pack": "20"
+          }
+        },
+        {
+          "id": "outillage-et-accessoires-clotures-gripple-t-clip-1-8",
+          "label": "Gripple — Gripple T-clip 1",
+          "article": "Gripple",
+          "reference": "Gripple T-clip 1",
+          "prixUnitaireHTVA": 18.8,
+          "disponibilite": "En stock",
+          "details": {
+            "quantite_pack": "20"
+          }
+        },
+        {
+          "id": "outillage-et-accessoires-clotures-gripple-barbed-9",
+          "label": "Gripple — Gripple Barbed",
+          "article": "Gripple",
+          "reference": "Gripple Barbed",
+          "prixUnitaireHTVA": 48.6,
+          "disponibilite": "En stock",
+          "details": {
+            "quantite_pack": "20"
+          }
+        },
+        {
+          "id": "outillage-et-accessoires-clotures-pince-de-tension-metallique-10",
+          "label": "Gripple — Pince de tension métallique",
+          "article": "Gripple",
+          "reference": "Pince de tension métallique",
+          "prixUnitaireHTVA": 165.55,
+          "disponibilite": "En stock",
+          "details": {}
+        }
+      ]
+    },
+    {
+      "id": "ganivelles-en-robiniers-faux-acacia",
+      "title": "Ganivelles en robiniers faux acacia",
+      "parent": null,
+      "parentTitle": null,
+      "format": "ganivelles",
+      "dualPricing": false,
+      "notes": [],
+      "products": [
+        {
+          "id": "ganivelles-en-robiniers-faux-acacia-h-50-cm-0",
+          "label": "Ganivelles/échalas — H.50 cm",
+          "article": "Ganivelles/échalas",
+          "reference": "H.50 cm",
+          "prixUnitaireHTVA": 108.0,
+          "disponibilite": "En stock",
+          "details": {
+            "taille_rouleau": "10 mètres"
+          }
+        },
+        {
+          "id": "ganivelles-en-robiniers-faux-acacia-h-100-cm-1",
+          "label": "Ganivelles/échalas — H.100 cm",
+          "article": "Ganivelles/échalas",
+          "reference": "H.100 cm",
+          "prixUnitaireHTVA": 117.0,
+          "disponibilite": "En stock",
+          "details": {
+            "taille_rouleau": "10 mètres"
+          }
+        },
+        {
+          "id": "ganivelles-en-robiniers-faux-acacia-h-120-cm-2",
+          "label": "Ganivelles/échalas — H.120 cm",
+          "article": "Ganivelles/échalas",
+          "reference": "H.120 cm",
+          "prixUnitaireHTVA": 135.0,
+          "disponibilite": "En stock",
+          "details": {
+            "taille_rouleau": "10 mètres"
+          }
+        },
+        {
+          "id": "ganivelles-en-robiniers-faux-acacia-h-150-cm-3",
+          "label": "Ganivelles/échalas — H.150 cm",
+          "article": "Ganivelles/échalas",
+          "reference": "H.150 cm",
+          "prixUnitaireHTVA": 175.0,
+          "disponibilite": "En stock",
+          "details": {
+            "taille_rouleau": "10 mètres"
+          }
+        },
+        {
+          "id": "ganivelles-en-robiniers-faux-acacia-h-175-cm-4",
+          "label": "Ganivelles/échalas — H.175 cm",
+          "article": "Ganivelles/échalas",
+          "reference": "H.175 cm",
+          "prixUnitaireHTVA": 225.0,
+          "disponibilite": "En stock",
+          "details": {
+            "taille_rouleau": "10 mètres"
+          }
+        },
+        {
+          "id": "ganivelles-en-robiniers-faux-acacia-portillon-en-ganivelles-5",
+          "label": "Portillons — Portillon en ganivelles",
+          "article": "Portillons",
+          "reference": "Portillon en ganivelles",
+          "prixUnitaireHTVA": 135.0,
+          "disponibilite": "En stock",
+          "details": {
+            "taille_rouleau": "H.120 cm x 100 cm"
+          }
+        },
+        {
+          "id": "ganivelles-en-robiniers-faux-acacia-portillon-en-ganivelles-6",
+          "label": "Portillons — Portillon en ganivelles",
+          "article": "Portillons",
+          "reference": "Portillon en ganivelles",
+          "prixUnitaireHTVA": 275.0,
+          "disponibilite": "En stock",
+          "details": {
+            "taille_rouleau": "H.120 cm x 200 cm"
+          }
+        },
+        {
+          "id": "ganivelles-en-robiniers-faux-acacia-kit-quicaillerie-pour-portillons-7",
+          "label": "Portillons — Kit quicaillerie pour portillons",
+          "article": "Portillons",
+          "reference": "Kit quicaillerie pour portillons",
+          "prixUnitaireHTVA": 35.0,
+          "disponibilite": "En stock",
+          "details": {}
+        }
+      ]
+    },
+    {
+      "id": "post-and-rail-en-robinier-faux-acacia",
+      "title": "Post and rail en robinier faux acacia",
+      "parent": "cloture-equestre",
+      "parentTitle": "Clôture équestre",
+      "format": "equestre",
+      "dualPricing": false,
+      "notes": [],
+      "products": [
+        {
+          "id": "post-and-rail-en-robinier-faux-acacia-10-x-15-cm-0",
+          "label": "Poteaux rectangulaires — 10 x 15 cm — 30° — 2 — Avec pointes",
+          "article": "Poteaux rectangulaires",
+          "reference": null,
+          "prixUnitaireHTVA": 37.42,
+          "disponibilite": null,
+          "details": {
+            "tete": "30°",
+            "mortaises": "2",
+            "info": "Avec pointes",
+            "section": "10 x 15 cm"
+          }
+        },
+        {
+          "id": "post-and-rail-en-robinier-faux-acacia-9-x-6-cm-1",
+          "label": "Lisses fendues — 9 x 6 cm — 0",
+          "article": "Lisses fendues",
+          "reference": null,
+          "prixUnitaireHTVA": 20.19,
+          "disponibilite": null,
+          "details": {
+            "tete": "0",
+            "section": "9 x 6 cm"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pin-traites-nobifix",
+      "title": "Pin traités Nobifix",
+      "parent": "cloture-equestre",
+      "parentTitle": "Clôture équestre",
+      "format": "equestre",
+      "dualPricing": false,
+      "notes": [],
+      "products": [
+        {
+          "id": "pin-traites-nobifix-12-x-12-cm-0",
+          "label": "Poteaux carrés — 12 x 12 cm — Diamant — 2 — Avec pointes",
+          "article": "Poteaux carrés",
+          "reference": null,
+          "prixUnitaireHTVA": 45.13,
+          "disponibilite": null,
+          "details": {
+            "tete": "Diamant",
+            "mortaises": "2",
+            "info": "Avec pointes",
+            "section": "12 x 12 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-12-x-12-cm-1",
+          "label": "Poteaux carrés — 12 x 12 cm — Diamant — 3 — Avec pointes",
+          "article": "Poteaux carrés",
+          "reference": null,
+          "prixUnitaireHTVA": 45.76,
+          "disponibilite": null,
+          "details": {
+            "tete": "Diamant",
+            "mortaises": "3",
+            "info": "Avec pointes",
+            "section": "12 x 12 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-10-x-10-cm-2",
+          "label": "Poteaux carrés — 10 x 10 cm — Diamant — Sans — Avec pointes",
+          "article": "Poteaux carrés",
+          "reference": null,
+          "prixUnitaireHTVA": 18.29,
+          "disponibilite": null,
+          "details": {
+            "tete": "Diamant",
+            "mortaises": "Sans",
+            "info": "Avec pointes",
+            "section": "10 x 10 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-10-x-10-cm-3",
+          "label": "Poteaux carrés — 10 x 10 cm — Diamant — Sans — Avec pointes",
+          "article": "Poteaux carrés",
+          "reference": null,
+          "prixUnitaireHTVA": 20.66,
+          "disponibilite": null,
+          "details": {
+            "tete": "Diamant",
+            "mortaises": "Sans",
+            "info": "Avec pointes",
+            "section": "10 x 10 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-10-x-10-cm-4",
+          "label": "Poteaux carrés — 10 x 10 cm — Diamant — Sans — Avec pointes",
+          "article": "Poteaux carrés",
+          "reference": null,
+          "prixUnitaireHTVA": 22.86,
+          "disponibilite": null,
+          "details": {
+            "tete": "Diamant",
+            "mortaises": "Sans",
+            "info": "Avec pointes",
+            "section": "10 x 10 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-12-x-12-cm-5",
+          "label": "Poteaux carrés — 12 x 12 cm — Diamant — Sans — Avec pointes",
+          "article": "Poteaux carrés",
+          "reference": null,
+          "prixUnitaireHTVA": 26.69,
+          "disponibilite": null,
+          "details": {
+            "tete": "Diamant",
+            "mortaises": "Sans",
+            "info": "Avec pointes",
+            "section": "12 x 12 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-12-x-12-cm-6",
+          "label": "Poteaux carrés — 12 x 12 cm — Diamant — Sans — Avec pointes",
+          "article": "Poteaux carrés",
+          "reference": null,
+          "prixUnitaireHTVA": 30.16,
+          "disponibilite": null,
+          "details": {
+            "tete": "Diamant",
+            "mortaises": "Sans",
+            "info": "Avec pointes",
+            "section": "12 x 12 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-12-x-12-cm-7",
+          "label": "Poteaux carrés — 12 x 12 cm — Diamant — Sans — Avec pointes",
+          "article": "Poteaux carrés",
+          "reference": null,
+          "prixUnitaireHTVA": 33.37,
+          "disponibilite": null,
+          "details": {
+            "tete": "Diamant",
+            "mortaises": "Sans",
+            "info": "Avec pointes",
+            "section": "12 x 12 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-10-x-10-cm-8",
+          "label": "Poteaux carrés — 10 x 10 cm — Plate — Sans — Sans pointes",
+          "article": "Poteaux carrés",
+          "reference": null,
+          "prixUnitaireHTVA": 16.89,
+          "disponibilite": null,
+          "details": {
+            "tete": "Plate",
+            "mortaises": "Sans",
+            "info": "Sans pointes",
+            "section": "10 x 10 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-10-x-10-cm-9",
+          "label": "Poteaux carrés — 10 x 10 cm — Plate — Sans — Sans pointes",
+          "article": "Poteaux carrés",
+          "reference": null,
+          "prixUnitaireHTVA": 19.13,
+          "disponibilite": null,
+          "details": {
+            "tete": "Plate",
+            "mortaises": "Sans",
+            "info": "Sans pointes",
+            "section": "10 x 10 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-10-x-10-cm-10",
+          "label": "Poteaux carrés — 10 x 10 cm — Plate — Sans — Sans pointes",
+          "article": "Poteaux carrés",
+          "reference": null,
+          "prixUnitaireHTVA": 21.1,
+          "disponibilite": null,
+          "details": {
+            "tete": "Plate",
+            "mortaises": "Sans",
+            "info": "Sans pointes",
+            "section": "10 x 10 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-15-x-15-cm-11",
+          "label": "Poteaux carrés — 15 x 15 cm — Plate — Sans — Sans pointes",
+          "article": "Poteaux carrés",
+          "reference": null,
+          "prixUnitaireHTVA": 50.8,
+          "disponibilite": null,
+          "details": {
+            "tete": "Plate",
+            "mortaises": "Sans",
+            "info": "Sans pointes",
+            "section": "15 x 15 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-10-cm-12",
+          "label": "Poteaux ronds fraisés — 10 cm — Plate — Sans — Avec pointes",
+          "article": "Poteaux ronds fraisés",
+          "reference": null,
+          "prixUnitaireHTVA": 12.13,
+          "disponibilite": null,
+          "details": {
+            "tete": "Plate",
+            "mortaises": "Sans",
+            "info": "Avec pointes",
+            "section": "10 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-10-cm-13",
+          "label": "Poteaux ronds fraisés — 10 cm — Plate — Sans — Avec pointes",
+          "article": "Poteaux ronds fraisés",
+          "reference": null,
+          "prixUnitaireHTVA": 14.61,
+          "disponibilite": null,
+          "details": {
+            "tete": "Plate",
+            "mortaises": "Sans",
+            "info": "Avec pointes",
+            "section": "10 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-10-cm-14",
+          "label": "Poteaux ronds fraisés — 10 cm — Plate — Sans — Avec pointes",
+          "article": "Poteaux ronds fraisés",
+          "reference": null,
+          "prixUnitaireHTVA": 15.51,
+          "disponibilite": null,
+          "details": {
+            "tete": "Plate",
+            "mortaises": "Sans",
+            "info": "Avec pointes",
+            "section": "10 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-10-cm-15",
+          "label": "Poteaux ronds fraisés — 10 cm — Plate — Sans — Avec pointes",
+          "article": "Poteaux ronds fraisés",
+          "reference": null,
+          "prixUnitaireHTVA": 17.15,
+          "disponibilite": null,
+          "details": {
+            "tete": "Plate",
+            "mortaises": "Sans",
+            "info": "Avec pointes",
+            "section": "10 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-12-cm-16",
+          "label": "Poteaux ronds fraisés — 12 cm — Plate — Sans — Avec pointes",
+          "article": "Poteaux ronds fraisés",
+          "reference": null,
+          "prixUnitaireHTVA": 20.05,
+          "disponibilite": null,
+          "details": {
+            "tete": "Plate",
+            "mortaises": "Sans",
+            "info": "Avec pointes",
+            "section": "12 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-12-cm-17",
+          "label": "Poteaux ronds fraisés — 12 cm — Plate — Sans — Avec pointes",
+          "article": "Poteaux ronds fraisés",
+          "reference": null,
+          "prixUnitaireHTVA": 22.7,
+          "disponibilite": null,
+          "details": {
+            "tete": "Plate",
+            "mortaises": "Sans",
+            "info": "Avec pointes",
+            "section": "12 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-12-cm-18",
+          "label": "Poteaux ronds fraisés — 12 cm — Plate — Sans — Avec pointes",
+          "article": "Poteaux ronds fraisés",
+          "reference": null,
+          "prixUnitaireHTVA": 24.09,
+          "disponibilite": null,
+          "details": {
+            "tete": "Plate",
+            "mortaises": "Sans",
+            "info": "Avec pointes",
+            "section": "12 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-14-cm-19",
+          "label": "Poteaux ronds fraisés — 14 cm — Plate — Sans — Avec pointes",
+          "article": "Poteaux ronds fraisés",
+          "reference": null,
+          "prixUnitaireHTVA": 31.44,
+          "disponibilite": null,
+          "details": {
+            "tete": "Plate",
+            "mortaises": "Sans",
+            "info": "Avec pointes",
+            "section": "14 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-14-cm-20",
+          "label": "Piquets ronds fraisés — 14 cm — Plate — Sans — Avec pointes",
+          "article": "Piquets ronds fraisés",
+          "reference": null,
+          "prixUnitaireHTVA": 33.1,
+          "disponibilite": null,
+          "details": {
+            "tete": "Plate",
+            "mortaises": "Sans",
+            "info": "Avec pointes",
+            "section": "14 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-10-cm-21",
+          "label": "Rondins fraisés — 10 cm — Sans pointes",
+          "article": "Rondins fraisés",
+          "reference": null,
+          "prixUnitaireHTVA": 18.66,
+          "disponibilite": null,
+          "details": {
+            "info": "Sans pointes",
+            "section": "10 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-12-cm-22",
+          "label": "Rondins fraisés — 12 cm — Sans pointes",
+          "article": "Rondins fraisés",
+          "reference": null,
+          "prixUnitaireHTVA": 22.4,
+          "disponibilite": null,
+          "details": {
+            "info": "Sans pointes",
+            "section": "12 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-10-cm-23",
+          "label": "Rondins fraisés — 10 cm — Sans pointes",
+          "article": "Rondins fraisés",
+          "reference": null,
+          "prixUnitaireHTVA": 26.87,
+          "disponibilite": null,
+          "details": {
+            "info": "Sans pointes",
+            "section": "10 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-12-cm-24",
+          "label": "Rondins fraisés — 12 cm — Sans pointes",
+          "article": "Rondins fraisés",
+          "reference": null,
+          "prixUnitaireHTVA": 32.26,
+          "disponibilite": null,
+          "details": {
+            "info": "Sans pointes",
+            "section": "12 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-10-cm-25",
+          "label": "Demi rondins — 10 cm",
+          "article": "Demi rondins",
+          "reference": null,
+          "prixUnitaireHTVA": 18.66,
+          "disponibilite": null,
+          "details": {
+            "section": "10 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-10-cm-26",
+          "label": "Demi rondins — 10 cm",
+          "article": "Demi rondins",
+          "reference": null,
+          "prixUnitaireHTVA": 22.4,
+          "disponibilite": null,
+          "details": {
+            "section": "10 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-12-cm-27",
+          "label": "Demi rondins — 12 cm",
+          "article": "Demi rondins",
+          "reference": null,
+          "prixUnitaireHTVA": 26.87,
+          "disponibilite": null,
+          "details": {
+            "section": "12 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-12-cm-28",
+          "label": "Demi rondins — 12 cm",
+          "article": "Demi rondins",
+          "reference": null,
+          "prixUnitaireHTVA": 32.26,
+          "disponibilite": null,
+          "details": {
+            "section": "12 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-4-x-12-cm-29",
+          "label": "Lisses rectangulaires — 4 x 12 cm",
+          "article": "Lisses rectangulaires",
+          "reference": null,
+          "prixUnitaireHTVA": 10.72,
+          "disponibilite": null,
+          "details": {
+            "section": "4 x 12 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-4-x-12-cm-30",
+          "label": "Lisses rectangulaires — 4 x 12 cm",
+          "article": "Lisses rectangulaires",
+          "reference": null,
+          "prixUnitaireHTVA": 12.86,
+          "disponibilite": null,
+          "details": {
+            "section": "4 x 12 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-4-x-12-cm-31",
+          "label": "Lisses rectangulaires — 4 x 12 cm",
+          "article": "Lisses rectangulaires",
+          "reference": null,
+          "prixUnitaireHTVA": 21.44,
+          "disponibilite": null,
+          "details": {
+            "section": "4 x 12 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-4-x-25-cm-32",
+          "label": "Planches — 4 x 25 cm",
+          "article": "Planches",
+          "reference": null,
+          "prixUnitaireHTVA": 46.85,
+          "disponibilite": null,
+          "details": {
+            "section": "4 x 25 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-4-x-25-cm-33",
+          "label": "Planches — 4 x 25 cm",
+          "article": "Planches",
+          "reference": null,
+          "prixUnitaireHTVA": 57.19,
+          "disponibilite": null,
+          "details": {
+            "section": "4 x 25 cm"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,365 @@
+/* Professional quote PDF — UDATA / Clôtures Morel */
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 26mm 18mm;
+
+  @top-left {
+    content: string(doc-ref);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 8.5pt;
+    color: #64748b;
+  }
+
+  @top-right {
+    content: "UDATA SRL";
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 8.5pt;
+    font-weight: 600;
+    color: #1e3a5f;
+  }
+
+  @bottom-left {
+    content: "Document confidentiel";
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 8pt;
+    color: #94a3b8;
+  }
+
+  @bottom-right {
+    content: "Page " counter(page) " / " counter(pages);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 8pt;
+    color: #64748b;
+  }
+}
+
+@page :first {
+  @top-left {
+    content: none;
+  }
+  @top-right {
+    content: none;
+  }
+}
+
+:root {
+  --ink: #0f172a;
+  --muted: #475569;
+  --brand: #1e3a5f;
+  --brand-light: #e8eef5;
+  --accent: #0f766e;
+  --line: #cbd5e1;
+  --surface: #f8fafc;
+  --notice-bg: #fffbeb;
+  --notice-border: #f59e0b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 10pt;
+}
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: var(--ink);
+  line-height: 1.45;
+  margin: 0;
+  padding: 0;
+}
+
+/* Cover block (injected HTML) */
+.cover {
+  margin-bottom: 8mm;
+  string-set: doc-ref attr(data-ref);
+}
+
+.cover-title {
+  text-align: center;
+  margin: 0 0 10mm;
+  padding: 6mm 0 4mm;
+  border-bottom: 3px solid var(--brand);
+}
+
+.cover-title h1 {
+  margin: 0;
+  font-size: 26pt;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--brand);
+  border: none;
+  padding: 0;
+}
+
+.parties {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin: 0 0 6mm;
+  padding: 0;
+}
+
+.parties td.party {
+  width: 48%;
+  vertical-align: top;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 4mm 5mm;
+}
+
+.parties td.party-gap {
+  width: 4%;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.party-label {
+  font-size: 7.5pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin: 0 0 2mm;
+}
+
+.party-name {
+  font-size: 11pt;
+  font-weight: 700;
+  color: var(--brand);
+  margin: 0 0 1mm;
+}
+
+.party-sub {
+  font-size: 9pt;
+  color: var(--muted);
+  margin: 0 0 3mm;
+}
+
+.party-lines {
+  font-size: 9pt;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.party-lines p {
+  margin: 0.5mm 0;
+}
+
+.meta-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 8mm;
+  font-size: 9pt;
+}
+
+.meta-table td {
+  border: 1px solid var(--line);
+  padding: 2.5mm 4mm;
+  vertical-align: top;
+}
+
+.meta-table td:first-child {
+  width: 28%;
+  background: var(--brand-light);
+  font-weight: 600;
+  color: var(--brand);
+}
+
+/* Body typography */
+.body-content h1 {
+  font-size: 13pt;
+  font-weight: 700;
+  color: var(--brand);
+  margin: 7mm 0 3mm;
+  padding-bottom: 1.5mm;
+  border-bottom: 2px solid var(--brand);
+  page-break-after: avoid;
+}
+
+.body-content h2 {
+  font-size: 10.5pt;
+  font-weight: 700;
+  color: var(--brand);
+  margin: 5mm 0 2mm;
+  page-break-after: avoid;
+}
+
+.body-content h3 {
+  font-size: 10pt;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 4mm 0 2mm;
+  page-break-after: avoid;
+}
+
+.body-content p {
+  margin: 0 0 2.5mm;
+  text-align: justify;
+}
+
+.body-content ul,
+.body-content ol {
+  margin: 0 0 3mm 5mm;
+  padding: 0;
+}
+
+.body-content li {
+  margin-bottom: 1mm;
+}
+
+.body-content hr {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 5mm 0;
+}
+
+.body-content strong {
+  color: var(--brand);
+}
+
+.body-content em {
+  color: var(--muted);
+}
+
+/* Tables */
+.body-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 3mm 0 5mm;
+  font-size: 9pt;
+  page-break-inside: avoid;
+}
+
+.body-content thead th,
+.body-content tr:first-child th {
+  background: var(--brand);
+  color: #fff;
+  font-weight: 600;
+  text-align: left;
+  padding: 2.5mm 3mm;
+  border: 1px solid var(--brand);
+}
+
+.body-content td,
+.body-content th {
+  border: 1px solid var(--line);
+  padding: 2mm 3mm;
+  vertical-align: top;
+}
+
+.body-content tbody tr:nth-child(even) td {
+  background: var(--surface);
+}
+
+.body-content td:last-child,
+.body-content th:last-child {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.body-content table:not(:has(thead)) tr:first-child td {
+  background: var(--brand-light);
+  font-weight: 600;
+  color: var(--brand);
+}
+
+/* Pricing highlight rows */
+.body-content table td strong {
+  color: var(--brand);
+  font-size: 10pt;
+}
+
+/* Blockquotes / notices */
+.body-content blockquote {
+  margin: 3mm 0 4mm;
+  padding: 3mm 4mm;
+  background: var(--notice-bg);
+  border-left: 3px solid var(--notice-border);
+  border-radius: 0 3px 3px 0;
+  font-size: 9pt;
+  color: #78350f;
+  page-break-inside: avoid;
+}
+
+.body-content blockquote p {
+  margin: 0;
+  text-align: left;
+}
+
+/* User journey diagram */
+.journey-diagram {
+  margin: 4mm 0 5mm;
+  text-align: center;
+  page-break-inside: avoid;
+}
+
+.journey-diagram img,
+.journey-diagram svg {
+  width: 100%;
+  max-width: 170mm;
+  height: auto;
+}
+
+.body-content table + .journey-diagram,
+.journey-diagram + table {
+  margin-top: 4mm;
+}
+
+/* Signature section */
+.signature-section {
+  page-break-before: always;
+}
+
+.amount-block {
+  background: var(--brand-light);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 4mm 5mm;
+  margin: 4mm 0 5mm;
+  text-align: center;
+}
+
+.amount-block h2 {
+  margin: 2mm 0;
+  font-size: 14pt;
+  color: var(--brand);
+  border: none;
+}
+
+.signature-table {
+  margin-top: 6mm;
+}
+
+.signature-table td {
+  min-height: 12mm;
+  height: 14mm;
+}
+
+.signature-table td:first-child {
+  width: 35%;
+  font-weight: 600;
+  background: var(--surface);
+}
+
+.doc-footer {
+  margin-top: 8mm;
+  padding-top: 4mm;
+  border-top: 1px solid var(--line);
+  text-align: center;
+  font-size: 8.5pt;
+  color: var(--muted);
+}
+
+.doc-footer strong {
+  display: block;
+  font-size: 9.5pt;
+  color: var(--brand);
+  margin-bottom: 1mm;
+}

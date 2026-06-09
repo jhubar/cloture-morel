@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+/*
+ * Clôtures Morel — natural / wood / green design system.
+ * Tailwind v4 CSS-first theme. Tokens are exposed as Tailwind utilities, e.g.
+ * bg-forest, text-bark, border-sand, text-terracotta.
+ */
+@theme {
+  /* Brand greens */
+  --color-forest: #2e5a3c;
+  --color-forest-dark: #1e3d29;
+  --color-sage: #6b8e5a;
+  --color-sage-soft: #e7eee1;
+
+  /* Warm wood / CTA */
+  --color-terracotta: #a8521e;
+  --color-terracotta-dark: #8a4217;
+
+  /* Warm neutrals */
+  --color-sand: #faf7f2;
+  --color-sand-200: #f1ece2;
+  --color-sand-300: #e3ddd2;
+  --color-bark: #232b25;
+  --color-bark-muted: #5b6b61;
+
+  /* Status */
+  --color-instock: #2f7d4f;
+  --color-onorder: #b07a1e;
+
+  /* Typography — wired to next/font CSS variables (see layout.tsx) */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+
+  /* Radii & shadows */
+  --radius-card: 1rem;
+  --shadow-card: 0 1px 2px rgb(35 43 37 / 0.04), 0 8px 24px rgb(35 43 37 / 0.06);
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    background-color: var(--color-sand);
+    color: var(--color-bark);
+    font-family: var(--font-sans);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    color: var(--color-forest-dark);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+
+  /* Visible focus ring for keyboard navigation across all interactive elements */
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-forest);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
