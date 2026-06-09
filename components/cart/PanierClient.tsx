@@ -13,7 +13,8 @@ import {
 import { formatEUR } from "@/lib/format";
 import { CartLineItem } from "@/components/cart/CartLineItem";
 import { QuoteRequestForm, type QuoteSubmitResult } from "@/components/forms/QuoteRequestForm";
-import { PrimaryButton, SecondaryButton } from "@/components/ui/Button";
+import { PrimaryButton, SecondaryButton, buttonClasses } from "@/components/ui/Button";
+import { base64PdfToObjectUrl, prefersPdfInNewTab } from "@/lib/download-pdf";
 
 export function PanierClient() {
   const items = useCartStore((s) => s.items);
@@ -189,15 +190,26 @@ export function PanierClient() {
 }
 
 function Confirmation({ result }: { result: QuoteSubmitResult }) {
-  const downloadPdf = () => {
+  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  const [openInNewTab, setOpenInNewTab] = useState(false);
+  const filename = result.pdfFilename ?? "devis-clotures-morel.pdf";
+
+  useEffect(() => {
     if (!result.pdfBase64) return;
-    const link = document.createElement("a");
-    link.href = `data:application/pdf;base64,${result.pdfBase64}`;
-    link.download = result.pdfFilename ?? "devis-clotures-morel.pdf";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+
+    let url: string | null = null;
+    try {
+      url = base64PdfToObjectUrl(result.pdfBase64);
+      setPdfUrl(url);
+      setOpenInNewTab(prefersPdfInNewTab());
+    } catch {
+      setPdfUrl(null);
+    }
+
+    return () => {
+      if (url) URL.revokeObjectURL(url);
+    };
+  }, [result.pdfBase64]);
 
   return (
     <div className="rounded-card border border-sand-300 bg-white px-6 py-16 text-center shadow-card">
@@ -218,12 +230,26 @@ function Confirmation({ result }: { result: QuoteSubmitResult }) {
       )}
 
       <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-        {result.pdfBase64 && (
-          <PrimaryButton onClick={downloadPdf} size="lg">
-            <Download className="h-5 w-5" aria-hidden="true" />
-            Télécharger le récapitulatif PDF
-          </PrimaryButton>
-        )}
+        {pdfUrl ? (
+          <div className="flex w-full max-w-sm flex-col items-center gap-2">
+            <a
+              href={pdfUrl}
+              download={openInNewTab ? undefined : filename}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={buttonClasses("primary", "lg", "w-full sm:w-auto")}
+            >
+              <Download className="h-5 w-5" aria-hidden="true" />
+              {openInNewTab ? "Ouvrir le récapitulatif PDF" : "Télécharger le récapitulatif PDF"}
+            </a>
+            {openInNewTab ? (
+              <p className="text-center text-xs text-bark-muted">
+                Le PDF s&apos;ouvre dans Safari. Utilisez « Partager » puis « Enregistrer dans
+                Fichiers » pour le conserver.
+              </p>
+            ) : null}
+          </div>
+        ) : null}
         <SecondaryButton href="/" size="lg">
           Retour à l&apos;accueil
         </SecondaryButton>
