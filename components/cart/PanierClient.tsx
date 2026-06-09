@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ShoppingCart, CheckCircle2, Download, Trash2, ArrowLeft, Info, ArrowDown } from "lucide-react";
 import {
@@ -190,9 +190,26 @@ export function PanierClient() {
 }
 
 function Confirmation({ result }: { result: QuoteSubmitResult }) {
+  const rootRef = useRef<HTMLDivElement>(null);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [openInNewTab, setOpenInNewTab] = useState(false);
   const filename = result.pdfFilename ?? "devis-clotures-morel.pdf";
+
+  useEffect(() => {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+
+    const scrollToConfirmation = () => {
+      rootRef.current?.scrollIntoView({ behavior: "auto", block: "start" });
+    };
+
+    scrollToConfirmation();
+    requestAnimationFrame(scrollToConfirmation);
+    // iOS : attendre la fermeture du clavier avant de repositionner la vue
+    const timer = window.setTimeout(scrollToConfirmation, 150);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     if (!result.pdfBase64) return;
@@ -212,7 +229,12 @@ function Confirmation({ result }: { result: QuoteSubmitResult }) {
   }, [result.pdfBase64]);
 
   return (
-    <div className="rounded-card border border-sand-300 bg-white px-6 py-16 text-center shadow-card">
+    <div
+      ref={rootRef}
+      id="quote-confirmation"
+      tabIndex={-1}
+      className="scroll-mt-24 rounded-card border border-sand-300 bg-white px-6 py-16 text-center shadow-card outline-none"
+    >
       <CheckCircle2 className="mx-auto h-14 w-14 text-instock" aria-hidden="true" />
       <h2 className="mt-4 font-display text-2xl font-semibold text-forest-dark">
         Demande envoyée, merci !
