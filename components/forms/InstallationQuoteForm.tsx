@@ -1,13 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { Loader2, AlertCircle, CheckCircle2, Upload } from "lucide-react";
+import { Loader2, AlertCircle } from "lucide-react";
 import { installationQuoteSchema } from "@/lib/validation";
 import { TextField, TextAreaField, SelectField } from "@/components/forms/FormField";
+import { HoneypotField } from "@/components/forms/HoneypotField";
+import { readHoneypot, scrollToFirstFormError } from "@/lib/form-utils";
+import { FormSuccessPanel } from "@/components/ui/FormSuccessPanel";
+import { PhotoUploadSlot } from "@/components/forms/PhotoUploadSlot";
+import { PrimaryButton, SecondaryButton } from "@/components/ui/Button";
 
 type Fields = {
   firstName: string;
   lastName: string;
+  company: string;
+  vatNumber: string;
   email: string;
   phone: string;
   projectAddress: string;
@@ -21,6 +28,8 @@ type Fields = {
 const empty: Fields = {
   firstName: "",
   lastName: "",
+  company: "",
+  vatNumber: "",
   email: "",
   phone: "",
   projectAddress: "",
@@ -60,17 +69,20 @@ export function InstallationQuoteForm() {
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
       setFields((f) => ({ ...f, [key]: e.target.value }));
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setServerError(null);
     setEmailWarning(null);
 
     const payload = {
       ...fields,
+      company: fields.company || undefined,
+      vatNumber: fields.vatNumber || undefined,
       approximateLength: fields.approximateLength || undefined,
       terrain: fields.terrain || undefined,
       timing: fields.timing || undefined,
       message: fields.message || undefined,
+      _hp: readHoneypot(e.currentTarget),
     };
 
     const parsed = installationQuoteSchema.safeParse(payload);
@@ -81,6 +93,7 @@ export function InstallationQuoteForm() {
         if (typeof key === "string" && !fieldErrors[key]) fieldErrors[key] = issue.message;
       }
       setErrors(fieldErrors);
+      scrollToFirstFormError(e.currentTarget, fieldErrors);
       return;
     }
     setErrors({});
@@ -107,29 +120,28 @@ export function InstallationQuoteForm() {
 
   if (success) {
     return (
-      <div className="rounded-card border border-sand-300 bg-white px-6 py-12 text-center shadow-card">
-        <CheckCircle2 className="mx-auto h-12 w-12 text-instock" aria-hidden="true" />
-        <h3 className="mt-4 font-display text-xl font-semibold text-forest-dark">
-          Demande envoyée, merci !
-        </h3>
-        <p className="mx-auto mt-2 max-w-md text-bark-muted">
-          Votre demande de pose a bien été transmise. Nous étudions votre projet et
-          revenons vers vous rapidement pour organiser une visite ou un devis.
-        </p>
-        {emailWarning && (
-          <p className="mx-auto mt-4 max-w-md rounded-lg bg-onorder/10 p-3 text-sm text-onorder">
-            {emailWarning}
-          </p>
-        )}
-      </div>
+      <FormSuccessPanel
+        title="Demande envoyée, merci !"
+        message="Votre demande de pose a bien été transmise. Nous étudions votre projet et revenons vers vous rapidement pour organiser une visite ou un devis."
+        emailWarning={emailWarning}
+      >
+        <PrimaryButton href="/catalogue" size="lg">
+          Voir les matériaux
+        </PrimaryButton>
+        <SecondaryButton href="/" size="lg">
+          Retour à l&apos;accueil
+        </SecondaryButton>
+      </FormSuccessPanel>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="space-y-4">
+    <form onSubmit={handleSubmit} noValidate className="relative space-y-4">
+      <HoneypotField />
       <div className="grid gap-4 sm:grid-cols-2">
         <TextField
           label="Prénom"
+          name="firstName"
           required
           autoComplete="given-name"
           value={fields.firstName}
@@ -138,6 +150,7 @@ export function InstallationQuoteForm() {
         />
         <TextField
           label="Nom"
+          name="lastName"
           required
           autoComplete="family-name"
           value={fields.lastName}
@@ -145,9 +158,26 @@ export function InstallationQuoteForm() {
           error={errors.lastName}
         />
       </div>
+      <TextField
+        label="Société (optionnel)"
+        name="company"
+        autoComplete="organization"
+        value={fields.company}
+        onChange={update("company")}
+        error={errors.company}
+      />
+      <TextField
+        label="N° de TVA (professionnels)"
+        name="vatNumber"
+        hint="Format belge : BE 0123.456.789 — laissez vide si particulier."
+        value={fields.vatNumber}
+        onChange={update("vatNumber")}
+        error={errors.vatNumber}
+      />
       <div className="grid gap-4 sm:grid-cols-2">
         <TextField
           label="E-mail"
+          name="email"
           type="email"
           required
           autoComplete="email"
@@ -157,6 +187,7 @@ export function InstallationQuoteForm() {
         />
         <TextField
           label="Téléphone"
+          name="phone"
           type="tel"
           required
           autoComplete="tel"
@@ -167,6 +198,7 @@ export function InstallationQuoteForm() {
       </div>
       <TextField
         label="Adresse du chantier"
+        name="projectAddress"
         required
         autoComplete="street-address"
         value={fields.projectAddress}
@@ -176,6 +208,7 @@ export function InstallationQuoteForm() {
       <div className="grid gap-4 sm:grid-cols-2">
         <SelectField
           label="Type de clôture"
+          name="fenceType"
           required
           placeholder="Sélectionnez…"
           options={fenceTypeOptions}
@@ -185,6 +218,7 @@ export function InstallationQuoteForm() {
         />
         <TextField
           label="Longueur approximative"
+          name="approximateLength"
           placeholder="Ex. 40 mètres"
           value={fields.approximateLength}
           onChange={update("approximateLength")}
@@ -193,6 +227,7 @@ export function InstallationQuoteForm() {
       </div>
       <TextField
         label="Nature du terrain (optionnel)"
+        name="terrain"
         placeholder="Ex. terrain plat, en pente, rocailleux…"
         value={fields.terrain}
         onChange={update("terrain")}
@@ -200,6 +235,7 @@ export function InstallationQuoteForm() {
       />
       <SelectField
         label="Délai souhaité (optionnel)"
+        name="timing"
         placeholder="Sélectionnez…"
         options={timingOptions}
         value={fields.timing}
@@ -208,18 +244,14 @@ export function InstallationQuoteForm() {
       />
       <TextAreaField
         label="Votre projet (optionnel)"
+        name="message"
         placeholder="Décrivez votre projet, vos contraintes, vos attentes…"
         value={fields.message}
         onChange={update("message")}
         error={errors.message}
       />
 
-      {/* Photo upload placeholder — kept simple for v1 (no storage backend yet). */}
-      <div className="rounded-lg border border-dashed border-sand-300 bg-sand-200/40 px-4 py-5 text-center text-sm text-bark-muted">
-        <Upload className="mx-auto mb-1.5 h-5 w-5 text-sage" aria-hidden="true" />
-        Vous pourrez joindre des photos par e-mail après votre demande.
-        {/* TODO: brancher un upload de fichiers (ex. UploadThing / S3) si besoin. */}
-      </div>
+      <PhotoUploadSlot />
 
       {serverError && (
         <div

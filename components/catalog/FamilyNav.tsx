@@ -19,7 +19,7 @@ export function FamilyNav({ activeId }: FamilyNavProps) {
     <nav aria-label="Familles de produits" className="space-y-1">
       <Link
         href="/catalogue"
-        className="mb-2 flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-bark-muted transition-colors duration-200 hover:bg-sand-200 hover:text-forest-dark"
+        className="mb-2 flex min-h-11 items-center gap-2 rounded-lg px-3 text-sm font-medium text-bark-muted transition-colors duration-200 hover:bg-sand-200 hover:text-forest-dark"
       >
         <ArrowLeft className="h-4 w-4" aria-hidden="true" />
         Toutes les familles
@@ -33,7 +33,7 @@ export function FamilyNav({ activeId }: FamilyNavProps) {
                 href={`/catalogue?famille=${family.id}`}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "flex items-center justify-between gap-2 rounded-lg px-3 py-2 text-sm transition-colors duration-200",
+                  "flex min-h-11 items-center justify-between gap-2 rounded-lg px-3 text-sm transition-colors duration-200",
                   active
                     ? "bg-forest text-white"
                     : "text-bark hover:bg-sand-200",

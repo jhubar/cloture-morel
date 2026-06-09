@@ -6,15 +6,8 @@ import {
   StyleSheet,
 } from "@react-pdf/renderer";
 import type { MaterialsQuote } from "@/lib/quote";
+import { formatEURForPdf } from "@/lib/format";
 import { site } from "@/lib/site";
-
-/** EUR formatting kept local (Intl is available in the Node runtime). */
-function eur(amount: number): string {
-  return new Intl.NumberFormat("fr-BE", {
-    style: "currency",
-    currency: "EUR",
-  }).format(amount);
-}
 
 const colors = {
   forest: "#1e3d29",
@@ -150,6 +143,9 @@ export function MaterialsQuotePdf({ quote }: { quote: MaterialsQuote }) {
             <Text style={styles.blockTitle}>Demandeur</Text>
             <Text style={styles.line}>{fullName}</Text>
             {customer.company ? <Text style={styles.line}>{customer.company}</Text> : null}
+            {customer.vatNumber ? (
+              <Text style={[styles.line, styles.muted]}>TVA : {customer.vatNumber}</Text>
+            ) : null}
             <Text style={styles.line}>{customer.address}</Text>
             <Text style={[styles.line, styles.muted]}>{customer.email}</Text>
             <Text style={[styles.line, styles.muted]}>{customer.phone}</Text>
@@ -161,6 +157,7 @@ export function MaterialsQuotePdf({ quote }: { quote: MaterialsQuote }) {
             <Text style={styles.line}>{site.address.city}</Text>
             <Text style={[styles.line, styles.muted]}>{site.email}</Text>
             <Text style={[styles.line, styles.muted]}>{site.phone}</Text>
+            <Text style={[styles.line, styles.muted]}>TVA : {site.vatNumber}</Text>
           </View>
         </View>
 
@@ -187,14 +184,10 @@ export function MaterialsQuotePdf({ quote }: { quote: MaterialsQuote }) {
               {line.piecesPerPalette ? " pal." : ""}
             </Text>
             <Text style={styles.cUnit}>
-              {line.unitPrice !== null
-                ? line.piecesPerPalette
-                  ? `${eur(line.unitPrice)}/pal.`
-                  : eur(line.unitPrice)
-                : "Sur demande"}
+              {line.unitPrice !== null ? formatEURForPdf(line.unitPrice) : "Sur demande"}
             </Text>
             <Text style={styles.cTotal}>
-              {line.lineTotal !== null ? eur(line.lineTotal) : "—"}
+              {line.lineTotal !== null ? formatEURForPdf(line.lineTotal) : "—"}
             </Text>
           </View>
         ))}
@@ -203,7 +196,7 @@ export function MaterialsQuotePdf({ quote }: { quote: MaterialsQuote }) {
         <View style={styles.totals}>
           <View style={styles.grandTotal}>
             <Text style={{ fontFamily: "Helvetica-Bold" }}>Total estimatif HTVA</Text>
-            <Text style={styles.grandTotalValue}>{eur(quote.totalHTVA)}</Text>
+            <Text style={styles.grandTotalValue}>{formatEURForPdf(quote.totalHTVA)}</Text>
           </View>
         </View>
 

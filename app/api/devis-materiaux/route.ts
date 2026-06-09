@@ -5,6 +5,7 @@ import { materialsQuoteSchema } from "@/lib/validation";
 import { buildMaterialsQuote } from "@/lib/quote";
 import { MaterialsQuotePdf } from "@/lib/pdf/MaterialsQuotePdf";
 import { sendMaterialsQuoteEmails } from "@/lib/email";
+import { isHoneypotTriggered } from "@/lib/spam";
 
 // PDF generation (@react-pdf/renderer) requires the Node.js runtime.
 export const runtime = "nodejs";
@@ -15,6 +16,10 @@ export async function POST(request: Request) {
     body = await request.json();
   } catch {
     return NextResponse.json({ error: "Requête invalide." }, { status: 400 });
+  }
+
+  if (isHoneypotTriggered(body as Record<string, unknown>)) {
+    return NextResponse.json({ ok: true });
   }
 
   const parsed = materialsQuoteSchema.safeParse(body);

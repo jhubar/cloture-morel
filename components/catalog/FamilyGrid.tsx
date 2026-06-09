@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { getFamilyImage } from "@/lib/assets";
 import { getFamilies } from "@/lib/families";
+import { ImageSlot } from "@/components/ui/ImageSlot";
 
 /**
  * Friendly entry point for the catalogue: a grid of the ~8 product families,
@@ -14,23 +16,25 @@ export function FamilyGrid() {
   return (
     <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {families.map((family) => {
-        const Icon = family.icon;
+        const familyImage = getFamilyImage(family.id, family.label);
         return (
           <Link
             key={family.id}
             href={`/catalogue?famille=${family.id}`}
-            className="group flex h-full flex-col rounded-card border border-sand-300 bg-white p-6 shadow-card transition-colors duration-200 hover:border-forest/40 hover:bg-sage-soft/40 cursor-pointer"
+            className="group flex h-full flex-col overflow-hidden rounded-card border border-sand-300 bg-white shadow-card transition-colors duration-200 hover:border-forest/40 cursor-pointer"
           >
-            <div className="flex items-start justify-between gap-3">
-              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-sage-soft text-forest">
-                <Icon className="h-6 w-6" aria-hidden="true" />
-              </span>
-              <ArrowUpRight
-                className="h-5 w-5 shrink-0 text-bark-muted transition-colors group-hover:text-forest"
-                aria-hidden="true"
+            <div className="relative">
+              <ImageSlot
+                slot={familyImage}
+                className="aspect-[16/10] w-full border-b border-sand-200 transition-transform duration-300 group-hover:scale-[1.02]"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
+              <span className="pointer-events-none absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-white/90 text-bark-muted shadow-sm backdrop-blur-sm transition-colors group-hover:text-forest">
+                <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+              </span>
             </div>
-            <h3 className="mt-4 text-lg font-semibold text-forest-dark">
+            <div className="flex flex-1 flex-col p-6 transition-colors group-hover:bg-sage-soft/40">
+            <h3 className="text-lg font-semibold text-forest-dark">
               {family.label}
             </h3>
             <p className="mt-0.5 text-xs font-medium uppercase tracking-wide text-bark-muted">
@@ -44,6 +48,7 @@ export function FamilyGrid() {
             <p className="mt-4 text-sm font-medium text-forest">
               {family.productCount} produit{family.productCount > 1 ? "s" : ""}
             </p>
+            </div>
           </Link>
         );
       })}

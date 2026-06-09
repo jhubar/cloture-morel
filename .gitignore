@@ -10,6 +10,9 @@
 # production
 /build
 
+# client source docs (Excel, generated markdown — catalog lives in data/)
+/doc/
+
 # misc
 .DS_Store
 *.pem

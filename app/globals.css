@@ -43,6 +43,7 @@
 
   html {
     scroll-behavior: smooth;
+    overflow-x: clip;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -62,9 +63,12 @@
     background-color: var(--color-sand);
     color: var(--color-bark);
     font-family: var(--font-sans);
+    font-size: 1rem;
     line-height: 1.65;
+    overflow-x: clip;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    touch-action: manipulation;
   }
 
   h1,

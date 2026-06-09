@@ -6,8 +6,8 @@ import { usePathname } from "next/navigation";
 import { Menu, X, ShoppingCart } from "lucide-react";
 import { mainNav, site } from "@/lib/site";
 import { cn } from "@/lib/utils";
-import { PrimaryButton } from "@/components/ui/Button";
 import { CartCountBadge } from "@/components/cart/CartCountBadge";
+import { QuoteCtaButton } from "@/components/cart/QuoteCtaButton";
 
 export function Header() {
   const pathname = usePathname();
@@ -19,11 +19,15 @@ export function Header() {
   return (
     <header className="sticky top-0 z-30 border-b border-sand-300 bg-sand/90 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2" aria-label={`${site.name} — accueil`}>
-          <span className="grid h-9 w-9 place-items-center rounded-lg bg-forest text-white font-display text-lg font-semibold">
+        <Link
+          href="/"
+          className="flex min-h-11 min-w-0 shrink items-center gap-2 py-1"
+          aria-label={`${site.name} — accueil`}
+        >
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-forest font-display text-lg font-semibold text-white">
             M
           </span>
-          <span className="font-display text-lg font-semibold text-forest-dark">
+          <span className="truncate font-display text-base font-semibold text-forest-dark sm:text-lg">
             {site.name}
           </span>
         </Link>
@@ -34,7 +38,7 @@ export function Header() {
               key={item.href}
               href={item.href}
               className={cn(
-                "rounded-full px-3 py-2 text-sm font-medium transition-colors duration-200 hover:text-forest",
+                "inline-flex min-h-11 items-center rounded-full px-3 text-sm font-medium transition-colors duration-200 hover:text-forest",
                 isActive(item.href) ? "text-forest" : "text-bark-muted",
               )}
             >
@@ -47,16 +51,14 @@ export function Header() {
           <Link
             href="/panier"
             aria-label="Voir le panier"
-            className="relative grid h-11 w-11 place-items-center rounded-full text-bark-muted transition-colors hover:bg-sand-200 hover:text-forest"
+            className="relative grid h-11 w-11 shrink-0 place-items-center rounded-full text-bark-muted transition-colors hover:bg-sand-200 hover:text-forest"
           >
             <ShoppingCart className="h-5 w-5" aria-hidden="true" />
             <CartCountBadge />
           </Link>
 
           <div className="hidden sm:block">
-            <PrimaryButton href="/catalogue" size="md">
-              Demander un devis
-            </PrimaryButton>
+            <QuoteCtaButton size="md" />
           </div>
 
           <button
@@ -92,14 +94,11 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
-            <PrimaryButton
-              href="/catalogue"
+            <QuoteCtaButton
               size="lg"
               className="mt-2 w-full"
               onClick={() => setOpen(false)}
-            >
-              Demander un devis
-            </PrimaryButton>
+            />
           </div>
         </nav>
       )}

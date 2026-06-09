@@ -4,6 +4,10 @@ import { Trash2 } from "lucide-react";
 import type { ResolvedCartItem } from "@/lib/types";
 import { formatEUR, formatPrice } from "@/lib/format";
 import { useCartStore } from "@/lib/cart-store";
+import {
+  getProductDisplaySubtitle,
+  getProductDisplayTitle,
+} from "@/lib/product-display";
 import { QuantityStepper } from "@/components/ui/QuantityStepper";
 
 interface CartLineItemProps {
@@ -34,8 +38,13 @@ export function CartLineItem({ line }: CartLineItemProps) {
     <div className="flex gap-3 py-4">
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-semibold text-forest-dark">
-          {product.reference || product.label}
+          {getProductDisplayTitle(product)}
         </p>
+        {getProductDisplaySubtitle(product) && (
+          <p className="truncate text-xs text-bark-muted">
+            {getProductDisplaySubtitle(product)}
+          </p>
+        )}
         <p className="truncate text-xs text-bark-muted">{category.title}</p>
         <p className="mt-1 text-xs text-bark-muted">{unitLine}</p>
         <div className="mt-2 flex items-center gap-3">

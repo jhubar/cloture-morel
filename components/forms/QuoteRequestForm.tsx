@@ -5,6 +5,8 @@ import { Loader2, AlertCircle } from "lucide-react";
 import type { CartItem } from "@/lib/types";
 import { materialsQuoteSchema } from "@/lib/validation";
 import { TextField, TextAreaField } from "@/components/forms/FormField";
+import { HoneypotField } from "@/components/forms/HoneypotField";
+import { readHoneypot, scrollToFirstFormError } from "@/lib/form-utils";
 
 export interface QuoteSubmitResult {
   pdfBase64?: string;
@@ -21,6 +23,7 @@ type Fields = {
   firstName: string;
   lastName: string;
   company: string;
+  vatNumber: string;
   email: string;
   phone: string;
   address: string;
@@ -31,6 +34,7 @@ const empty: Fields = {
   firstName: "",
   lastName: "",
   company: "",
+  vatNumber: "",
   email: "",
   phone: "",
   address: "",
@@ -46,7 +50,7 @@ export function QuoteRequestForm({ items, onSubmitted }: QuoteRequestFormProps) 
   const update = (key: keyof Fields) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setFields((f) => ({ ...f, [key]: e.target.value }));
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setServerError(null);
 
@@ -55,12 +59,14 @@ export function QuoteRequestForm({ items, onSubmitted }: QuoteRequestFormProps) 
         firstName: fields.firstName,
         lastName: fields.lastName,
         company: fields.company || undefined,
+        vatNumber: fields.vatNumber || undefined,
         email: fields.email,
         phone: fields.phone,
         address: fields.address,
         message: fields.message || undefined,
       },
       items,
+      _hp: readHoneypot(e.currentTarget),
     };
 
     const parsed = materialsQuoteSchema.safeParse(payload);
@@ -71,6 +77,7 @@ export function QuoteRequestForm({ items, onSubmitted }: QuoteRequestFormProps) 
         if (typeof key === "string" && !fieldErrors[key]) fieldErrors[key] = issue.message;
       }
       setErrors(fieldErrors);
+      scrollToFirstFormError(e.currentTarget, fieldErrors);
       return;
     }
     setErrors({});
@@ -96,10 +103,12 @@ export function QuoteRequestForm({ items, onSubmitted }: QuoteRequestFormProps) 
   };
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="space-y-4">
+    <form onSubmit={handleSubmit} noValidate className="relative space-y-4">
+      <HoneypotField />
       <div className="grid gap-4 sm:grid-cols-2">
         <TextField
           label="Prénom"
+          name="firstName"
           required
           autoComplete="given-name"
           value={fields.firstName}
@@ -108,6 +117,7 @@ export function QuoteRequestForm({ items, onSubmitted }: QuoteRequestFormProps) 
         />
         <TextField
           label="Nom"
+          name="lastName"
           required
           autoComplete="family-name"
           value={fields.lastName}
@@ -117,14 +127,24 @@ export function QuoteRequestForm({ items, onSubmitted }: QuoteRequestFormProps) 
       </div>
       <TextField
         label="Société (optionnel)"
+        name="company"
         autoComplete="organization"
         value={fields.company}
         onChange={update("company")}
         error={errors.company}
       />
+      <TextField
+        label="N° de TVA (professionnels)"
+        name="vatNumber"
+        hint="Format belge : BE 0123.456.789 — laissez vide si particulier."
+        value={fields.vatNumber}
+        onChange={update("vatNumber")}
+        error={errors.vatNumber}
+      />
       <div className="grid gap-4 sm:grid-cols-2">
         <TextField
           label="E-mail"
+          name="email"
           type="email"
           required
           autoComplete="email"
@@ -134,6 +154,7 @@ export function QuoteRequestForm({ items, onSubmitted }: QuoteRequestFormProps) 
         />
         <TextField
           label="Téléphone"
+          name="phone"
           type="tel"
           required
           autoComplete="tel"
@@ -144,6 +165,7 @@ export function QuoteRequestForm({ items, onSubmitted }: QuoteRequestFormProps) 
       </div>
       <TextField
         label="Adresse"
+        name="address"
         required
         autoComplete="street-address"
         value={fields.address}
@@ -152,6 +174,7 @@ export function QuoteRequestForm({ items, onSubmitted }: QuoteRequestFormProps) 
       />
       <TextAreaField
         label="Message (optionnel)"
+        name="message"
         placeholder="Précisez votre projet, vos délais, vos questions…"
         value={fields.message}
         onChange={update("message")}
@@ -184,7 +207,9 @@ export function QuoteRequestForm({ items, onSubmitted }: QuoteRequestFormProps) 
       </button>
       <p className="text-center text-xs text-bark-muted">
         En validant, vous transmettez votre sélection à Clôtures Morel. Un
-        récapitulatif PDF est généré et vous est envoyé par e-mail.
+        récapitulatif PDF est généré et vous est envoyé par e-mail. Les frais de
+        livraison éventuels seront précisés dans notre réponse ; en retrait sur
+        place, les prix affichés correspondent à ceux de la facture.
       </p>
     </form>
   );

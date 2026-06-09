@@ -98,14 +98,14 @@ def detect_format(header_row) -> str:
         return "quincaillerie_simple"
     if c6 == "Note" and c4 == "Prix unitaire htva":
         return "standard_note"
+    if "taille rlx" in c6.lower():
+        return "brandes"
     if "mètres" in c6.lower() or "rlx" in c6.lower():
         return "grillage"
     if "palette" in c6.lower():
         return "palette"
     if "rouleau" in c6.lower():
         return "ganivelles"
-    if "taille rlx" in c6.lower():
-        return "brandes"
     if "quantité" in c6.lower() or "pack" in c6.lower():
         return "outillage"
     return "standard"
@@ -125,7 +125,9 @@ def parse_product_row(row, fmt: str, dual: bool = False) -> list[dict]:
                 "mortaises": cell(row, 4),
                 "info": cell(row, 6),
                 "prix_unitaire_htva": parse_price(cell(row, 8)),
+                "dimension": cell(row, 10),
                 "section": cell(row, 11),
+                "note": cell(row, 12),
             }
         )
     elif fmt == "poteaux_barriere":
@@ -332,7 +334,15 @@ def parse_categories(df: pd.DataFrame) -> list[dict]:
 
 
 TABLE_HEADERS = {
-    "equestre": ["Article", "Tête", "Mortaises", "Info", "Prix HTVA (€)", "Section"],
+    "equestre": [
+        "Article",
+        "Tête",
+        "Mortaises",
+        "Info",
+        "Prix HTVA (€)",
+        "Dimension",
+        "Section",
+    ],
     "poteaux_barriere": ["Article", "Référence", "Modèle", "Prix HTVA (€)", "Disponibilité"],
     "passage_canadien": ["Article", "Taille", "Prix HTVA (€)", "Disponibilité"],
     "quincaillerie_simple": ["Article", "Référence", "Prix HTVA (€)"],
@@ -361,6 +371,7 @@ def product_to_row(product: dict, fmt: str) -> list[str]:
             product.get("mortaises") or "—",
             product.get("info") or "—",
             format_price(product.get("prix_unitaire_htva")),
+            product.get("dimension") or "—",
             product.get("section") or "—",
         ]
     if fmt == "poteaux_barriere":
@@ -559,7 +570,7 @@ def render_index_md(categories: list[dict]) -> str:
 def product_label(product: dict, fmt: str) -> str:
     parts = [product.get("article") or ""]
     if fmt == "equestre":
-        for key in ("section", "tete", "mortaises", "info"):
+        for key in ("section", "dimension", "tete", "mortaises", "info"):
             if product.get(key):
                 parts.append(str(product[key]))
     elif product.get("reference"):
@@ -595,11 +606,15 @@ def export_catalog_json(categories: list[dict]) -> None:
                 or str(index)
             )
             product_id = slugify(f"{category_id}-{reference}-{index}")
+            # Colonne Excel « Référence » uniquement (pas la « Taille » du passage canadien).
+            catalog_reference = product.get("reference")
+            if not catalog_reference and fmt == "equestre":
+                catalog_reference = product.get("section")
             entry = {
                 "id": product_id,
                 "label": product_label(product, fmt),
                 "article": product.get("article"),
-                "reference": product.get("reference"),
+                "reference": catalog_reference,
                 "prixUnitaireHTVA": product.get("prix_unitaire_htva"),
                 "disponibilite": product.get("note"),
                 "details": {

@@ -24,8 +24,8 @@ export function QuantityStepper({
   const clamp = (n: number) => Math.min(max, Math.max(min, n));
   const btn =
     "grid place-items-center text-forest-dark transition-colors hover:bg-sand-200 disabled:opacity-40 disabled:hover:bg-transparent cursor-pointer";
-  const dim = size === "sm" ? "h-8 w-8" : "h-10 w-10";
-  const inputDim = size === "sm" ? "h-8 w-10 text-sm" : "h-10 w-12";
+  const dim = size === "sm" ? "h-11 w-11" : "h-11 w-11";
+  const inputDim = size === "sm" ? "h-11 w-12 text-sm" : "h-11 w-14";
 
   return (
     <div className="inline-flex items-center rounded-full border border-sand-300 bg-white">

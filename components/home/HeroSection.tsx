@@ -1,4 +1,6 @@
 import { PrimaryButton, SecondaryButton } from "@/components/ui/Button";
+import { ImageSlot } from "@/components/ui/ImageSlot";
+import { heroImage } from "@/lib/assets";
 import { getCategoryCount, getProductCount } from "@/lib/catalog";
 
 export function HeroSection() {
@@ -56,19 +58,13 @@ export function HeroSection() {
           </dl>
         </div>
 
-        {/* Image placeholder — TODO(client): replace with a real outdoor/fencing photo */}
-        <div className="relative aspect-[4/3] overflow-hidden rounded-card border border-sand-300 bg-white shadow-card lg:aspect-[5/4]">
-          <div className="absolute inset-0 grid place-items-center bg-gradient-to-br from-sage/30 via-sand-200 to-sand-300">
-            <div className="text-center">
-              <span className="grid h-16 w-16 place-items-center rounded-2xl bg-forest text-white font-display text-3xl mx-auto">
-                M
-              </span>
-              <p className="mt-4 px-6 text-sm text-bark-muted">
-                Photo de réalisation à intégrer
-              </p>
-            </div>
-          </div>
-        </div>
+        <ImageSlot
+          slot={heroImage}
+          showHint
+          priority
+          className="aspect-[4/3] rounded-card border border-sand-300 shadow-card lg:aspect-[5/4]"
+          sizes="(max-width: 1024px) 100vw, 50vw"
+        />
       </div>
     </section>
   );

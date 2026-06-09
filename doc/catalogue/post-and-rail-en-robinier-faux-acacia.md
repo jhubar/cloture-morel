@@ -14,10 +14,10 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
 
 ## Produits
 
-| Article | Tête | Mortaises | Info | Prix HTVA (€) | Section |
-| --- | --- | --- | --- | --- | --- |
-| Poteaux rectangulaires | 30° | 2 | Avec pointes | 37.42 | 10 x 15 cm |
-| Lisses fendues | 0 | — | — | 20.19 | 9 x 6 cm |
+| Article | Tête | Mortaises | Info | Prix HTVA (€) | Dimension | Section |
+| --- | --- | --- | --- | --- | --- | --- |
+| Poteaux rectangulaires | 30° | 2 | Avec pointes | 37.42 | 200 cm | 10 x 15 cm |
+| Lisses fendues | 0 | — | — | 20.19 | 300 cm | 9 x 6 cm |
 
 ## Données structurées (JSON)
 
@@ -29,7 +29,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": "2",
     "info": "Avec pointes",
     "prix_unitaire_htva": 37.42,
-    "section": "10 x 15 cm"
+    "dimension": "200 cm",
+    "section": "10 x 15 cm",
+    "note": "En stock"
   },
   {
     "article": "Lisses fendues",
@@ -37,7 +39,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": null,
     "info": null,
     "prix_unitaire_htva": 20.19,
-    "section": "9 x 6 cm"
+    "dimension": "300 cm",
+    "section": "9 x 6 cm",
+    "note": "En stock"
   }
 ]
 ```

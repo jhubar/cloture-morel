@@ -14,6 +14,7 @@ import {
 import { PageContainer } from "@/components/ui/PageContainer";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import { InstallationQuoteForm } from "@/components/forms/InstallationQuoteForm";
+import { ProjectGallery } from "@/components/pose/ProjectGallery";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -134,6 +135,17 @@ export default function PosePage() {
         </div>
       </PageContainer>
 
+      <section className="bg-sand-200/50">
+        <PageContainer>
+          <SectionTitle
+            eyebrow="Galerie"
+            title="Quelques réalisations"
+            description="Emplacements prévus pour les photos de chantiers — à fournir par Clôtures Morel."
+          />
+          <ProjectGallery />
+        </PageContainer>
+      </section>
+
       {/* Why choose us */}
       <section className="bg-sand-200/50">
         <PageContainer>
@@ -194,7 +206,12 @@ export default function PosePage() {
               <div className="mt-6 space-y-3 text-sm text-bark-muted">
                 <p className="flex items-center gap-2">
                   <Phone className="h-4 w-4 text-forest" aria-hidden="true" />
-                  {site.phone}
+                  <a
+                    href={`tel:${site.phoneTel}`}
+                    className="inline-flex min-h-11 items-center hover:text-forest"
+                  >
+                    {site.phone}
+                  </a>
                 </p>
                 <p className="flex items-center gap-2">
                   <MapPin className="h-4 w-4 text-forest" aria-hidden="true" />

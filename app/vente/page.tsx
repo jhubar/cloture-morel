@@ -6,6 +6,8 @@ import { ProductCategoryGrid } from "@/components/home/ProductCategoryGrid";
 import { CTASection } from "@/components/ui/CTASection";
 import { PrimaryButton } from "@/components/ui/Button";
 import { getCategoryCount, getProductCount } from "@/lib/catalog";
+import { FaqSection } from "@/components/ui/FaqSection";
+import { salesFaq } from "@/lib/faq";
 
 export const metadata: Metadata = {
   title: "Vente de matériaux de clôture",
@@ -26,13 +28,13 @@ const benefits = [
   },
   {
     icon: Truck,
-    title: "Achat en gros",
-    text: "Des tarifs avantageux pour les grandes quantités et les chantiers.",
+    title: "Livraison sur devis",
+    text: "Les frais de transport dépendent du lieu et de l’accès — étudiés avec votre demande.",
   },
   {
     icon: MapPin,
-    title: "Retrait local",
-    text: "Matériaux disponibles dans la région de Sprimont et de Liège.",
+    title: "Retrait sur place",
+    text: "Venez à Sprimont : les prix affichés HTVA correspondent à ceux de la facture.",
   },
 ];
 
@@ -134,6 +136,8 @@ export default function VentePage() {
           <ProductCategoryGrid />
         </div>
       </PageContainer>
+
+      <FaqSection items={salesFaq} />
 
       <CTASection
         title="Prêt à composer votre devis matériaux ?"

@@ -1,6 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Phone, Mail, MapPin, Clock, ShoppingCart, Hammer } from "lucide-react";
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Clock,
+  ShoppingCart,
+  Hammer,
+  Facebook,
+  Instagram,
+  ExternalLink,
+} from "lucide-react";
 import { PageContainer } from "@/components/ui/PageContainer";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import { ContactForm } from "@/components/forms/ContactForm";
@@ -47,21 +57,36 @@ export default function ContactPage() {
                 </li>
                 <li className="flex items-center gap-3">
                   <Phone className="h-5 w-5 shrink-0 text-forest" aria-hidden="true" />
-                  <a href={`tel:${site.phone.replace(/\s/g, "")}`} className="hover:text-forest">
+                  <a
+                    href={`tel:${site.phoneTel}`}
+                    className="inline-flex min-h-11 items-center hover:text-forest"
+                  >
                     {site.phone}
                   </a>
                 </li>
                 <li className="flex items-center gap-3">
                   <Mail className="h-5 w-5 shrink-0 text-forest" aria-hidden="true" />
-                  <a href={`mailto:${site.email}`} className="hover:text-forest">
+                  <a
+                    href={`mailto:${site.email}`}
+                    className="inline-flex min-h-11 items-center break-all hover:text-forest"
+                  >
                     {site.email}
                   </a>
                 </li>
                 <li className="flex items-start gap-3">
                   <Clock className="mt-0.5 h-5 w-5 shrink-0 text-forest" aria-hidden="true" />
                   <span className="text-bark-muted">
-                    {/* TODO(client): confirmer les horaires d’ouverture. */}
-                    Horaires sur demande
+                    {site.hours.confirmed && site.hours.lines.length > 0 ? (
+                      <>
+                        {site.hours.lines.map((line) => (
+                          <span key={line} className="block">
+                            {line}
+                          </span>
+                        ))}
+                      </>
+                    ) : (
+                      site.hours.label
+                    )}
                   </span>
                 </li>
               </ul>
@@ -69,16 +94,47 @@ export default function ContactPage() {
                 <span className="font-medium text-forest-dark">Zone d’intervention :</span>{" "}
                 {site.serviceArea}
               </p>
+              <div className="mt-4 flex gap-3 border-t border-sand-200 pt-4">
+                <a
+                  href={site.social.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${site.name} sur Facebook`}
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-sand-300 text-forest transition-colors hover:bg-sand-200/50"
+                >
+                  <Facebook className="h-5 w-5" aria-hidden="true" />
+                </a>
+                <a
+                  href={site.social.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${site.name} sur Instagram`}
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-sand-300 text-forest transition-colors hover:bg-sand-200/50"
+                >
+                  <Instagram className="h-5 w-5" aria-hidden="true" />
+                </a>
+              </div>
             </div>
 
-            {/* Map placeholder */}
-            <div className="flex h-56 items-center justify-center rounded-card border border-dashed border-sand-300 bg-sand-200/40 text-sm text-bark-muted">
-              {/* TODO(client): intégrer une carte (Google Maps / OpenStreetMap). */}
-              <span className="flex items-center gap-2">
-                <MapPin className="h-4 w-4" aria-hidden="true" />
-                Carte à intégrer
-              </span>
+            <div className="overflow-hidden rounded-card border border-sand-300 shadow-card">
+              <iframe
+                src={site.mapsEmbedUrl}
+                className="h-56 w-full border-0 sm:h-64"
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title={`Localisation de ${site.name} — ${site.address.street}, ${site.address.city}`}
+              />
             </div>
+            <a
+              href={site.mapsLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-forest hover:underline"
+            >
+              <ExternalLink className="h-4 w-4" aria-hidden="true" />
+              Ouvrir dans Google Maps
+            </a>
 
             {/* Quick CTAs */}
             <div className="grid gap-3 sm:grid-cols-2">

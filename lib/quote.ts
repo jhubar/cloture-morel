@@ -1,4 +1,5 @@
 import { findProduct, TAX_NOTE } from "@/lib/catalog";
+import { getProductCommercialReference } from "@/lib/product-display";
 import { getProductPricing } from "@/lib/pricing";
 import type { MaterialsQuoteCustomer } from "@/lib/types";
 import type { MaterialsQuoteInput } from "@/lib/validation";
@@ -55,7 +56,7 @@ export function buildMaterialsQuote(input: MaterialsQuoteInput): MaterialsQuote 
     const { product, category } = found;
     const pricing = getProductPricing(product);
     lines.push({
-      reference: product.reference || product.label,
+      reference: getProductCommercialReference(product) || product.label,
       label: product.label,
       category: category.title,
       quantity: item.quantity,

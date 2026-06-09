@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { ShoppingCart, X } from "lucide-react";
 import {
@@ -16,16 +16,22 @@ import { PrimaryButton } from "@/components/ui/Button";
 
 /**
  * Floating "Voir le panier" button + slide-over drawer for the catalogue page.
- * Hidden until the cart has been hydrated and contains items.
+ * Opens automatically only when the first item is added; later adds update the FAB
+ * without reopening the drawer. Hidden until hydrated and non-empty.
  */
 export function CartDrawer() {
   const [open, setOpen] = useState(false);
+  const drawerOpenNonce = useCartStore((s) => s.drawerOpenNonce);
   const items = useCartStore((s) => s.items);
   const hydrated = useCartStore((s) => s.hydrated);
   const resolved = resolveCartItems(items);
   const total = selectCartTotalHTVA(resolved);
   const count = selectItemCount(items);
   const onRequest = hasOnRequestPricing(resolved);
+
+  useEffect(() => {
+    if (drawerOpenNonce > 0 && count > 0) setOpen(true);
+  }, [drawerOpenNonce, count]);
 
   if (!hydrated || count === 0) return null;
 
@@ -34,7 +40,7 @@ export function CartDrawer() {
       <Dialog.Trigger asChild>
         <button
           type="button"
-          className="fixed bottom-5 right-5 z-30 inline-flex items-center gap-2 rounded-full bg-forest px-5 py-3 font-semibold text-white shadow-lg transition-colors hover:bg-forest-dark cursor-pointer xl:hidden"
+          className="fixed bottom-5 right-5 z-30 inline-flex max-w-[calc(100vw-2.5rem)] items-center gap-2 rounded-full bg-forest px-5 py-3 text-sm font-semibold text-white shadow-lg transition-colors hover:bg-forest-dark cursor-pointer 2xl:hidden"
         >
           <ShoppingCart className="h-5 w-5" aria-hidden="true" />
           {count} · {formatEUR(total)}
@@ -49,7 +55,7 @@ export function CartDrawer() {
               Votre sélection
             </Dialog.Title>
             <Dialog.Close
-              className="grid h-10 w-10 place-items-center rounded-full text-bark-muted hover:bg-sand-200 cursor-pointer"
+              className="grid h-11 w-11 place-items-center rounded-full text-bark-muted hover:bg-sand-200 cursor-pointer"
               aria-label="Fermer"
             >
               <X className="h-5 w-5" />

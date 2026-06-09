@@ -16,6 +16,17 @@ export function formatEUR(amount: number): string {
 }
 
 /**
+ * PDF-safe EUR formatting (Helvetica lacks some Unicode spaces from Intl).
+ * Uses a regular space as thousands separator — never "/" or narrow spaces.
+ * e.g. 1234.5 → "1 234,50 €"
+ */
+export function formatEURForPdf(amount: number): string {
+  const [intPart, decPart] = amount.toFixed(2).split(".");
+  const grouped = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  return `${grouped},${decPart} €`;
+}
+
+/**
  * Display a catalog price. Numeric prices are formatted as EUR HTVA; non-numeric
  * prices (e.g. "Sur demande") are passed through as-is.
  */

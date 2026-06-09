@@ -14,42 +14,42 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
 
 ## Produits
 
-| Article | Tête | Mortaises | Info | Prix HTVA (€) | Section |
-| --- | --- | --- | --- | --- | --- |
-| Poteaux carrés | Diamant | 2 | Avec pointes | 45.13 | 12 x 12 cm |
-| Poteaux carrés | Diamant | 3 | Avec pointes | 45.76 | 12 x 12 cm |
-| Poteaux carrés | Diamant | Sans | Avec pointes | 18.29 | 10 x 10 cm |
-| Poteaux carrés | Diamant | Sans | Avec pointes | 20.66 | 10 x 10 cm |
-| Poteaux carrés | Diamant | Sans | Avec pointes | 22.86 | 10 x 10 cm |
-| Poteaux carrés | Diamant | Sans | Avec pointes | 26.69 | 12 x 12 cm |
-| Poteaux carrés | Diamant | Sans | Avec pointes | 30.16 | 12 x 12 cm |
-| Poteaux carrés | Diamant | Sans | Avec pointes | 33.37 | 12 x 12 cm |
-| Poteaux carrés | Plate | Sans | Sans pointes | 16.89 | 10 x 10 cm |
-| Poteaux carrés | Plate | Sans | Sans pointes | 19.13 | 10 x 10 cm |
-| Poteaux carrés | Plate | Sans | Sans pointes | 21.1 | 10 x 10 cm |
-| Poteaux carrés | Plate | Sans | Sans pointes | 50.8 | 15 x 15 cm |
-| Poteaux ronds fraisés | Plate | Sans | Avec pointes | 12.13 | 10 cm |
-| Poteaux ronds fraisés | Plate | Sans | Avec pointes | 14.61 | 10 cm |
-| Poteaux ronds fraisés | Plate | Sans | Avec pointes | 15.51 | 10 cm |
-| Poteaux ronds fraisés | Plate | Sans | Avec pointes | 17.15 | 10 cm |
-| Poteaux ronds fraisés | Plate | Sans | Avec pointes | 20.05 | 12 cm |
-| Poteaux ronds fraisés | Plate | Sans | Avec pointes | 22.7 | 12 cm |
-| Poteaux ronds fraisés | Plate | Sans | Avec pointes | 24.09 | 12 cm |
-| Poteaux ronds fraisés | Plate | Sans | Avec pointes | 31.44 | 14 cm |
-| Piquets ronds fraisés | Plate | Sans | Avec pointes | 33.1 | 14 cm |
-| Rondins fraisés | — | — | Sans pointes | 18.66 | 10 cm |
-| Rondins fraisés | — | — | Sans pointes | 22.4 | 12 cm |
-| Rondins fraisés | — | — | Sans pointes | 26.87 | 10 cm |
-| Rondins fraisés | — | — | Sans pointes | 32.26 | 12 cm |
-| Demi rondins | — | — | — | 18.66 | 10 cm |
-| Demi rondins | — | — | — | 22.4 | 10 cm |
-| Demi rondins | — | — | — | 26.87 | 12 cm |
-| Demi rondins | — | — | — | 32.26 | 12 cm |
-| Lisses rectangulaires | — | — | — | 10.72 | 4 x 12 cm |
-| Lisses rectangulaires | — | — | — | 12.86 | 4 x 12 cm |
-| Lisses rectangulaires | — | — | — | 21.44 | 4 x 12 cm |
-| Planches | — | — | — | 46.85 | 4 x 25 cm |
-| Planches | — | — | — | 57.19 | 4 x 25 cm |
+| Article | Tête | Mortaises | Info | Prix HTVA (€) | Dimension | Section |
+| --- | --- | --- | --- | --- | --- | --- |
+| Poteaux carrés | Diamant | 2 | Avec pointes | 45.13 | 220 cm | 12 x 12 cm |
+| Poteaux carrés | Diamant | 3 | Avec pointes | 45.76 | 220 cm | 12 x 12 cm |
+| Poteaux carrés | Diamant | Sans | Avec pointes | 18.29 | 200 cm | 10 x 10 cm |
+| Poteaux carrés | Diamant | Sans | Avec pointes | 20.66 | 220 cm | 10 x 10 cm |
+| Poteaux carrés | Diamant | Sans | Avec pointes | 22.86 | 250 cm | 10 x 10 cm |
+| Poteaux carrés | Diamant | Sans | Avec pointes | 26.69 | 200 cm | 12 x 12 cm |
+| Poteaux carrés | Diamant | Sans | Avec pointes | 30.16 | 220 cm | 12 x 12 cm |
+| Poteaux carrés | Diamant | Sans | Avec pointes | 33.37 | 250 cm | 12 x 12 cm |
+| Poteaux carrés | Plate | Sans | Sans pointes | 16.89 | 200 cm | 10 x 10 cm |
+| Poteaux carrés | Plate | Sans | Sans pointes | 19.13 | 220 cm | 10 x 10 cm |
+| Poteaux carrés | Plate | Sans | Sans pointes | 21.1 | 250 cm | 10 x 10 cm |
+| Poteaux carrés | Plate | Sans | Sans pointes | 50.8 | 250 cm | 15 x 15 cm |
+| Poteaux ronds fraisés | Plate | Sans | Avec pointes | 12.13 | 180 cm | 10 cm |
+| Poteaux ronds fraisés | Plate | Sans | Avec pointes | 14.61 | 200 cm | 10 cm |
+| Poteaux ronds fraisés | Plate | Sans | Avec pointes | 15.51 | 225 cm | 10 cm |
+| Poteaux ronds fraisés | Plate | Sans | Avec pointes | 17.15 | 250 cm | 10 cm |
+| Poteaux ronds fraisés | Plate | Sans | Avec pointes | 20.05 | 200 cm | 12 cm |
+| Poteaux ronds fraisés | Plate | Sans | Avec pointes | 22.7 | 225 cm | 12 cm |
+| Poteaux ronds fraisés | Plate | Sans | Avec pointes | 24.09 | 250 cm | 12 cm |
+| Poteaux ronds fraisés | Plate | Sans | Avec pointes | 31.44 | 225 cm | 14 cm |
+| Piquets ronds fraisés | Plate | Sans | Avec pointes | 33.1 | 250 cm | 14 cm |
+| Rondins fraisés | — | — | Sans pointes | 18.66 | 500 cm | 10 cm |
+| Rondins fraisés | — | — | Sans pointes | 22.4 | 600 cm | 12 cm |
+| Rondins fraisés | — | — | Sans pointes | 26.87 | 500 cm | 10 cm |
+| Rondins fraisés | — | — | Sans pointes | 32.26 | 600 cm | 12 cm |
+| Demi rondins | — | — | — | 18.66 | 500 cm | 10 cm |
+| Demi rondins | — | — | — | 22.4 | 600 cm | 10 cm |
+| Demi rondins | — | — | — | 26.87 | 500 cm | 12 cm |
+| Demi rondins | — | — | — | 32.26 | 600 cm | 12 cm |
+| Lisses rectangulaires | — | — | — | 10.72 | 250 cm | 4 x 12 cm |
+| Lisses rectangulaires | — | — | — | 12.86 | 300 cm | 4 x 12 cm |
+| Lisses rectangulaires | — | — | — | 21.44 | 500 cm | 4 x 12 cm |
+| Planches | — | — | — | 46.85 | 500 cm | 4 x 25 cm |
+| Planches | — | — | — | 57.19 | 600 cm | 4 x 25 cm |
 
 ## Données structurées (JSON)
 
@@ -61,7 +61,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": "2",
     "info": "Avec pointes",
     "prix_unitaire_htva": 45.13,
-    "section": "12 x 12 cm"
+    "dimension": "220 cm",
+    "section": "12 x 12 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Poteaux carrés",
@@ -69,7 +71,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": "3",
     "info": "Avec pointes",
     "prix_unitaire_htva": 45.76,
-    "section": "12 x 12 cm"
+    "dimension": "220 cm",
+    "section": "12 x 12 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Poteaux carrés",
@@ -77,7 +81,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": "Sans",
     "info": "Avec pointes",
     "prix_unitaire_htva": 18.29,
-    "section": "10 x 10 cm"
+    "dimension": "200 cm",
+    "section": "10 x 10 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Poteaux carrés",
@@ -85,7 +91,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": "Sans",
     "info": "Avec pointes",
     "prix_unitaire_htva": 20.66,
-    "section": "10 x 10 cm"
+    "dimension": "220 cm",
+    "section": "10 x 10 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Poteaux carrés",
@@ -93,7 +101,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": "Sans",
     "info": "Avec pointes",
     "prix_unitaire_htva": 22.86,
-    "section": "10 x 10 cm"
+    "dimension": "250 cm",
+    "section": "10 x 10 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Poteaux carrés",
@@ -101,7 +111,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": "Sans",
     "info": "Avec pointes",
     "prix_unitaire_htva": 26.69,
-    "section": "12 x 12 cm"
+    "dimension": "200 cm",
+    "section": "12 x 12 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Poteaux carrés",
@@ -109,7 +121,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": "Sans",
     "info": "Avec pointes",
     "prix_unitaire_htva": 30.16,
-    "section": "12 x 12 cm"
+    "dimension": "220 cm",
+    "section": "12 x 12 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Poteaux carrés",
@@ -117,7 +131,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": "Sans",
     "info": "Avec pointes",
     "prix_unitaire_htva": 33.37,
-    "section": "12 x 12 cm"
+    "dimension": "250 cm",
+    "section": "12 x 12 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Poteaux carrés",
@@ -125,7 +141,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": "Sans",
     "info": "Sans pointes",
     "prix_unitaire_htva": 16.89,
-    "section": "10 x 10 cm"
+    "dimension": "200 cm",
+    "section": "10 x 10 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Poteaux carrés",
@@ -133,7 +151,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": "Sans",
     "info": "Sans pointes",
     "prix_unitaire_htva": 19.13,
-    "section": "10 x 10 cm"
+    "dimension": "220 cm",
+    "section": "10 x 10 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Poteaux carrés",
@@ -141,7 +161,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": "Sans",
     "info": "Sans pointes",
     "prix_unitaire_htva": 21.1,
-    "section": "10 x 10 cm"
+    "dimension": "250 cm",
+    "section": "10 x 10 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Poteaux carrés",
@@ -149,7 +171,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": "Sans",
     "info": "Sans pointes",
     "prix_unitaire_htva": 50.8,
-    "section": "15 x 15 cm"
+    "dimension": "250 cm",
+    "section": "15 x 15 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Poteaux ronds fraisés",
@@ -157,7 +181,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": "Sans",
     "info": "Avec pointes",
     "prix_unitaire_htva": 12.13,
-    "section": "10 cm"
+    "dimension": "180 cm",
+    "section": "10 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Poteaux ronds fraisés",
@@ -165,7 +191,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": "Sans",
     "info": "Avec pointes",
     "prix_unitaire_htva": 14.61,
-    "section": "10 cm"
+    "dimension": "200 cm",
+    "section": "10 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Poteaux ronds fraisés",
@@ -173,7 +201,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": "Sans",
     "info": "Avec pointes",
     "prix_unitaire_htva": 15.51,
-    "section": "10 cm"
+    "dimension": "225 cm",
+    "section": "10 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Poteaux ronds fraisés",
@@ -181,7 +211,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": "Sans",
     "info": "Avec pointes",
     "prix_unitaire_htva": 17.15,
-    "section": "10 cm"
+    "dimension": "250 cm",
+    "section": "10 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Poteaux ronds fraisés",
@@ -189,7 +221,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": "Sans",
     "info": "Avec pointes",
     "prix_unitaire_htva": 20.05,
-    "section": "12 cm"
+    "dimension": "200 cm",
+    "section": "12 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Poteaux ronds fraisés",
@@ -197,7 +231,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": "Sans",
     "info": "Avec pointes",
     "prix_unitaire_htva": 22.7,
-    "section": "12 cm"
+    "dimension": "225 cm",
+    "section": "12 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Poteaux ronds fraisés",
@@ -205,7 +241,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": "Sans",
     "info": "Avec pointes",
     "prix_unitaire_htva": 24.09,
-    "section": "12 cm"
+    "dimension": "250 cm",
+    "section": "12 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Poteaux ronds fraisés",
@@ -213,7 +251,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": "Sans",
     "info": "Avec pointes",
     "prix_unitaire_htva": 31.44,
-    "section": "14 cm"
+    "dimension": "225 cm",
+    "section": "14 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Piquets ronds fraisés",
@@ -221,7 +261,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": "Sans",
     "info": "Avec pointes",
     "prix_unitaire_htva": 33.1,
-    "section": "14 cm"
+    "dimension": "250 cm",
+    "section": "14 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Rondins fraisés",
@@ -229,7 +271,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": null,
     "info": "Sans pointes",
     "prix_unitaire_htva": 18.66,
-    "section": "10 cm"
+    "dimension": "500 cm",
+    "section": "10 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Rondins fraisés",
@@ -237,7 +281,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": null,
     "info": "Sans pointes",
     "prix_unitaire_htva": 22.4,
-    "section": "12 cm"
+    "dimension": "600 cm",
+    "section": "12 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Rondins fraisés",
@@ -245,7 +291,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": null,
     "info": "Sans pointes",
     "prix_unitaire_htva": 26.87,
-    "section": "10 cm"
+    "dimension": "500 cm",
+    "section": "10 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Rondins fraisés",
@@ -253,7 +301,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": null,
     "info": "Sans pointes",
     "prix_unitaire_htva": 32.26,
-    "section": "12 cm"
+    "dimension": "600 cm",
+    "section": "12 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Demi rondins",
@@ -261,7 +311,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": null,
     "info": null,
     "prix_unitaire_htva": 18.66,
-    "section": "10 cm"
+    "dimension": "500 cm",
+    "section": "10 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Demi rondins",
@@ -269,7 +321,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": null,
     "info": null,
     "prix_unitaire_htva": 22.4,
-    "section": "10 cm"
+    "dimension": "600 cm",
+    "section": "10 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Demi rondins",
@@ -277,7 +331,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": null,
     "info": null,
     "prix_unitaire_htva": 26.87,
-    "section": "12 cm"
+    "dimension": "500 cm",
+    "section": "12 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Demi rondins",
@@ -285,7 +341,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": null,
     "info": null,
     "prix_unitaire_htva": 32.26,
-    "section": "12 cm"
+    "dimension": "600 cm",
+    "section": "12 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Lisses rectangulaires",
@@ -293,7 +351,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": null,
     "info": null,
     "prix_unitaire_htva": 10.72,
-    "section": "4 x 12 cm"
+    "dimension": "250 cm",
+    "section": "4 x 12 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Lisses rectangulaires",
@@ -301,7 +361,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": null,
     "info": null,
     "prix_unitaire_htva": 12.86,
-    "section": "4 x 12 cm"
+    "dimension": "300 cm",
+    "section": "4 x 12 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Lisses rectangulaires",
@@ -309,7 +371,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": null,
     "info": null,
     "prix_unitaire_htva": 21.44,
-    "section": "4 x 12 cm"
+    "dimension": "500 cm",
+    "section": "4 x 12 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Planches",
@@ -317,7 +381,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": null,
     "info": null,
     "prix_unitaire_htva": 46.85,
-    "section": "4 x 25 cm"
+    "dimension": "500 cm",
+    "section": "4 x 25 cm",
+    "note": "Sur commande"
   },
   {
     "article": "Planches",
@@ -325,7 +391,9 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "mortaises": null,
     "info": null,
     "prix_unitaire_htva": 57.19,
-    "section": "4 x 25 cm"
+    "dimension": "600 cm",
+    "section": "4 x 25 cm",
+    "note": "Sur commande"
   }
 ]
 ```

@@ -1,9 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Loader2, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Loader2, AlertCircle } from "lucide-react";
 import { contactSchema } from "@/lib/validation";
 import { TextField, TextAreaField } from "@/components/forms/FormField";
+import { HoneypotField } from "@/components/forms/HoneypotField";
+import { readHoneypot, scrollToFirstFormError } from "@/lib/form-utils";
+import { FormSuccessPanel } from "@/components/ui/FormSuccessPanel";
 
 type Fields = {
   firstName: string;
@@ -34,12 +37,16 @@ export function ContactForm() {
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
       setFields((f) => ({ ...f, [key]: e.target.value }));
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setServerError(null);
     setEmailWarning(null);
 
-    const payload = { ...fields, phone: fields.phone || undefined };
+    const payload = {
+      ...fields,
+      phone: fields.phone || undefined,
+      _hp: readHoneypot(e.currentTarget),
+    };
     const parsed = contactSchema.safeParse(payload);
     if (!parsed.success) {
       const fieldErrors: Record<string, string> = {};
@@ -48,6 +55,7 @@ export function ContactForm() {
         if (typeof key === "string" && !fieldErrors[key]) fieldErrors[key] = issue.message;
       }
       setErrors(fieldErrors);
+      scrollToFirstFormError(e.currentTarget, fieldErrors);
       return;
     }
     setErrors({});
@@ -74,28 +82,21 @@ export function ContactForm() {
 
   if (success) {
     return (
-      <div className="rounded-card border border-sand-300 bg-white px-6 py-12 text-center shadow-card">
-        <CheckCircle2 className="mx-auto h-12 w-12 text-instock" aria-hidden="true" />
-        <h3 className="mt-4 font-display text-xl font-semibold text-forest-dark">
-          Message envoyé, merci !
-        </h3>
-        <p className="mx-auto mt-2 max-w-md text-bark-muted">
-          Nous avons bien reçu votre message et vous répondrons dans les meilleurs délais.
-        </p>
-        {emailWarning && (
-          <p className="mx-auto mt-4 max-w-md rounded-lg bg-onorder/10 p-3 text-sm text-onorder">
-            {emailWarning}
-          </p>
-        )}
-      </div>
+      <FormSuccessPanel
+        title="Message envoyé, merci !"
+        message="Nous avons bien reçu votre message et vous répondrons dans les meilleurs délais."
+        emailWarning={emailWarning}
+      />
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="space-y-4">
+    <form onSubmit={handleSubmit} noValidate className="relative space-y-4">
+      <HoneypotField />
       <div className="grid gap-4 sm:grid-cols-2">
         <TextField
           label="Prénom"
+          name="firstName"
           required
           autoComplete="given-name"
           value={fields.firstName}
@@ -104,6 +105,7 @@ export function ContactForm() {
         />
         <TextField
           label="Nom"
+          name="lastName"
           required
           autoComplete="family-name"
           value={fields.lastName}
@@ -114,6 +116,7 @@ export function ContactForm() {
       <div className="grid gap-4 sm:grid-cols-2">
         <TextField
           label="E-mail"
+          name="email"
           type="email"
           required
           autoComplete="email"
@@ -123,6 +126,7 @@ export function ContactForm() {
         />
         <TextField
           label="Téléphone (optionnel)"
+          name="phone"
           type="tel"
           autoComplete="tel"
           value={fields.phone}
@@ -132,6 +136,7 @@ export function ContactForm() {
       </div>
       <TextAreaField
         label="Message"
+        name="message"
         required
         rows={5}
         placeholder="Comment pouvons-nous vous aider ?"

@@ -13,7 +13,7 @@ import type { InstallationQuoteInput, ContactInput } from "@/lib/validation";
  * Required env (see .env.example):
  *   RESEND_API_KEY            Resend API key
  *   EMAIL_FROM                Verified sender, e.g. "Clôtures Morel <devis@clotures-morel.be>"
- *   QUOTE_NOTIFICATION_EMAIL  Where Nicolas receives notifications
+ *   QUOTE_NOTIFICATION_EMAIL  Nicolas inbox (Clotures-morel@outlook.com)
  *   EMAIL_TEST_REDIRECT       (optional) When set, EVERY recipient (admin and
  *                             client) is overridden with this address. Use for
  *                             testing only; leave empty in production.
@@ -166,6 +166,7 @@ export async function sendMaterialsQuoteEmails(
            ${row("Réf.", quote.reference)}
            ${row("Client", fullName)}
            ${row("Société", customer.company)}
+           ${row("N° TVA", customer.vatNumber)}
            ${row("E-mail", customer.email)}
            ${row("Téléphone", customer.phone)}
            ${row("Adresse", customer.address)}
@@ -224,6 +225,8 @@ export async function sendInstallationEmail(
         "Nouvelle demande de pose",
         `<table style="font-size:14px;">
           ${row("Client", fullName)}
+          ${row("Société", data.company)}
+          ${row("N° TVA", data.vatNumber)}
           ${row("E-mail", data.email)}
           ${row("Téléphone", data.phone)}
           ${row("Adresse chantier", data.projectAddress)}
@@ -264,7 +267,7 @@ export async function sendContactEmail(data: ContactInput): Promise<SendResult> 
   }
 
   try {
-    return sendViaResend(resend, {
+    const adminResult = await sendViaResend(resend, {
       from,
       to: recipient(admin),
       replyTo: data.email,
@@ -277,6 +280,19 @@ export async function sendContactEmail(data: ContactInput): Promise<SendResult> 
           ${row("Téléphone", data.phone)}
         </table>
         <p style="background:#f1ece2;padding:10px;border-radius:6px;margin-top:12px;">${escape(data.message)}</p>`,
+      ),
+    });
+    if (!adminResult.sent) return adminResult;
+
+    return sendViaResend(resend, {
+      from,
+      to: recipient(data.email),
+      subject: `Votre message — ${site.name}`,
+      html: layout(
+        `Merci ${escape(data.firstName)}, nous avons bien reçu votre message`,
+        `<p>Nous revenons vers vous dans les meilleurs délais.</p>
+         <p style="background:#f1ece2;padding:10px;border-radius:6px;margin-top:12px;color:#5b6b61;font-size:13px;">
+         <strong>Votre message :</strong><br/>${escape(data.message)}</p>`,
       ),
     });
   } catch (err) {

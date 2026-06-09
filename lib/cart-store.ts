@@ -10,12 +10,15 @@ interface CartState {
   items: CartItem[];
   /** Becomes true once the persisted state is rehydrated (avoids SSR mismatch). */
   hydrated: boolean;
+  /** Incremented to request opening the mobile cart drawer after add-to-cart. */
+  drawerOpenNonce: number;
   addItem: (productId: string, quantity?: number) => void;
   removeItem: (productId: string) => void;
   setQuantity: (productId: string, quantity: number) => void;
   increment: (productId: string) => void;
   decrement: (productId: string) => void;
   clear: () => void;
+  requestDrawerOpen: () => void;
   setHydrated: (value: boolean) => void;
 }
 
@@ -24,19 +27,24 @@ export const useCartStore = create<CartState>()(
     (set) => ({
       items: [],
       hydrated: false,
+      drawerOpenNonce: 0,
       addItem: (productId, quantity = 1) =>
         set((state) => {
+          const wasEmpty = state.items.length === 0;
           const existing = state.items.find((i) => i.productId === productId);
-          if (existing) {
-            return {
-              items: state.items.map((i) =>
+          const items = existing
+            ? state.items.map((i) =>
                 i.productId === productId
                   ? { ...i, quantity: i.quantity + quantity }
                   : i,
-              ),
-            };
-          }
-          return { items: [...state.items, { productId, quantity }] };
+              )
+            : [...state.items, { productId, quantity }];
+
+          return {
+            items,
+            // Ouvre le tiroir une seule fois, au premier article — pas à chaque ajout.
+            ...(wasEmpty ? { drawerOpenNonce: state.drawerOpenNonce + 1 } : {}),
+          };
         }),
       removeItem: (productId) =>
         set((state) => ({
@@ -68,6 +76,8 @@ export const useCartStore = create<CartState>()(
             .filter((i) => i.quantity > 0),
         })),
       clear: () => set({ items: [] }),
+      requestDrawerOpen: () =>
+        set((state) => ({ drawerOpenNonce: state.drawerOpenNonce + 1 })),
       setHydrated: (value) => set({ hydrated: value }),
     }),
     {

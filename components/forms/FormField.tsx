@@ -140,7 +140,7 @@ function FieldLabel({
 function FieldError({ id, error }: { id: string; error?: string }) {
   if (!error) return null;
   return (
-    <p id={id} className="mt-1 text-xs font-medium text-terracotta">
+    <p id={id} role="alert" className="mt-1 text-xs font-medium text-terracotta">
       {error}
     </p>
   );

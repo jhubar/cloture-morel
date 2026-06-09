@@ -3,9 +3,17 @@ import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { TAX_NOTE } from "@/lib/catalog";
 import { getFamilyById, getFamilyForCategory } from "@/lib/families";
+import { searchCatalog } from "@/lib/search";
 import { FamilyGrid } from "@/components/catalog/FamilyGrid";
 import { FamilyNav } from "@/components/catalog/FamilyNav";
-import { ProductCard } from "@/components/catalog/ProductCard";
+import { CategoryProductGrid } from "@/components/catalog/CategoryProductGrid";
+import { SearchResultsPanel } from "@/components/catalog/SearchResultsPanel";
+import {
+  groupCategoryProducts,
+  supportsVariantGrouping,
+} from "@/lib/product-variants";
+import { CatalogSearchBar } from "@/components/catalog/CatalogSearchBar";
+import { CatalogSearchStatus } from "@/components/catalog/CatalogSearchStatus";
 import { CartSummary } from "@/components/cart/CartSummary";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 
@@ -16,13 +24,16 @@ export const metadata: Metadata = {
 };
 
 interface CataloguePageProps {
-  // `famille` is the customer-facing entry; `category` is kept for backward
-  // compatibility with older deep links and resolves to its parent family.
-  searchParams: Promise<{ famille?: string; category?: string }>;
+  searchParams: Promise<{ famille?: string; category?: string; q?: string }>;
 }
 
 export default async function CataloguePage({ searchParams }: CataloguePageProps) {
-  const { famille, category } = await searchParams;
+  const { famille, category, q } = await searchParams;
+  const query = q?.trim() ?? "";
+  const hasSearch = query.length >= 2;
+  const landingSearchResults = hasSearch ? searchCatalog(query) : [];
+  const unknownFamily = Boolean(famille && !getFamilyById(famille) && !category);
+
   const activeFamily =
     (famille ? getFamilyById(famille) : undefined) ??
     (category ? getFamilyForCategory(category) : undefined) ??
@@ -41,15 +52,45 @@ export default async function CataloguePage({ searchParams }: CataloguePageProps
               Que recherchez-vous ?
             </h1>
             <p className="mt-3 max-w-2xl text-bark-muted">
-              Choisissez une famille de produits pour découvrir les références
-              correspondantes, puis composez votre devis matériaux. {TAX_NOTE}.
-              Les totaux affichés sont des estimations, sans engagement.
+              Recherchez une référence ou choisissez une famille de produits pour composer
+              votre devis matériaux. {TAX_NOTE}. Les totaux affichés sont des estimations,
+              sans engagement.
             </p>
+            <div className="mt-6 space-y-4">
+              <CatalogSearchBar />
+              {hasSearch && <CatalogSearchStatus />}
+            </div>
           </div>
         </div>
 
         <div className="mx-auto max-w-[88rem] px-4 py-10 sm:px-6 lg:px-8">
-          <FamilyGrid />
+          {unknownFamily && (
+            <p
+              role="status"
+              className="mb-6 rounded-lg border border-onorder/30 bg-onorder/10 px-4 py-3 text-sm text-bark"
+            >
+              Cette famille de produits est introuvable. Parcourez le catalogue ci-dessous
+              ou utilisez la recherche.
+            </p>
+          )}
+
+          {hasSearch ? (
+            <div className="space-y-10">
+              <SearchResultsPanel query={query} />
+              {landingSearchResults.length === 0 && (
+                <div>
+                  <h2 className="text-lg font-semibold text-forest-dark">
+                    Parcourez par famille
+                  </h2>
+                  <div className="mt-5">
+                    <FamilyGrid />
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <FamilyGrid />
+          )}
         </div>
 
         <CartDrawer />
@@ -65,7 +106,10 @@ export default async function CataloguePage({ searchParams }: CataloguePageProps
       <div className="border-b border-sand-300 bg-sage-soft/50">
         <div className="mx-auto max-w-[88rem] px-4 py-10 sm:px-6 lg:px-8">
           <nav aria-label="Fil d'ariane" className="text-sm text-bark-muted">
-            <Link href="/catalogue" className="hover:text-forest-dark">
+            <Link
+              href="/catalogue"
+              className="inline-flex min-h-11 items-center hover:text-forest-dark"
+            >
               Catalogue
             </Link>
             <span className="mx-2" aria-hidden="true">
@@ -84,11 +128,22 @@ export default async function CataloguePage({ searchParams }: CataloguePageProps
               {activeFamily.description} {TAX_NOTE}.
             </p>
           )}
+          <div className="mt-6 space-y-4">
+            <CatalogSearchBar
+              familyId={activeFamily.id}
+              placeholder={`Rechercher dans ${activeFamily.label}…`}
+            />
+            {hasSearch && (
+              <CatalogSearchStatus
+                familyId={activeFamily.id}
+                familyLabel={activeFamily.label}
+              />
+            )}
+          </div>
         </div>
       </div>
 
-      <div className="mx-auto max-w-[88rem] gap-8 px-4 py-10 sm:px-6 lg:grid lg:grid-cols-[240px_minmax(0,1fr)] lg:px-8 xl:grid-cols-[240px_minmax(0,1fr)_340px]">
-        {/* Mobile family picker */}
+      <div className="mx-auto max-w-[88rem] gap-8 px-4 py-10 sm:px-6 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:px-8 2xl:grid-cols-[220px_minmax(0,1fr)_300px]">
         <details className="mb-6 rounded-card border border-sand-300 bg-white lg:hidden">
           <summary className="flex cursor-pointer items-center justify-between px-4 py-3 font-medium text-forest-dark">
             Familles de produits
@@ -99,15 +154,39 @@ export default async function CataloguePage({ searchParams }: CataloguePageProps
           </div>
         </details>
 
-        {/* Desktop sidebar */}
         <div className="hidden lg:block">
           <FamilyNav activeId={activeFamily.id} />
         </div>
 
-        {/* Products grouped by sub-category */}
         <div className="min-w-0 space-y-10">
-          {activeFamily.categories.map((category) => {
+          {hasSearch ? (
+            <>
+              <SearchResultsPanel query={query} familyId={activeFamily.id} />
+              <p className="text-sm text-bark-muted">
+                <Link
+                  href={`/catalogue?q=${encodeURIComponent(query)}`}
+                  className="text-forest hover:underline"
+                >
+                  Élargir la recherche à tout le catalogue
+                </Link>
+              </p>
+            </>
+          ) : (
+          activeFamily.categories.map((category) => {
             const titleId = `category-${category.id}`;
+            const products = category.products;
+            const groups = groupCategoryProducts(category);
+            const itemCount = supportsVariantGrouping(category.format)
+              ? groups.length
+              : products.length;
+            const itemLabel = supportsVariantGrouping(category.format)
+              ? itemCount > 1
+                ? "articles"
+                : "article"
+              : itemCount > 1
+                ? "références"
+                : "référence";
+
             return (
               <section key={category.id} aria-labelledby={titleId}>
                 {showCategoryHeadings && (
@@ -116,8 +195,11 @@ export default async function CataloguePage({ searchParams }: CataloguePageProps
                       {category.title}
                     </h2>
                     <p className="mt-1 text-sm text-bark-muted">
-                      {category.products.length} référence
-                      {category.products.length > 1 ? "s" : ""}
+                      {itemCount} {itemLabel}
+                      {supportsVariantGrouping(category.format) &&
+                        products.length > itemCount && (
+                          <> ({products.length} déclinaisons)</>
+                        )}
                     </p>
                   </div>
                 )}
@@ -133,22 +215,17 @@ export default async function CataloguePage({ searchParams }: CataloguePageProps
                     </ul>
                   </details>
                 )}
-                <div className="grid gap-4 sm:grid-cols-2">
-                  {category.products.map((product) => (
-                    <ProductCard
-                      key={product.id}
-                      product={product}
-                      category={category}
-                    />
-                  ))}
-                </div>
+                <CategoryProductGrid
+                  category={category}
+                  familyId={activeFamily.id}
+                />
               </section>
             );
-          })}
+          })
+          )}
         </div>
 
-        {/* Desktop cart column */}
-        <div className="hidden xl:block">
+        <div className="hidden 2xl:block">
           <CartSummary />
         </div>
       </div>

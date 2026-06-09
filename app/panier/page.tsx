@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { PanierClient } from "@/components/cart/PanierClient";
 import { TAX_NOTE } from "@/lib/catalog";
+import { FaqSection } from "@/components/ui/FaqSection";
+import { salesFaq } from "@/lib/faq";
 
 export const metadata: Metadata = {
   title: "Demande de devis matériaux",
@@ -23,13 +25,23 @@ export default function PanierPage() {
           <p className="mt-3 max-w-2xl text-bark-muted">
             Vérifiez votre sélection, renseignez vos coordonnées et envoyez votre
             demande. {TAX_NOTE}. Il s’agit d’une demande de devis, sans engagement —
-            pas d’une commande en ligne.
+            pas d’une commande en ligne. Les frais de livraison, s’ils sont nécessaires,
+            seront précisés dans notre réponse selon votre adresse et les conditions
+            d’accès.
           </p>
         </div>
       </div>
 
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
         <PanierClient />
+        <div className="mt-14 border-t border-sand-300 pt-14">
+          <FaqSection
+            items={salesFaq}
+            contained={false}
+            title="Prix, livraison et devis"
+            description="Quelques précisions utiles avant d’envoyer votre demande."
+          />
+        </div>
       </div>
     </>
   );

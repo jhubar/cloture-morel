@@ -86,6 +86,7 @@ export interface MaterialsQuoteCustomer {
   firstName: string;
   lastName: string;
   company?: string;
+  vatNumber?: string;
   email: string;
   phone: string;
   address: string;
@@ -96,6 +97,8 @@ export interface MaterialsQuoteCustomer {
 export interface InstallationQuoteRequest {
   firstName: string;
   lastName: string;
+  company?: string;
+  vatNumber?: string;
   email: string;
   phone: string;
   projectAddress: string;
