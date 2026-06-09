@@ -51,6 +51,34 @@ async function getResend() {
   return new Resend(apiKey);
 }
 
+type ResendClient = NonNullable<Awaited<ReturnType<typeof getResend>>>;
+type EmailPayload = Parameters<ResendClient["emails"]["send"]>[0];
+
+/**
+ * Resend returns `{ data, error }` and does not throw on API errors — we must
+ * inspect `error` or failures stay invisible (empty dashboard, false success).
+ */
+async function sendViaResend(
+  resend: ResendClient,
+  payload: EmailPayload,
+): Promise<SendResult> {
+  const { data, error } = await resend.emails.send(payload);
+  if (error) {
+    console.error("[email] Resend API error", {
+      name: error.name,
+      message: error.message,
+      to: payload.to,
+      from: payload.from,
+    });
+    return {
+      sent: false,
+      warning: `L’envoi de l’e-mail a échoué (${error.message}).`,
+    };
+  }
+  console.info("[email] Sent", { id: data?.id, to: payload.to });
+  return { sent: true };
+}
+
 // --- HTML helpers ----------------------------------------------------------
 
 function layout(title: string, body: string): string {
@@ -126,8 +154,7 @@ export async function sendMaterialsQuoteEmails(
   </table>`;
 
   try {
-    // 1) Notification to Nicolas
-    await resend.emails.send({
+    const adminResult = await sendViaResend(resend, {
       from,
       to: recipient(admin),
       replyTo: customer.email,
@@ -149,9 +176,9 @@ export async function sendMaterialsQuoteEmails(
       ),
       attachments: [attachment],
     });
+    if (!adminResult.sent) return adminResult;
 
-    // 2) Confirmation to the client
-    await resend.emails.send({
+    const clientResult = await sendViaResend(resend, {
       from,
       to: recipient(customer.email),
       subject: `Votre demande de devis — ${site.name} (${quote.reference})`,
@@ -165,8 +192,7 @@ export async function sendMaterialsQuoteEmails(
       ),
       attachments: [attachment],
     });
-
-    return { sent: true };
+    return clientResult;
   } catch (err) {
     console.error("[email] Failed to send materials quote emails", err);
     return {
@@ -189,7 +215,7 @@ export async function sendInstallationEmail(
   }
 
   try {
-    await resend.emails.send({
+    const adminResult = await sendViaResend(resend, {
       from,
       to: recipient(admin),
       replyTo: data.email,
@@ -209,9 +235,9 @@ export async function sendInstallationEmail(
         ${data.message ? `<p style="background:#f1ece2;padding:10px;border-radius:6px;margin-top:12px;"><strong>Projet :</strong><br/>${escape(data.message)}</p>` : ""}`,
       ),
     });
+    if (!adminResult.sent) return adminResult;
 
-    // Optional client confirmation
-    await resend.emails.send({
+    return sendViaResend(resend, {
       from,
       to: recipient(data.email),
       subject: `Votre demande de pose — ${site.name}`,
@@ -222,8 +248,6 @@ export async function sendInstallationEmail(
          <p style="color:#5b6b61;font-size:13px;">Vous pouvez répondre à cet e-mail pour joindre des photos de votre terrain.</p>`,
       ),
     });
-
-    return { sent: true };
   } catch (err) {
     console.error("[email] Failed to send installation email", err);
     return { sent: false, warning: "L’envoi de l’e-mail a échoué, mais votre demande est enregistrée." };
@@ -240,7 +264,7 @@ export async function sendContactEmail(data: ContactInput): Promise<SendResult> 
   }
 
   try {
-    await resend.emails.send({
+    return sendViaResend(resend, {
       from,
       to: recipient(admin),
       replyTo: data.email,
@@ -255,7 +279,6 @@ export async function sendContactEmail(data: ContactInput): Promise<SendResult> 
         <p style="background:#f1ece2;padding:10px;border-radius:6px;margin-top:12px;">${escape(data.message)}</p>`,
       ),
     });
-    return { sent: true };
   } catch (err) {
     console.error("[email] Failed to send contact email", err);
     return { sent: false, warning: "L’envoi de l’e-mail a échoué, mais votre message est enregistré." };

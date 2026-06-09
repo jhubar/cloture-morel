@@ -52,6 +52,7 @@ export function InstallationQuoteForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
+  const [emailWarning, setEmailWarning] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
   const update =
@@ -62,6 +63,7 @@ export function InstallationQuoteForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setServerError(null);
+    setEmailWarning(null);
 
     const payload = {
       ...fields,
@@ -90,10 +92,11 @@ export function InstallationQuoteForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(parsed.data),
       });
+      const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
         throw new Error(data?.error ?? "Une erreur est survenue. Veuillez réessayer.");
       }
+      if (data?.emailWarning) setEmailWarning(data.emailWarning);
       setSuccess(true);
     } catch (err) {
       setServerError(err instanceof Error ? err.message : "Une erreur est survenue.");
@@ -113,6 +116,11 @@ export function InstallationQuoteForm() {
           Votre demande de pose a bien été transmise. Nous étudions votre projet et
           revenons vers vous rapidement pour organiser une visite ou un devis.
         </p>
+        {emailWarning && (
+          <p className="mx-auto mt-4 max-w-md rounded-lg bg-onorder/10 p-3 text-sm text-onorder">
+            {emailWarning}
+          </p>
+        )}
       </div>
     );
   }

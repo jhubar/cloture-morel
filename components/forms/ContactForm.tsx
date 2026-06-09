@@ -26,6 +26,7 @@ export function ContactForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
+  const [emailWarning, setEmailWarning] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
   const update =
@@ -36,6 +37,7 @@ export function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setServerError(null);
+    setEmailWarning(null);
 
     const payload = { ...fields, phone: fields.phone || undefined };
     const parsed = contactSchema.safeParse(payload);
@@ -57,10 +59,11 @@ export function ContactForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(parsed.data),
       });
+      const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
         throw new Error(data?.error ?? "Une erreur est survenue. Veuillez réessayer.");
       }
+      if (data?.emailWarning) setEmailWarning(data.emailWarning);
       setSuccess(true);
     } catch (err) {
       setServerError(err instanceof Error ? err.message : "Une erreur est survenue.");
@@ -79,6 +82,11 @@ export function ContactForm() {
         <p className="mx-auto mt-2 max-w-md text-bark-muted">
           Nous avons bien reçu votre message et vous répondrons dans les meilleurs délais.
         </p>
+        {emailWarning && (
+          <p className="mx-auto mt-4 max-w-md rounded-lg bg-onorder/10 p-3 text-sm text-onorder">
+            {emailWarning}
+          </p>
+        )}
       </div>
     );
   }
