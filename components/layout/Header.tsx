@@ -24,7 +24,7 @@ export function Header() {
           className="flex min-h-11 min-w-0 shrink items-center gap-2 py-1"
           aria-label={`${site.name} — accueil`}
         >
-          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-forest font-display text-lg font-semibold text-white">
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-terracotta font-display text-lg font-semibold text-white">
             M
           </span>
           <span className="truncate font-display text-base font-semibold text-forest-dark sm:text-lg">
@@ -38,8 +38,8 @@ export function Header() {
               key={item.href}
               href={item.href}
               className={cn(
-                "inline-flex min-h-11 items-center rounded-full px-3 text-sm font-medium transition-colors duration-200 hover:text-forest",
-                isActive(item.href) ? "text-forest" : "text-bark-muted",
+                "inline-flex min-h-11 items-center rounded-full px-3 text-sm font-medium transition-colors duration-200 hover:text-terracotta",
+                isActive(item.href) ? "text-terracotta" : "text-bark-muted",
               )}
             >
               {item.label}
@@ -51,7 +51,7 @@ export function Header() {
           <Link
             href="/panier"
             aria-label="Voir le panier"
-            className="relative grid h-11 w-11 shrink-0 place-items-center rounded-full text-bark-muted transition-colors hover:bg-sand-200 hover:text-forest"
+            className="relative grid h-11 w-11 shrink-0 place-items-center rounded-full text-bark-muted transition-colors hover:bg-sand-200 hover:text-terracotta"
           >
             <ShoppingCart className="h-5 w-5" aria-hidden="true" />
             <CartCountBadge />
@@ -87,7 +87,7 @@ export function Header() {
                 className={cn(
                   "block rounded-lg px-3 py-3 text-base font-medium",
                   isActive(item.href)
-                    ? "bg-sage-soft text-forest"
+                    ? "bg-terracotta/10 text-terracotta"
                     : "text-bark hover:bg-sand-200",
                 )}
               >

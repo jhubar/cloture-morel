@@ -15,7 +15,7 @@ interface CTASectionProps {
 /** Reusable conversion band used at the bottom of pages. */
 export function CTASection({ title, description, primary, secondary }: CTASectionProps) {
   return (
-    <section className="bg-forest">
+    <section className="bg-terracotta-dark">
       <div className="mx-auto flex max-w-6xl flex-col items-start gap-6 px-4 py-14 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
         <div className="max-w-2xl">
           <h2 className="text-2xl font-semibold text-white sm:text-3xl">{title}</h2>

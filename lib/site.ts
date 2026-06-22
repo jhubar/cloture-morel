@@ -4,7 +4,7 @@
 export const site = {
   name: "Clôtures Morel",
   legalName: "Clôtures et travaux Morel SRL",
-  tagline: "Vente et pose de clôtures",
+  tagline: "Vente, pose de clôtures et matériaux extérieurs",
   address: {
     street: "Rue d’Esneux 220",
     city: "4140 Sprimont",
@@ -24,7 +24,7 @@ export const site = {
     lines: [] as string[],
   },
   vatNumber: "BE 0707.588.769",
-  serviceArea: "Sprimont, Esneux, Liège et environs (province de Liège)",
+  serviceArea: "Toute la Belgique et pays limitrophes (France, Luxembourg, Allemagne, Pays-Bas)",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://clotures-morel.be",
   hosting: {
     name: "Vercel Inc.",
@@ -39,18 +39,17 @@ export const site = {
 
 export const mainNav = [
   { href: "/", label: "Accueil" },
-  { href: "/vente", label: "Vente matériaux" },
   { href: "/catalogue", label: "Catalogue" },
-  { href: "/panier", label: "Ma sélection" },
   { href: "/pose", label: "Pose" },
+  { href: "/materiel", label: "Notre matériel" },
   { href: "/contact", label: "Contact" },
 ] as const;
 
 export const footerLinks = {
   navigation: [
-    { href: "/vente", label: "Vente de matériaux" },
     { href: "/catalogue", label: "Catalogue produits" },
     { href: "/pose", label: "Pose de clôtures" },
+    { href: "/materiel", label: "Notre matériel" },
     { href: "/contact", label: "Contact" },
   ],
   quotes: [

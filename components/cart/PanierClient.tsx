@@ -178,7 +178,7 @@ export function PanierClient() {
           <button
             type="button"
             onClick={scrollToForm}
-            className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-forest px-5 text-sm font-semibold text-white hover:bg-forest-dark cursor-pointer"
+            className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-terracotta px-5 text-sm font-semibold text-white hover:bg-terracotta-dark cursor-pointer"
           >
             <ArrowDown className="h-4 w-4" aria-hidden="true" />
             Vers le formulaire

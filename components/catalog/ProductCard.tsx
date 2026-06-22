@@ -11,11 +11,11 @@ import {
   getProductDisplayTitle,
   getProductDisplaySubtitle,
 } from "@/lib/product-display";
-import { productFamilyImages } from "@/lib/assets";
+import { getCategoryImages } from "@/lib/assets";
 import { useCartStore } from "@/lib/cart-store";
 import { AvailabilityBadge } from "@/components/catalog/AvailabilityBadge";
 import { QuantityStepper } from "@/components/ui/QuantityStepper";
-import { ImageSlot } from "@/components/ui/ImageSlot";
+import { GalleryThumb, Lightbox } from "@/components/ui/Lightbox";
 import { cn } from "@/lib/utils";
 
 interface ProductCardProps {
@@ -28,19 +28,26 @@ interface ProductCardProps {
 export function ProductCard({
   product,
   category,
-  familyId,
   familyLabel,
 }: ProductCardProps) {
   const addItem = useCartStore((s) => s.addItem);
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
 
   const pricing = getProductPricing(product);
   const title = getProductDisplayTitle(product);
   const subtitle = getProductDisplaySubtitle(product);
   const detailRows = getProductDetailRows(product);
   const hasTruckPrice = isNumericPrice(product.prixCamionCompletHTVA);
-  const familyImage = familyId ? productFamilyImages[familyId] : undefined;
+
+  // Images propres à la catégorie (sous-dossier exact)
+  const catImages = getCategoryImages(category.id).map((s) => ({
+    src: s.src ?? "",
+    alt: s.alt,
+  })).filter((img) => img.src !== "");
+
   const unitNoun = pricing.isPalette
     ? quantity > 1
       ? "palettes"
@@ -59,16 +66,27 @@ export function ProductCard({
   if (familyLabel) metaParts.unshift(familyLabel);
 
   return (
-    <article className="flex h-full flex-col overflow-hidden rounded-card border border-sand-300 bg-white shadow-card">
-      {familyImage && (
-        <ImageSlot
-          slot={familyImage}
-          className="relative aspect-[16/10] border-b border-sand-200"
-          sizes="(max-width: 640px) 100vw, 400px"
-        />
+    <article className="min-w-0 overflow-hidden rounded-card border border-sand-300 bg-white shadow-card sm:flex sm:flex-row">
+      {catImages.length > 0 && (
+        <div className="relative w-full shrink-0 overflow-hidden border-b border-sand-200 sm:w-60 sm:border-b-0 sm:border-r md:w-72">
+          <div className="aspect-[16/10] sm:aspect-auto sm:h-full">
+            <GalleryThumb
+              images={catImages}
+              className="h-full w-full"
+              sizes="(max-width: 640px) 100vw, 288px"
+              onOpen={(i) => { setLightboxIndex(i); setLightboxOpen(true); }}
+            />
+            <Lightbox
+              images={catImages}
+              initialIndex={lightboxIndex}
+              open={lightboxOpen}
+              onClose={() => setLightboxOpen(false)}
+            />
+          </div>
+        </div>
       )}
 
-      <div className="flex flex-1 flex-col p-5 sm:p-6">
+      <div className="flex min-w-0 flex-1 flex-col p-5 sm:p-6">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <h3 className="text-lg font-semibold text-forest-dark">{title}</h3>

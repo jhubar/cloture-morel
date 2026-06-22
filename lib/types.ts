@@ -102,9 +102,19 @@ export interface InstallationQuoteRequest {
   email: string;
   phone: string;
   projectAddress: string;
-  fenceType: string;
-  approximateLength?: string;
-  terrain?: string;
+  projectLines: Array<{
+    familyId: string;
+    familyLabel: string;
+    categoryId: string;
+    categoryTitle: string;
+    productId: string;
+    productLabel: string;
+    article?: string;
+    variantSummary?: string;
+    lengthMeters: number;
+    notes?: string;
+  }>;
+  fenceRole?: string;
   timing?: string;
   message?: string;
 }

@@ -98,7 +98,7 @@ function CatalogSearchBarInner({
       <button
         type="submit"
         disabled={isPending || !canSubmit}
-        className="inline-flex min-h-11 shrink-0 items-center rounded-full bg-forest px-4 text-sm font-semibold text-white transition-colors hover:bg-forest-dark disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
+        className="inline-flex min-h-11 shrink-0 items-center rounded-full bg-terracotta px-4 text-sm font-semibold text-white transition-colors hover:bg-terracotta-dark disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
       >
         {isPending ? "…" : "Chercher"}
       </button>

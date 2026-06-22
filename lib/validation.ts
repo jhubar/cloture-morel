@@ -25,7 +25,7 @@ export const materialsQuoteSchema = z.object({
     vatNumber: optionalVatNumber,
     email: z.string().trim().email("Adresse e-mail invalide."),
     phone: requiredString("Le téléphone"),
-    address: requiredString("L’adresse"),
+    address: requiredString("L'adresse"),
     message: z.string().trim().max(2000).optional(),
   }),
   items: z
@@ -41,19 +41,54 @@ export const materialsQuoteSchema = z.object({
 
 export type MaterialsQuoteInput = z.infer<typeof materialsQuoteSchema>;
 
+export const projectLineSchema = z.object({
+  familyId: z.string().min(1),
+  familyLabel: z.string().min(1),
+  categoryId: z.string().min(1),
+  categoryTitle: z.string().min(1),
+  productId: z.string().min(1),
+  productLabel: z.string().min(1),
+  article: z.string().trim().optional(),
+  variantSummary: z.string().trim().optional(),
+  lengthMeters: z.number().positive().max(100_000),
+  notes: z.string().trim().max(500).optional(),
+});
+
+export type ProjectLineInput = z.infer<typeof projectLineSchema>;
+
 export const installationQuoteSchema = z.object({
+  // Contact
   firstName: requiredString("Le prénom"),
   lastName: requiredString("Le nom"),
   company: z.string().trim().optional(),
   vatNumber: optionalVatNumber,
   email: z.string().trim().email("Adresse e-mail invalide."),
   phone: requiredString("Le téléphone"),
-  projectAddress: requiredString("L’adresse du chantier"),
-  fenceType: requiredString("Le type de clôture"),
-  approximateLength: z.string().trim().optional(),
-  terrain: z.string().trim().optional(),
+  // Project
+  projectAddress: requiredString("L'adresse du chantier"),
+  projectLines: z
+    .array(projectLineSchema)
+    .min(1, "Ajoutez au moins une ligne de clôture."),
+  fenceRole: z.string().trim().optional(),
+  // Site conditions
+  hasBarriers: z.enum(["oui", "non", ""]).optional(),
+  barriersDetails: z.string().trim().optional(),
+  siteAccess: z.enum(["facile", "difficile", "inconnu", ""]).optional(),
+  terrainCleared: z.enum(["oui", "non", "partiel", ""]).optional(),
+  slope: z.enum(["plat", "leger", "important", ""]).optional(),
+  undergroundHazards: z.string().trim().max(1000).optional(),
+  // Photos (base64 data, max 5)
+  photos: z
+    .array(z.object({ name: z.string(), data: z.string(), type: z.string() }))
+    .max(5, "Maximum 5 photos.")
+    .optional(),
+  // Scheduling & notes
   timing: z.string().trim().optional(),
   message: z.string().trim().max(2000).optional(),
+  // Legal
+  disclaimerAccepted: z.literal(true, {
+    errorMap: () => ({ message: "Vous devez accepter les conditions de responsabilité." }),
+  }),
   _hp: z.string().optional(),
 });
 

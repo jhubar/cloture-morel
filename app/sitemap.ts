@@ -12,9 +12,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"];
   }[] = [
     { path: "/", priority: 1, changeFrequency: "monthly" },
-    { path: "/vente", priority: 0.9, changeFrequency: "monthly" },
     { path: "/catalogue", priority: 0.9, changeFrequency: "weekly" },
     { path: "/pose", priority: 0.9, changeFrequency: "monthly" },
+    { path: "/materiel", priority: 0.8, changeFrequency: "monthly" },
     { path: "/contact", priority: 0.7, changeFrequency: "yearly" },
     { path: "/mentions-legales", priority: 0.2, changeFrequency: "yearly" },
     ...getFamilies().map((family) => ({

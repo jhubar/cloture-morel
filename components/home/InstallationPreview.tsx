@@ -11,7 +11,7 @@ const steps = [
 /** Homepage teaser for the installation (pose) activity. */
 export function InstallationPreview() {
   return (
-    <section className="rounded-card bg-forest-dark px-6 py-12 text-sand sm:px-10">
+    <section className="rounded-card bg-[#2e1a0e] px-6 py-12 text-sand sm:px-10">
       <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
         <div>
           <p className="text-sm font-semibold uppercase tracking-wider text-sage">

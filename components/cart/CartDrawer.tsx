@@ -40,7 +40,7 @@ export function CartDrawer() {
       <Dialog.Trigger asChild>
         <button
           type="button"
-          className="fixed right-5 bottom-[calc(1.25rem+env(safe-area-inset-bottom,0px))] z-30 inline-flex max-w-[calc(100vw-2.5rem)] items-center gap-2 rounded-full bg-forest px-4 py-3 text-sm font-semibold text-white shadow-lg transition-colors hover:bg-forest-dark cursor-pointer 2xl:hidden sm:px-5"
+          className="fixed right-5 bottom-[calc(1.25rem+env(safe-area-inset-bottom,0px))] z-30 inline-flex max-w-[calc(100vw-2.5rem)] items-center gap-2 rounded-full bg-terracotta px-4 py-3 text-sm font-semibold text-white shadow-lg transition-colors hover:bg-terracotta-dark cursor-pointer 2xl:hidden sm:px-5"
         >
           <ShoppingCart className="h-5 w-5 shrink-0" aria-hidden="true" />
           <span className="flex min-w-0 flex-col items-start leading-tight sm:flex-row sm:items-center sm:gap-1.5">

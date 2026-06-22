@@ -30,7 +30,7 @@ export function ActivityChoiceCards() {
           href={href}
           className="group flex flex-col rounded-card border border-sand-300 bg-white p-8 shadow-card transition-colors duration-200 hover:border-forest/40 hover:bg-sage-soft/40 cursor-pointer"
         >
-          <span className="grid h-14 w-14 place-items-center rounded-2xl bg-forest text-white">
+          <span className="grid h-14 w-14 place-items-center rounded-2xl bg-terracotta text-white">
             <Icon className="h-7 w-7" aria-hidden="true" />
           </span>
           <h3 className="mt-6 text-2xl font-semibold text-forest-dark">{title}</h3>

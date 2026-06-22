@@ -5,11 +5,11 @@ import { SmartMaterialsQuoteLink } from "@/components/cart/SmartMaterialsQuoteLi
 
 export function Footer() {
   return (
-    <footer className="border-t border-sand-300 bg-forest-dark text-sand">
+    <footer className="border-t border-sand-300 bg-[#2e1a0e] text-sand">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-4 lg:px-8">
         <div className="lg:col-span-1">
           <div className="flex items-center gap-2">
-            <span className="grid h-9 w-9 place-items-center rounded-lg bg-sand text-forest-dark font-display text-lg font-semibold">
+            <span className="grid h-9 w-9 place-items-center rounded-lg bg-sand text-terracotta-dark font-display text-lg font-semibold">
               M
             </span>
             <span className="font-display text-lg font-semibold text-white">

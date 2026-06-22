@@ -1,5 +1,4 @@
 import type { Category, Product } from "@/lib/types";
-import { cn } from "@/lib/utils";
 import { ProductCard } from "@/components/catalog/ProductCard";
 import { ProductVariantCard } from "@/components/catalog/ProductVariantCard";
 
@@ -21,15 +20,8 @@ export function ProductListingGrid({
   groups,
   showFamilyContext = false,
 }: ProductListingGridProps) {
-  const hasConfigurator = groups.some((group) => group.variants.length > 1);
-
   return (
-    <ul
-      className={cn(
-        "grid list-none gap-6 p-0",
-        hasConfigurator ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2",
-      )}
-    >
+    <ul className="grid list-none gap-6 p-0 grid-cols-1">
       {groups.map((group) => (
         <li key={`${group.category.id}-${group.article}`} className="min-w-0">
           {group.variants.length > 1 ? (

@@ -22,7 +22,7 @@ export function QuoteCtaButton({ size = "md", className, onClick }: QuoteCtaButt
       className={className}
       onClick={onClick}
     >
-      {hasItems ? "Finaliser mon devis" : "Demander un devis"}
+      {hasItems ? "Ma sélection" : "Demander un devis"}
     </PrimaryButton>
   );
 }

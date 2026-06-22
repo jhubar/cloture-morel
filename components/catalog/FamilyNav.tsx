@@ -3,16 +3,25 @@ import { ArrowLeft } from "lucide-react";
 import { getFamilies } from "@/lib/families";
 import { cn } from "@/lib/utils";
 
+export interface SubCategoryItem {
+  id: string;
+  title: string;
+  productCount: number;
+}
+
 interface FamilyNavProps {
   activeId: string;
+  /** Sub-categories of the active family — rendered as anchor links below it. */
+  subCategories?: SubCategoryItem[];
 }
 
 /**
  * Sidebar for the family detail view: a short, plain-language list of the ~8
  * families (instead of the ~20 technical categories) plus a link back to the
- * family grid. Each entry sets ?famille= so the catalogue stays server-rendered.
+ * family grid. When a family is active and has multiple sub-categories, they are
+ * shown as indented anchor links so the visitor can jump directly to a section.
  */
-export function FamilyNav({ activeId }: FamilyNavProps) {
+export function FamilyNav({ activeId, subCategories }: FamilyNavProps) {
   const families = getFamilies();
 
   return (
@@ -27,6 +36,7 @@ export function FamilyNav({ activeId }: FamilyNavProps) {
       <ul className="space-y-0.5">
         {families.map((family) => {
           const active = family.id === activeId;
+          const showSubs = active && subCategories && subCategories.length > 1;
           return (
             <li key={family.id}>
               <Link
@@ -35,7 +45,7 @@ export function FamilyNav({ activeId }: FamilyNavProps) {
                 className={cn(
                   "flex min-h-11 items-center justify-between gap-2 rounded-lg px-3 text-sm transition-colors duration-200",
                   active
-                    ? "bg-forest text-white"
+                    ? "bg-terracotta text-white"
                     : "text-bark hover:bg-sand-200",
                 )}
               >
@@ -49,6 +59,24 @@ export function FamilyNav({ activeId }: FamilyNavProps) {
                   {family.productCount}
                 </span>
               </Link>
+
+              {/* Sub-categories as anchor jump links */}
+              {showSubs && (
+                <ul className="mt-1 ml-3 space-y-0.5 border-l-2 border-terracotta/25 pl-2">
+                  {subCategories!.map((sub) => (
+                    <li key={sub.id}>
+                      <a
+                        href={`#category-${sub.id}`}
+                        title={sub.title}
+                        className="flex min-h-9 items-center justify-between gap-2 rounded-md px-2 text-xs text-bark-muted transition-colors duration-150 hover:bg-terracotta/15 hover:text-terracotta-dark"
+                      >
+                        <span className="truncate leading-snug">{sub.title}</span>
+                        <span className="shrink-0 text-bark-muted/60">{sub.productCount}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </li>
           );
         })}

@@ -144,19 +144,31 @@ export default async function CataloguePage({ searchParams }: CataloguePageProps
       </div>
 
       <div className="mx-auto max-w-[88rem] gap-8 px-4 py-10 pb-[calc(6rem+env(safe-area-inset-bottom,0px))] sm:px-6 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:px-8 2xl:grid-cols-[220px_minmax(0,1fr)_300px] 2xl:pb-10">
-        <details className="mb-6 rounded-card border border-sand-300 bg-white lg:hidden">
-          <summary className="flex cursor-pointer items-center justify-between px-4 py-3 font-medium text-forest-dark">
-            Familles de produits
-            <ChevronDown className="h-4 w-4" aria-hidden="true" />
-          </summary>
-          <div className="border-t border-sand-200 px-2 py-3">
-            <FamilyNav activeId={activeFamily.id} />
-          </div>
-        </details>
+        {/* Sub-categories fed to both mobile accordion and desktop sidebar */}
+        {(() => {
+          const subCategories = activeFamily.categories.map((c) => ({
+            id: c.id,
+            title: c.title,
+            productCount: c.products.length,
+          }));
+          return (
+            <>
+              <details className="mb-6 rounded-card border border-sand-300 bg-white lg:hidden">
+                <summary className="flex cursor-pointer items-center justify-between px-4 py-3 font-medium text-forest-dark">
+                  Familles de produits
+                  <ChevronDown className="h-4 w-4" aria-hidden="true" />
+                </summary>
+                <div className="border-t border-sand-200 px-2 py-3">
+                  <FamilyNav activeId={activeFamily.id} subCategories={subCategories} />
+                </div>
+              </details>
 
-        <div className="hidden lg:block">
-          <FamilyNav activeId={activeFamily.id} />
-        </div>
+              <div className="hidden lg:block">
+                <FamilyNav activeId={activeFamily.id} subCategories={subCategories} />
+              </div>
+            </>
+          );
+        })()}
 
         <div className="min-w-0 space-y-10">
           {hasSearch ? (
@@ -188,7 +200,7 @@ export default async function CataloguePage({ searchParams }: CataloguePageProps
                 : "référence";
 
             return (
-              <section key={category.id} aria-labelledby={titleId}>
+              <section key={category.id} id={`category-${category.id}`} aria-labelledby={titleId} className="scroll-mt-24">
                 {showCategoryHeadings && (
                   <div className="mb-5">
                     <h2 id={titleId} className="text-xl font-semibold">
