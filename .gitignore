@@ -13,6 +13,9 @@
 # client source docs (Excel, generated markdown — catalog lives in data/)
 /doc/
 
+# raw client photos (optimized WebP live in public/images/site/)
+/phtoto-site/
+
 # misc
 .DS_Store
 *.pem
