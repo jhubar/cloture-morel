@@ -6,7 +6,6 @@ import { Check, Info, Lock, Plus } from "lucide-react";
 import type { Category, Product } from "@/lib/types";
 import { getCategoryById } from "@/lib/catalog";
 import {
-  buildDefaultSelection,
   findMatchingVariant,
   getAvailableValues,
   getVariantAxesForGroup,
@@ -16,9 +15,10 @@ import {
 import {
   EQUESTRE_ESSENCES,
   RAIL_COUNT_CHOICES,
+  RAIL_MAX_LENGTH_CM_FREE,
+  RAIL_MAX_LENGTH_CM_MORTISE,
   estimateFence,
   getEssence,
-  getMortiseCount,
   getPostOptions,
   getRailOptions,
   isEssenceAvailable,
@@ -33,31 +33,62 @@ import { OptionPicker } from "@/components/catalog/OptionPicker";
 import { useCartStore } from "@/lib/cart-store";
 import { cn } from "@/lib/utils";
 
+function parseDimensionCm(value: string): number {
+  const match = value.match(/(\d+)/);
+  return match ? Number.parseInt(match[1], 10) : 0;
+}
+
+function filterDimensionOptions(options: string[], maxCm?: number): string[] {
+  if (maxCm == null) return options;
+  return options.filter((opt) => parseDimensionCm(opt) <= maxCm);
+}
+
 /** Self-contained variant option picker reporting its resolved product upward. */
 function VariantPicker({
   category,
   group,
   onResolve,
   labelOverrides,
+  maxDimensionCm,
 }: {
   category: Category;
   group: ProductGroup;
   onResolve: (product: Product | null, summary: string) => void;
   /** Override axis labels by key (e.g. rail "dimension" → "Longueur"). */
   labelOverrides?: Record<string, string>;
+  /** Cap rail length options (sans mortaise → 600 cm, avec mortaises → 500 cm). */
+  maxDimensionCm?: number;
 }) {
   const format = category.format;
   const axes = useMemo(
     () => getVariantAxesForGroup(group.variants, format),
     [group, format],
   );
-  const [selection, setSelection] = useState<Record<string, string>>(() =>
-    buildDefaultSelection(group.variants, format),
+
+  const axisOptions = useCallback(
+    (axisKey: string, sel: Partial<Record<string, string>>) => {
+      const raw = getAvailableValues(group.variants, axisKey, sel, format);
+      return axisKey === "dimension"
+        ? filterDimensionOptions(raw, maxDimensionCm)
+        : raw;
+    },
+    [group, format, maxDimensionCm],
   );
 
+  const buildSelection = useCallback(() => {
+    const sel: Record<string, string> = {};
+    for (const axis of axes) {
+      const av = axisOptions(axis.key, sel);
+      if (av[0]) sel[axis.key] = av[0];
+    }
+    return sel;
+  }, [axes, axisOptions]);
+
+  const [selection, setSelection] = useState<Record<string, string>>(buildSelection);
+
   useEffect(() => {
-    setSelection(buildDefaultSelection(group.variants, format));
-  }, [group, format]);
+    setSelection(buildSelection());
+  }, [buildSelection]);
 
   const product = useMemo(
     () =>
@@ -76,7 +107,7 @@ function VariantPicker({
     const axisIndex = axes.findIndex((a) => a.key === key);
     for (let i = axisIndex + 1; i < axes.length; i += 1) {
       const axis = axes[i];
-      const available = getAvailableValues(group.variants, axis.key, next, format);
+      const available = axisOptions(axis.key, next);
       if (!available.includes(next[axis.key] ?? "")) {
         next[axis.key] = available[0] ?? "";
       }
@@ -94,10 +125,174 @@ function VariantPicker({
           label={labelOverrides?.[axis.key] ?? axis.label}
           name={`equestre-${category.id}-${axis.key}`}
           value={selection[axis.key] ?? null}
-          options={getAvailableValues(group.variants, axis.key, selection, format)}
+          options={axisOptions(axis.key, selection)}
           onChange={(value) => handleChange(axis.key, value)}
         />
       ))}
+    </div>
+  );
+}
+
+const POINTE_OPTIONS = ["Avec pointes", "Sans pointes"];
+const MORTAISE_COUNT_OPTIONS = ["2", "3", "4"];
+const MORTAISE_MODE_OPTIONS = ["Sans mortaise", "Avec mortaises"];
+// Core (price-defining) post axes resolved from real references, in order.
+const POST_CORE_AXES = ["tete", "section", "dimension"] as const;
+
+export interface PostResolve {
+  product: Product | null;
+  summary: string;
+  mortiseCount: number | null;
+  /** True when the chosen tête × pointe × mortaises combo has no priced SKU yet. */
+  priceTBD: boolean;
+}
+
+/**
+ * Dedicated post configurator: tête, section, longueur come from real
+ * references (cascaded), while "mortaises" and "pointe" are offered as
+ * independent choices (the client validated they are orderable in any
+ * combination). Combos without a priced reference resolve to the nearest
+ * base variant and flag `priceTBD` so the UI can show "tarif à confirmer".
+ */
+function PostConfigurator({
+  category,
+  group,
+  onResolve,
+}: {
+  category: Category;
+  group: ProductGroup;
+  onResolve: (payload: PostResolve) => void;
+}) {
+  const format = category.format;
+  const variants = group.variants;
+
+  const buildCore = useCallback(() => {
+    const s: Record<string, string> = {};
+    for (const key of POST_CORE_AXES) {
+      const av = getAvailableValues(variants, key, s, format);
+      if (av[0]) s[key] = av[0];
+    }
+    return s;
+  }, [variants, format]);
+
+  const [core, setCore] = useState<Record<string, string>>(buildCore);
+  const [mortaiseMode, setMortaiseMode] = useState("Sans mortaise");
+  const [mortaiseCount, setMortaiseCount] = useState("2");
+  const [pointe, setPointe] = useState("Avec pointes");
+
+  const mortaise = mortaiseMode === "Sans mortaise" ? "Sans" : mortaiseCount;
+
+  useEffect(() => {
+    setCore(buildCore());
+    setMortaiseMode("Sans mortaise");
+    setMortaiseCount("2");
+    setPointe("Avec pointes");
+  }, [buildCore]);
+
+  const handleCore = (key: string, value: string) => {
+    const next = { ...core, [key]: value };
+    const idx = POST_CORE_AXES.indexOf(key as (typeof POST_CORE_AXES)[number]);
+    for (let i = idx + 1; i < POST_CORE_AXES.length; i += 1) {
+      const axis = POST_CORE_AXES[i];
+      const av = getAvailableValues(variants, axis, next, format);
+      if (!av.includes(next[axis] ?? "")) next[axis] = av[0] ?? "";
+    }
+    setCore(next);
+  };
+
+  const base = useMemo(
+    () => findMatchingVariant(variants, core, format) ?? variants[0] ?? null,
+    [variants, core, format],
+  );
+  const exact = useMemo(
+    () =>
+      findMatchingVariant(
+        variants,
+        { ...core, mortaises: mortaise, info: pointe },
+        format,
+      ),
+    [variants, core, mortaise, pointe, format],
+  );
+
+  const product = exact ?? base;
+  const priceTBD = !exact;
+  const mortiseCount = mortaise === "Sans" ? null : Number(mortaise);
+
+  const summary = useMemo(
+    () =>
+      [
+        core.tete,
+        core.section,
+        core.dimension,
+        mortaise === "Sans" ? null : `${mortaise} mortaises`,
+        pointe,
+      ]
+        .filter(Boolean)
+        .join(" · "),
+    [core, mortaise, pointe],
+  );
+
+  useEffect(() => {
+    onResolve({ product, summary, mortiseCount, priceTBD });
+  }, [product, summary, mortiseCount, priceTBD, onResolve]);
+
+  const teteOptions = getAvailableValues(variants, "tete", {}, format);
+
+  return (
+    <div className="space-y-4">
+      <OptionPicker
+        label="Mortaises"
+        name={`equestre-${category.id}-mortaise-mode`}
+        value={mortaiseMode}
+        options={MORTAISE_MODE_OPTIONS}
+        onChange={setMortaiseMode}
+      />
+      {mortaiseMode === "Avec mortaises" && (
+        <OptionPicker
+          label="Nombre de mortaises"
+          name={`equestre-${category.id}-mortaise-count`}
+          value={mortaiseCount}
+          options={MORTAISE_COUNT_OPTIONS}
+          onChange={setMortaiseCount}
+        />
+      )}
+      <div className="grid gap-4 sm:grid-cols-2">
+        {teteOptions.length > 1 && (
+          <OptionPicker
+            label="Tête"
+            name={`equestre-${category.id}-tete`}
+            value={core.tete ?? null}
+            options={teteOptions}
+            onChange={(v) => handleCore("tete", v)}
+          />
+        )}
+        <OptionPicker
+          label="Section"
+          name={`equestre-${category.id}-section`}
+          value={core.section ?? null}
+          options={getAvailableValues(variants, "section", { tete: core.tete }, format)}
+          onChange={(v) => handleCore("section", v)}
+        />
+        <OptionPicker
+          label="Hauteur"
+          name={`equestre-${category.id}-dimension`}
+          value={core.dimension ?? null}
+          options={getAvailableValues(
+            variants,
+            "dimension",
+            { tete: core.tete, section: core.section },
+            format,
+          )}
+          onChange={(v) => handleCore("dimension", v)}
+        />
+        <OptionPicker
+          label="Pointe du pied"
+          name={`equestre-${category.id}-pointe`}
+          value={pointe}
+          options={POINTE_OPTIONS}
+          onChange={setPointe}
+        />
+      </div>
     </div>
   );
 }
@@ -147,6 +342,8 @@ export function EquestreFenceBuilder({
 
   const [postProduct, setPostProduct] = useState<Product | null>(null);
   const [postSummary, setPostSummary] = useState("");
+  const [postMortiseCount, setPostMortiseCount] = useState<number | null>(null);
+  const [postPriceTBD, setPostPriceTBD] = useState(false);
   const [railProduct, setRailProduct] = useState<Product | null>(null);
   const [railSummary, setRailSummary] = useState("");
 
@@ -160,8 +357,14 @@ export function EquestreFenceBuilder({
   const postOption = postOptions[postIndex] ?? postOptions[0];
   const postCategory = postOption ? getCategoryById(postOption.categoryId) : undefined;
 
-  const mortiseCount = getMortiseCount(postProduct);
+  const mortiseCount = postMortiseCount;
   const isMortise = mortiseCount !== null;
+
+  const postPreviewImage = useMemo(() => {
+    if (!postOption) return undefined;
+    if (isMortise && postOption.imageMortise?.src) return postOption.imageMortise;
+    return postOption.image;
+  }, [postOption, isMortise]);
 
   // Rail option: imposed for mortise posts, chosen otherwise.
   const effectiveRailOption = useMemo(() => {
@@ -195,9 +398,11 @@ export function EquestreFenceBuilder({
     estimate.postCount !== null &&
     estimate.railPieces !== null;
 
-  const handlePostResolve = useCallback((product: Product | null, summary: string) => {
-    setPostProduct(product);
-    setPostSummary(summary);
+  const handlePostResolve = useCallback((payload: PostResolve) => {
+    setPostProduct(payload.product);
+    setPostSummary(payload.summary);
+    setPostMortiseCount(payload.mortiseCount);
+    setPostPriceTBD(payload.priceTBD);
   }, []);
 
   const handleRailResolve = useCallback((product: Product | null, summary: string) => {
@@ -355,12 +560,20 @@ export function EquestreFenceBuilder({
             ))}
           </div>
         )}
-        {postOption?.image?.src && (
+        {postCategory && postOption && (
+          <PostConfigurator
+            key={`post-${postOption.categoryId}-${postOption.group.article}`}
+            category={postCategory}
+            group={postOption.group}
+            onResolve={handlePostResolve}
+          />
+        )}
+        {postPreviewImage?.src && (
           <figure className="overflow-hidden rounded-card border border-sand-300 bg-sand-50">
             <div className="relative aspect-[4/3] w-full max-w-sm">
               <Image
-                src={postOption.image.src}
-                alt={postOption.image.alt}
+                src={postPreviewImage.src}
+                alt={postPreviewImage.alt}
                 fill
                 className="object-cover"
                 sizes="(max-width: 640px) 100vw, 384px"
@@ -368,13 +581,14 @@ export function EquestreFenceBuilder({
             </div>
           </figure>
         )}
-        {postCategory && postOption && (
-          <VariantPicker
-            key={`post-${postOption.categoryId}-${postOption.group.article}`}
-            category={postCategory}
-            group={postOption.group}
-            onResolve={handlePostResolve}
-          />
+        {postPriceTBD && (
+          <p className="flex items-start gap-2 rounded-lg border border-onorder/30 bg-onorder/10 px-3 py-2 text-sm text-bark">
+            <Info className="mt-0.5 h-4 w-4 shrink-0 text-onorder" aria-hidden="true" />
+            <span>
+              Cette combinaison est réalisable mais son tarif n&apos;est pas
+              encore renseigné : <strong>prix à confirmer</strong> lors de l&apos;étude.
+            </span>
+          </p>
         )}
       </fieldset>
 
@@ -389,7 +603,7 @@ export function EquestreFenceBuilder({
             <Lock className="mt-0.5 h-4 w-4 shrink-0 text-terracotta" aria-hidden="true" />
             <span>
               Poteau à <strong>{mortiseCount} mortaises</strong> : la lisse{" "}
-              <strong>{effectiveRailOption?.group.article}</strong> est imposée
+              <strong>{effectiveRailOption?.label}</strong> est imposée
               (elle s&apos;emboîte dans les mortaises), soit{" "}
               <strong>{mortiseCount} rangs</strong>.
             </span>
@@ -427,11 +641,14 @@ export function EquestreFenceBuilder({
 
         {railCategory && effectiveRailOption && (
           <VariantPicker
-            key={`rail-${effectiveRailOption.categoryId}-${effectiveRailOption.group.article}`}
+            key={`rail-${effectiveRailOption.categoryId}-${effectiveRailOption.group.article}-${isMortise ? "m" : "f"}`}
             category={railCategory}
             group={effectiveRailOption.group}
             onResolve={handleRailResolve}
             labelOverrides={{ dimension: "Longueur" }}
+            maxDimensionCm={
+              isMortise ? RAIL_MAX_LENGTH_CM_MORTISE : RAIL_MAX_LENGTH_CM_FREE
+            }
           />
         )}
       </fieldset>
@@ -469,7 +686,7 @@ export function EquestreFenceBuilder({
               {postSummary && <span className="text-bark-muted"> ({postSummary})</span>}
             </li>
             <li>
-              <strong>{estimate.railPieces}</strong> lisses — {effectiveRailOption?.group.article}
+              <strong>{estimate.railPieces}</strong> lisses — {effectiveRailOption?.label}
               {railSummary && <span className="text-bark-muted"> ({railSummary})</span>}
               {" · "}
               {railCount} rang{railCount > 1 ? "s" : ""}

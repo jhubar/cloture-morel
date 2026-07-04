@@ -28,15 +28,12 @@ export interface PostOptionDef {
   /** Display label (defaults to the article name). */
   label?: string;
   /**
-   * When true, only keep mortise variants (drops the "Sans" / flat-head ones).
-   * Used for the "tête diamant avec mortaises" post which is mortise-only.
-   */
-  mortiseOnly?: boolean;
-  /**
    * Photo number (matching the file in the category gallery) shown as a preview
    * to help the buyer identify the post type.
    */
   previewImage?: number;
+  /** Preview when mortaises are selected (public /images/... path). */
+  mortisePreviewSrc?: string;
 }
 
 export interface EssenceConfig {
@@ -74,15 +71,16 @@ export const EQUESTRE_ESSENCES: EssenceConfig[] = [
       {
         categoryId: "nobifix-poteaux-carres",
         article: "Poteaux carrés",
-        label: "Poteaux carrés tête diamant avec mortaises",
-        mortiseOnly: true,
+        label: "Poteaux carrés",
         previewImage: 1,
       },
       {
         categoryId: "nobifix-poteaux-ronds",
         article: "Poteaux ronds fraisés",
-        label: "Poteaux",
+        label: "Poteaux ronds",
         previewImage: 1,
+        mortisePreviewSrc:
+          "/images/site/realisations-de-clotures-par-clotures-et-travaux-morel-photos-a-fournir/19.webp",
       },
     ],
     railCategoryIds: ["nobifix-lisses", "nobifix-demi-rondins", "nobifix-autres"],
@@ -114,6 +112,8 @@ export interface PartOption {
   group: ProductGroup;
   /** Optional preview photo to help identify the option. */
   image?: ImageSlot;
+  /** Preview when the post is configured with mortaises. */
+  imageMortise?: ImageSlot;
 }
 
 /** Post choices for an essence, resolved to real product groups (skips empties). */
@@ -122,30 +122,43 @@ export function getPostOptions(essence: EssenceConfig): PartOption[] {
   for (const def of essence.postOptions) {
     const category = getCategoryById(def.categoryId);
     if (!category || category.products.length === 0) continue;
-    const found = groupCategoryProducts(category).find(
+    const group = groupCategoryProducts(category).find(
       (g) => g.article === def.article,
     );
-    if (!found) continue;
-    const variants = def.mortiseOnly
-      ? found.variants.filter((v) => getMortiseCount(v) !== null)
-      : found.variants;
-    if (variants.length === 0) continue;
+    if (!group) continue;
     const image =
       def.previewImage != null
         ? getCategoryImages(def.categoryId).find((s) =>
             s.src?.endsWith(`/${def.previewImage}.webp`),
           )
         : undefined;
+    const imageMortise = def.mortisePreviewSrc
+      ? {
+          src: def.mortisePreviewSrc,
+          alt: `${def.label ?? group.article} avec mortaises`,
+          hint: def.mortisePreviewSrc,
+        }
+      : undefined;
     result.push({
       categoryId: def.categoryId,
       categoryTitle: category.title,
-      label: def.label ?? found.article,
-      group: { ...found, variants },
+      label: def.label ?? group.article,
+      group,
       image,
+      imageMortise,
     });
   }
   return result;
 }
+
+/** Articles excluded from the guided builder rail picker (still in catalogue). */
+const BUILDER_EXCLUDED_RAIL_ARTICLES = new Set(["Planches"]);
+
+/** Display labels for rail articles in the guided builder. */
+const RAIL_LABEL_OVERRIDES: Record<string, string> = {
+  "Lisses rectangulaires": "Rails",
+  "Rondins fraisés": "Lisses rondes fraisées",
+};
 
 /** Rail choices for an essence: every article group in its rail categories. */
 export function getRailOptions(essence: EssenceConfig): PartOption[] {
@@ -154,10 +167,11 @@ export function getRailOptions(essence: EssenceConfig): PartOption[] {
     const category = getCategoryById(id);
     if (!category || category.products.length === 0) continue;
     for (const group of groupCategoryProducts(category)) {
+      if (BUILDER_EXCLUDED_RAIL_ARTICLES.has(group.article)) continue;
       result.push({
         categoryId: id,
         categoryTitle: category.title,
-        label: group.article,
+        label: RAIL_LABEL_OVERRIDES[group.article] ?? group.article,
         group,
       });
     }
@@ -223,6 +237,12 @@ export function estimateFence(
 
 /** Allowed rail-count choices for a round/flat post. */
 export const RAIL_COUNT_CHOICES = [2, 3, 4, 5];
+
+/** Max rail length (cm) when the post has mortaises (rectangular rails only). */
+export const RAIL_MAX_LENGTH_CM_MORTISE = 500;
+/** Max rail length (cm) when the post has no mortaises. */
+export const RAIL_MAX_LENGTH_CM_FREE = 600;
+
 
 /** Resolved selection produced by the builder. */
 export interface EquestreSelectionPart {
