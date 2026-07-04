@@ -20,7 +20,7 @@ export function OptionPicker({
   onChange,
   className,
 }: OptionPickerProps) {
-  if (options.length === 0) return null;
+  if (!options?.length) return null;
 
   return (
     <fieldset className={cn("min-w-0 space-y-2.5", className)}>

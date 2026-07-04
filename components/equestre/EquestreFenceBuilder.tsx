@@ -18,11 +18,12 @@ import {
   RAIL_MAX_LENGTH_CM_MORTISE,
   estimateFence,
   getEssence,
-  getMortiseRailCategoryIds,
+  getSelectableRailOptions,
   getPostOptions,
   getRailOptions,
   isEssenceAvailable,
   resolvePostCategory,
+  type HeadStyleRule,
   resolveRailCategory,
   type EquestreBuildResult,
   type EssenceConfig,
@@ -161,61 +162,131 @@ function PostConfigurator({
   group,
   onResolve,
   mortaiseCountOptions = MORTAISE_COUNT_OPTIONS,
+  mortisePostsOnly = false,
+  mortisedConstraints,
+  headStyleRules,
 }: {
   category: Category;
   group: ProductGroup;
   onResolve: (payload: PostResolve) => void;
   mortaiseCountOptions?: string[];
+  mortisePostsOnly?: boolean;
+  mortisedConstraints?: { tete?: string; section?: string };
+  headStyleRules?: { options: HeadStyleRule[] };
 }) {
   const format = category.format;
   const variants = group.variants;
 
+  const headStyleOptions = headStyleRules?.options ?? [];
+  const [headStyleId, setHeadStyleId] = useState(headStyleOptions[0]?.id ?? "");
+  const selectedHeadStyle = useMemo(
+    () => headStyleOptions.find((o) => o.id === headStyleId) ?? headStyleOptions[0],
+    [headStyleOptions, headStyleId],
+  );
+
+  const requiresMortises = Boolean(selectedHeadStyle?.requiresMortises);
+  const sansMortaiseOnly = Boolean(selectedHeadStyle?.sansMortaiseOnly);
+  const effectiveMortisePostsOnly = mortisePostsOnly || requiresMortises;
+  const effectiveMortaiseCountOptions =
+    selectedHeadStyle?.mortaiseCountOptions ?? mortaiseCountOptions;
+  const effectiveMortisedConstraints = useMemo(() => {
+    if (requiresMortises && selectedHeadStyle?.mortisedConstraints) {
+      return selectedHeadStyle.mortisedConstraints;
+    }
+    return mortisedConstraints;
+  }, [requiresMortises, selectedHeadStyle, mortisedConstraints]);
+
+  const [mortaiseMode, setMortaiseMode] = useState(
+    effectiveMortisePostsOnly ? "Avec mortaises" : "Sans mortaise",
+  );
+  const [mortaiseCount, setMortaiseCount] = useState(
+    effectiveMortaiseCountOptions[0] ?? "2",
+  );
+  const [pointe, setPointe] = useState("Avec pointes");
+
+  useEffect(() => {
+    if (requiresMortises) setMortaiseMode("Avec mortaises");
+    else if (sansMortaiseOnly) setMortaiseMode("Sans mortaise");
+    setMortaiseCount(effectiveMortaiseCountOptions[0] ?? "2");
+  }, [headStyleId, requiresMortises, sansMortaiseOnly, effectiveMortaiseCountOptions]);
+
+  const mortaise = mortaiseMode === "Sans mortaise" ? "Sans" : mortaiseCount;
+  const isMortised = mortaise !== "Sans";
+
+  const activeVariants = useMemo(() => {
+    let pool = variants;
+    if (selectedHeadStyle) {
+      pool = pool.filter((v) => v.details?.tete === selectedHeadStyle.tete);
+    }
+    if (!isMortised) {
+      return pool.filter((v) => v.details?.mortaises === "Sans");
+    }
+    return pool.filter((v) => v.details?.mortaises === mortaise);
+  }, [variants, selectedHeadStyle, mortaise, isMortised]);
+
+  const variantPool = activeVariants.length > 0 ? activeVariants : variants;
+
   const buildCore = useCallback(() => {
     const s: Record<string, string> = {};
     for (const key of POST_CORE_AXES) {
-      const av = getAvailableValues(variants, key, s, format);
+      const av = getAvailableValues(variantPool, key, s, format);
       if (av[0]) s[key] = av[0];
     }
+    if (isMortised && effectiveMortisedConstraints) {
+      if (effectiveMortisedConstraints.tete) s.tete = effectiveMortisedConstraints.tete;
+      if (effectiveMortisedConstraints.section) s.section = effectiveMortisedConstraints.section;
+    }
     return s;
-  }, [variants, format]);
+  }, [variantPool, format, isMortised, effectiveMortisedConstraints]);
 
   const [core, setCore] = useState<Record<string, string>>(buildCore);
-  const [mortaiseMode, setMortaiseMode] = useState("Sans mortaise");
-  const [mortaiseCount, setMortaiseCount] = useState("2");
-  const [pointe, setPointe] = useState("Avec pointes");
-
-  const mortaise = mortaiseMode === "Sans mortaise" ? "Sans" : mortaiseCount;
 
   useEffect(() => {
     setCore(buildCore());
-    setMortaiseMode("Sans mortaise");
-    setMortaiseCount("2");
-    setPointe("Avec pointes");
   }, [buildCore]);
 
+  const effectiveCore = useMemo(() => {
+    if (!isMortised || !effectiveMortisedConstraints) return core;
+    return {
+      ...core,
+      ...(effectiveMortisedConstraints.tete ? { tete: effectiveMortisedConstraints.tete } : {}),
+      ...(effectiveMortisedConstraints.section
+        ? { section: effectiveMortisedConstraints.section }
+        : {}),
+    };
+  }, [core, isMortised, effectiveMortisedConstraints]);
+
   const handleCore = (key: string, value: string) => {
+    if (
+      isMortised &&
+      effectiveMortisedConstraints &&
+      key in effectiveMortisedConstraints &&
+      effectiveMortisedConstraints[key as keyof typeof effectiveMortisedConstraints]
+    ) {
+      return;
+    }
     const next = { ...core, [key]: value };
     const idx = POST_CORE_AXES.indexOf(key as (typeof POST_CORE_AXES)[number]);
     for (let i = idx + 1; i < POST_CORE_AXES.length; i += 1) {
       const axis = POST_CORE_AXES[i];
-      const av = getAvailableValues(variants, axis, next, format);
+      const av = getAvailableValues(variantPool, axis, next, format);
       if (!av.includes(next[axis] ?? "")) next[axis] = av[0] ?? "";
     }
     setCore(next);
   };
 
   const base = useMemo(
-    () => findMatchingVariant(variants, core, format) ?? variants[0] ?? null,
-    [variants, core, format],
+    () => findMatchingVariant(variantPool, effectiveCore, format) ?? variantPool[0] ?? null,
+    [variantPool, effectiveCore, format],
   );
   const exact = useMemo(
     () =>
       findMatchingVariant(
-        variants,
-        { ...core, mortaises: mortaise, info: pointe },
+        variantPool,
+        { ...effectiveCore, mortaises: mortaise, info: pointe },
         format,
       ),
-    [variants, core, mortaise, pointe, format],
+    [variantPool, effectiveCore, mortaise, pointe, format],
   );
 
   const product = exact ?? base;
@@ -225,66 +296,114 @@ function PostConfigurator({
   const summary = useMemo(
     () =>
       [
-        core.tete,
-        core.section,
-        core.dimension,
+        selectedHeadStyle?.label ?? effectiveCore.tete,
+        effectiveCore.section,
+        effectiveCore.dimension,
         mortaise === "Sans" ? null : `${mortaise} mortaises`,
         pointe,
       ]
         .filter(Boolean)
         .join(" · "),
-    [core, mortaise, pointe],
+    [selectedHeadStyle, effectiveCore, mortaise, pointe],
   );
 
   useEffect(() => {
     onResolve({ product, summary, mortiseCount, priceTBD });
   }, [product, summary, mortiseCount, priceTBD, onResolve]);
 
-  const teteOptions = getAvailableValues(variants, "tete", {}, format);
+  const sectionOptions = getAvailableValues(
+    variantPool,
+    "section",
+    { tete: effectiveCore.tete },
+    format,
+  );
+  const showLockedMortiseSpecs =
+    isMortised &&
+    Boolean(
+      effectiveMortisedConstraints?.tete ||
+        effectiveMortisedConstraints?.section ||
+        selectedHeadStyle?.label,
+    );
+  const showMortaiseModePicker =
+    !effectiveMortisePostsOnly && !requiresMortises && !sansMortaiseOnly;
 
   return (
     <div className="space-y-4">
-      <OptionPicker
-        label="Mortaises"
-        name={`equestre-${category.id}-mortaise-mode`}
-        value={mortaiseMode}
-        options={MORTAISE_MODE_OPTIONS}
-        onChange={setMortaiseMode}
-      />
-      {mortaiseMode === "Avec mortaises" && (
+      {headStyleOptions.length > 1 && (
+        <OptionPicker
+          label="Tête"
+          name={`equestre-${category.id}-head-style`}
+          value={selectedHeadStyle?.label ?? null}
+          options={headStyleOptions.map((o) => o.label)}
+          onChange={(label) => {
+            const next = headStyleOptions.find((o) => o.label === label);
+            if (next) setHeadStyleId(next.id);
+          }}
+        />
+      )}
+      {showMortaiseModePicker && (
+        <OptionPicker
+          label="Mortaises"
+          name={`equestre-${category.id}-mortaise-mode`}
+          value={mortaiseMode}
+          options={MORTAISE_MODE_OPTIONS}
+          onChange={setMortaiseMode}
+        />
+      )}
+      {(effectiveMortisePostsOnly || mortaiseMode === "Avec mortaises") && (
         <OptionPicker
           label="Nombre de mortaises"
           name={`equestre-${category.id}-mortaise-count`}
           value={mortaiseCount}
-          options={mortaiseCountOptions}
+          options={effectiveMortaiseCountOptions}
           onChange={setMortaiseCount}
         />
       )}
+      {showLockedMortiseSpecs && (
+        <div className="flex items-start gap-2 rounded-lg border border-terracotta/30 bg-terracotta/5 px-3 py-2 text-sm text-bark">
+          <Lock className="mt-0.5 h-4 w-4 shrink-0 text-terracotta" aria-hidden="true" />
+          <span>
+            Poteau à mortaises :{" "}
+            <strong>{selectedHeadStyle?.label ?? effectiveMortisedConstraints?.tete}</strong>
+            {effectiveMortisedConstraints?.section && (
+              <>
+                {" "}
+                · section <strong>{effectiveMortisedConstraints.section}</strong>
+              </>
+            )}
+            .
+          </span>
+        </div>
+      )}
       <div className="grid gap-4 sm:grid-cols-2">
-        {teteOptions.length > 1 && (
+        {!(headStyleOptions.length > 1) &&
+          getAvailableValues(variantPool, "tete", {}, format).length > 1 &&
+          !(isMortised && effectiveMortisedConstraints?.tete) && (
+            <OptionPicker
+              label="Tête"
+              name={`equestre-${category.id}-tete`}
+              value={effectiveCore.tete ?? null}
+              options={getAvailableValues(variantPool, "tete", {}, format)}
+              onChange={(v) => handleCore("tete", v)}
+            />
+          )}
+        {!(isMortised && effectiveMortisedConstraints?.section) && (
           <OptionPicker
-            label="Tête"
-            name={`equestre-${category.id}-tete`}
-            value={core.tete ?? null}
-            options={teteOptions}
-            onChange={(v) => handleCore("tete", v)}
+            label="Section"
+            name={`equestre-${category.id}-section`}
+            value={effectiveCore.section ?? null}
+            options={sectionOptions}
+            onChange={(v) => handleCore("section", v)}
           />
         )}
         <OptionPicker
-          label="Section"
-          name={`equestre-${category.id}-section`}
-          value={core.section ?? null}
-          options={getAvailableValues(variants, "section", { tete: core.tete }, format)}
-          onChange={(v) => handleCore("section", v)}
-        />
-        <OptionPicker
           label="Hauteur"
           name={`equestre-${category.id}-dimension`}
-          value={core.dimension ?? null}
+          value={effectiveCore.dimension ?? null}
           options={getAvailableValues(
-            variants,
+            variantPool,
             "dimension",
-            { tete: core.tete, section: core.section },
+            { tete: effectiveCore.tete, section: effectiveCore.section },
             format,
           )}
           onChange={(v) => handleCore("dimension", v)}
@@ -365,7 +484,8 @@ export function EquestreFenceBuilder({
       : undefined;
 
   const mortiseCount = postMortiseCount;
-  const isMortise = mortiseCount !== null;
+  const forcesMortisePosts = Boolean(essence?.mortisePostsOnly);
+  const isMortise = mortiseCount !== null || forcesMortisePosts;
 
   const postPreviewImage = useMemo(() => {
     if (!postOption) return undefined;
@@ -380,12 +500,11 @@ export function EquestreFenceBuilder({
 
   const selectableRailOptions = useMemo(() => {
     if (!essence) return [];
-    if (isMortise) {
-      const mortiseIds = getMortiseRailCategoryIds(essence);
-      return railOptions.filter((o) => mortiseIds.includes(o.categoryId));
-    }
-    return railOptions;
-  }, [essence, isMortise, railOptions]);
+    return getSelectableRailOptions(essence, railOptions, {
+      isMortise,
+      forcesMortisePosts,
+    });
+  }, [essence, isMortise, forcesMortisePosts, railOptions]);
 
   // Rail option: mortise posts pick among compatible rails; otherwise full list.
   const effectiveRailOption = useMemo(
@@ -398,7 +517,8 @@ export function EquestreFenceBuilder({
       ? resolveRailCategory(effectiveRailOption, essence)
       : undefined;
 
-  const railCount = isMortise ? mortiseCount! : railCountManual;
+  const effectiveMortiseCount = mortiseCount ?? (forcesMortisePosts ? 2 : null);
+  const railCount = effectiveMortiseCount !== null ? effectiveMortiseCount : railCountManual;
 
   const lengthM = Number(lengthStr.replace(",", "."));
   const validLength = !Number.isNaN(lengthM) && lengthM > 0;
@@ -583,6 +703,9 @@ export function EquestreFenceBuilder({
             group={postOption.group}
             onResolve={handlePostResolve}
             mortaiseCountOptions={essence?.mortaiseCountOptions}
+            mortisePostsOnly={essence?.mortisePostsOnly}
+            mortisedConstraints={postOption.mortisedConstraints}
+            headStyleRules={postOption.headStyleRules}
           />
         )}
         {postPreviewImage?.src && (
@@ -615,14 +738,14 @@ export function EquestreFenceBuilder({
           3. Lisses
         </legend>
 
-        {isMortise ? (
+        {isMortise || forcesMortisePosts ? (
           <>
             <div className="flex items-start gap-2 rounded-lg border border-terracotta/30 bg-terracotta/5 px-3 py-2 text-sm text-bark">
               <Lock className="mt-0.5 h-4 w-4 shrink-0 text-terracotta" aria-hidden="true" />
               <span>
-                Poteau à <strong>{mortiseCount} mortaises</strong> : les lisses
+                Poteau à <strong>{effectiveMortiseCount} mortaises</strong> : les lisses
                 s&apos;emboîtent dans les mortaises, soit{" "}
-                <strong>{mortiseCount} rangs</strong>.
+                <strong>{effectiveMortiseCount} rangs</strong>.
                 {selectableRailOptions.length === 1 && effectiveRailOption && (
                   <>
                     {" "}
@@ -684,13 +807,15 @@ export function EquestreFenceBuilder({
 
         {railCategory && effectiveRailOption && (
           <VariantPicker
-            key={`rail-${effectiveRailOption.categoryId}-${effectiveRailOption.group.article}-${isMortise ? "m" : "f"}`}
+            key={`rail-${effectiveRailOption.categoryId}-${effectiveRailOption.group.article}-${isMortise || forcesMortisePosts ? "m" : "f"}`}
             category={railCategory}
             group={effectiveRailOption.group}
             onResolve={handleRailResolve}
             labelOverrides={{ dimension: "Longueur" }}
             maxDimensionCm={
-              isMortise ? RAIL_MAX_LENGTH_CM_MORTISE : RAIL_MAX_LENGTH_CM_FREE
+              isMortise || forcesMortisePosts
+                ? RAIL_MAX_LENGTH_CM_MORTISE
+                : RAIL_MAX_LENGTH_CM_FREE
             }
           />
         )}

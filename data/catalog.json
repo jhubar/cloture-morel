@@ -1277,6 +1277,36 @@
           }
         },
         {
+          "id": "pin-traites-nobifix-12-x-12-cm-41",
+          "label": "Poteaux carrés — 12 x 12 cm — 250 cm — Diamant — 2 — Avec pointes",
+          "article": "Poteaux carrés",
+          "reference": "12 x 12 cm",
+          "prixUnitaireHTVA": 49.93,
+          "disponibilite": "Sur commande",
+          "details": {
+            "tete": "Diamant",
+            "mortaises": "2",
+            "info": "Avec pointes",
+            "dimension": "250 cm",
+            "section": "12 x 12 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-12-x-12-cm-42",
+          "label": "Poteaux carrés — 12 x 12 cm — 250 cm — Diamant — 3 — Avec pointes",
+          "article": "Poteaux carrés",
+          "reference": "12 x 12 cm",
+          "prixUnitaireHTVA": 50.63,
+          "disponibilite": "Sur commande",
+          "details": {
+            "tete": "Diamant",
+            "mortaises": "3",
+            "info": "Avec pointes",
+            "dimension": "250 cm",
+            "section": "12 x 12 cm"
+          }
+        },
+        {
           "id": "pin-traites-nobifix-10-x-10-cm-2",
           "label": "Poteaux carrés — 10 x 10 cm — 200 cm — Diamant — Sans — Avec pointes",
           "article": "Poteaux carrés",
@@ -1440,6 +1470,21 @@
             "dimension": "220 cm",
             "section": "12 x 12 cm"
           }
+        },
+        {
+          "id": "pin-traites-nobifix-12-x-12-cm-43",
+          "label": "Poteaux carrés — 12 x 12 cm — 250 cm — Diamant — 4 — Avec pointes",
+          "article": "Poteaux carrés",
+          "reference": "12 x 12 cm",
+          "prixUnitaireHTVA": 51.33,
+          "disponibilite": "Sur commande",
+          "details": {
+            "tete": "Diamant",
+            "mortaises": "4",
+            "info": "Avec pointes",
+            "dimension": "250 cm",
+            "section": "12 x 12 cm"
+          }
         }
       ]
     },
@@ -1487,6 +1532,18 @@
           "disponibilite": "Sur commande",
           "details": {
             "dimension": "500 cm",
+            "section": "4 x 12 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-4-x-12-cm-32",
+          "label": "Lisses rectangulaires — 4 x 12 cm — 600 cm",
+          "article": "Lisses rectangulaires",
+          "reference": "4 x 12 cm",
+          "prixUnitaireHTVA": 25.73,
+          "disponibilite": "Sur commande",
+          "details": {
+            "dimension": "600 cm",
             "section": "4 x 12 cm"
           }
         }
@@ -1652,6 +1709,30 @@
       "notes": [],
       "products": [
         {
+          "id": "pin-traites-nobifix-10-cm-39",
+          "label": "Demi rondins — 10 cm — 250 cm",
+          "article": "Demi rondins",
+          "reference": "10 cm",
+          "prixUnitaireHTVA": 9.33,
+          "disponibilite": "Sur commande",
+          "details": {
+            "dimension": "250 cm",
+            "section": "10 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-10-cm-40",
+          "label": "Demi rondins — 10 cm — 300 cm",
+          "article": "Demi rondins",
+          "reference": "10 cm",
+          "prixUnitaireHTVA": 11.2,
+          "disponibilite": "Sur commande",
+          "details": {
+            "dimension": "300 cm",
+            "section": "10 cm"
+          }
+        },
+        {
           "id": "pin-traites-nobifix-10-cm-25",
           "label": "Demi rondins — 10 cm — 500 cm",
           "article": "Demi rondins",
@@ -1673,6 +1754,30 @@
           "details": {
             "dimension": "600 cm",
             "section": "10 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-12-cm-39",
+          "label": "Demi rondins — 12 cm — 250 cm",
+          "article": "Demi rondins",
+          "reference": "12 cm",
+          "prixUnitaireHTVA": 13.44,
+          "disponibilite": "Sur commande",
+          "details": {
+            "dimension": "250 cm",
+            "section": "12 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-12-cm-40",
+          "label": "Demi rondins — 12 cm — 300 cm",
+          "article": "Demi rondins",
+          "reference": "12 cm",
+          "prixUnitaireHTVA": 16.12,
+          "disponibilite": "Sur commande",
+          "details": {
+            "dimension": "300 cm",
+            "section": "12 cm"
           }
         },
         {
