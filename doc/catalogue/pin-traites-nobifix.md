@@ -4,7 +4,7 @@ title: "Pin traités Nobifix"
 parent: "cloture-equestre"
 format: equestre
 dual_pricing: false
-product_count: 34
+product_count: 35
 source: doc/Eshop.xlsx
 ---
 
@@ -50,6 +50,7 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
 | Lisses rectangulaires | — | — | — | 21.44 | 500 cm | 4 x 12 cm |
 | Planches | — | — | — | 46.85 | 500 cm | 4 x 25 cm |
 | Planches | — | — | — | 57.19 | 600 cm | 4 x 25 cm |
+| Poteaux carrés | Diamant | 4 | Avec pointes | 46.39 | 220 cm | 12 x 12 cm |
 
 ## Données structurées (JSON)
 
@@ -394,6 +395,16 @@ Catégorie parente : [Clôture équestre](../cloture-equestre.md)
     "dimension": "600 cm",
     "section": "4 x 25 cm",
     "note": "Sur commande"
+  },
+  {
+    "article": "Poteaux carrés",
+    "tete": "Diamant",
+    "mortaises": "4",
+    "info": "Avec pointes",
+    "prix_unitaire_htva": 46.39,
+    "dimension": "220 cm",
+    "section": "12 x 12 cm",
+    "note": null
   }
 ]
 ```

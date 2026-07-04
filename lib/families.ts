@@ -81,7 +81,7 @@ const FAMILY_META: Record<string, FamilyMeta> = {
   "cloture-equestre": {
     label: "Clôture équestre",
     description:
-      "Solutions pour prairies et chevaux : post & rail acacia et pin traité Nobifix.",
+      "Solutions pour prairies et chevaux : post & rail acacia, pin traité Nobifix et bois exotique.",
     icon: Tractor,
   },
 };

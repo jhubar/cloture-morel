@@ -178,7 +178,7 @@ function sortValues(key: string, values: string[]): string[] {
   }
 
   if (key === "mortaises") {
-    const order = ["Sans", "2", "3"];
+    const order = ["Sans", "2", "3", "4"];
     return unique.sort((a, b) => {
       const ia = order.indexOf(a);
       const ib = order.indexOf(b);

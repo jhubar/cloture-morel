@@ -187,22 +187,59 @@ export const categoryImages: Record<string, ImageSlot[]> = {
     ...seq(`${MAT}/ganivelles/portillons-en-ganivelles`, "Portillon en ganivelles",         [1, 2, 3, 4]),
   ],
 
-  // Post and rail en robinier faux acacia + bois exotique équestre
-  "post-and-rail-en-robinier-faux-acacia": [
-    ...seq(`${MAT}/cloture-equestre-en-bois/post-and-rail-en-robiniers-faux-acacia/poteaux`,       "Post & rail acacia — poteau",        [1, 2, 3, 4, 5]),
-    ...seq(`${MAT}/cloture-equestre-en-bois/post-and-rail-en-robiniers-faux-acacia/lisses-fendues`, "Lisse fendue acacia",                [1, 2, 3]),
-    ...seq(`${MAT}/cloture-equestre-en-bois/bois-exotique/poteaux`,                                "Post & rail bois exotique — poteau", [1, 2, 3, 4]),
-    ...seq(`${MAT}/cloture-equestre-en-bois/bois-exotique/lisses-en-bois-exotique`,                "Lisse en bois exotique",             [1, 2, 3]),
-    ...seq(`${MAT}/cloture-equestre-en-bois/bois-exotique/lisses-en-bois-autoclavees-classe-4`,    "Lisse autoclavée classe IV",         [1, 2, 3]),
-  ],
+  // ── Clôture équestre — clés alignées sur les catégories feuilles ────────────
+  // Chaque clé = id de catégorie feuille (cf. split dans excel_to_md.py).
 
-  // Pin traités Nobifix (poteaux carrés + ronds + demi-rondins)
-  "pin-traites-nobifix": [
-    ...seq(`${MAT}/cloture-equestre-en-bois/pin-traite-nobifix/poteaux-carres/poteaux-carres-tete-diamant-avec-mortaises`, "Poteau carré Nobifix tête diamant avec mortaises", [1, 2, 3, 4, 6]),
-    ...seq(`${MAT}/cloture-equestre-en-bois/pin-traite-nobifix/poteaux-carres/lisses`,                                     "Lisse Nobifix",                                    [1, 2, 3, 4, 5]),
-    ...seq(`${MAT}/cloture-equestre-en-bois/pin-traite-nobifix/poteaux-ronds/poteaux`,                                     "Poteau rond Nobifix",                              [1, 2, 3, 4]),
-    ...seq(`${MAT}/cloture-equestre-en-bois/pin-traite-nobifix/poteaux-ronds/demi-rondins`,                                "Demi-rondin Nobifix",                              [1, 2, 3, 4, 5]),
-  ],
+  // Post & rail en robinier faux acacia
+  "post-and-rail-poteaux": seq(
+    `${MAT}/cloture-equestre-en-bois/post-and-rail-en-robiniers-faux-acacia/poteaux`,
+    "Poteau rectangulaire acacia",
+    [1, 2, 3, 4, 5],
+  ),
+  "post-and-rail-lisses-fendues": seq(
+    `${MAT}/cloture-equestre-en-bois/post-and-rail-en-robiniers-faux-acacia/lisses-fendues`,
+    "Lisse fendue acacia",
+    [1, 2, 3],
+  ),
+
+  // Pin traité Nobifix
+  "nobifix-poteaux-carres": seq(
+    `${MAT}/cloture-equestre-en-bois/pin-traite-nobifix/poteaux-carres/poteaux-carres-tete-diamant-avec-mortaises`,
+    "Poteau carré Nobifix tête diamant avec mortaises",
+    [1, 2, 3, 4, 6],
+  ),
+  "nobifix-lisses": seq(
+    `${MAT}/cloture-equestre-en-bois/pin-traite-nobifix/poteaux-carres/lisses`,
+    "Lisse rectangulaire Nobifix",
+    [1, 2, 3, 4, 5],
+  ),
+  "nobifix-poteaux-ronds": seq(
+    `${MAT}/cloture-equestre-en-bois/pin-traite-nobifix/poteaux-ronds/poteaux`,
+    "Poteau rond fraisé Nobifix",
+    [1, 2, 3, 4],
+  ),
+  "nobifix-demi-rondins": seq(
+    `${MAT}/cloture-equestre-en-bois/pin-traite-nobifix/poteaux-ronds/demi-rondins`,
+    "Demi-rondin Nobifix",
+    [1, 2, 3, 4, 5],
+  ),
+
+  // Bois exotique (références à venir — galeries déjà disponibles)
+  "bois-exotique-poteaux": seq(
+    `${MAT}/cloture-equestre-en-bois/bois-exotique/poteaux`,
+    "Poteau bois exotique équestre",
+    [1, 2, 3, 4],
+  ),
+  "bois-exotique-lisses-en-bois-exotique": seq(
+    `${MAT}/cloture-equestre-en-bois/bois-exotique/lisses-en-bois-exotique`,
+    "Lisse en bois exotique",
+    [1, 2, 3],
+  ),
+  "bois-exotique-lisses-en-bois-autoclavees-classe-4": seq(
+    `${MAT}/cloture-equestre-en-bois/bois-exotique/lisses-en-bois-autoclavees-classe-4`,
+    "Lisse autoclavée classe IV",
+    [1, 2, 3],
+  ),
 };
 
 /** Retourne la galerie d'images d'une catégorie (tableau vide si inconnue). */

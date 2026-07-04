@@ -7,6 +7,11 @@ import { searchCatalog } from "@/lib/search";
 import { FamilyGrid } from "@/components/catalog/FamilyGrid";
 import { FamilyNav } from "@/components/catalog/FamilyNav";
 import { CategoryProductGrid } from "@/components/catalog/CategoryProductGrid";
+import { CategoryGallery } from "@/components/catalog/CategoryGallery";
+import { EquestreFenceBuilder } from "@/components/equestre/EquestreFenceBuilder";
+import { groupBySubFamily } from "@/lib/catalog-subfamilies";
+import { getCategoryImages } from "@/lib/assets";
+import { EQUESTRE_FAMILY_ID } from "@/lib/installation-project";
 import { SearchResultsPanel } from "@/components/catalog/SearchResultsPanel";
 import {
   groupCategoryProducts,
@@ -100,6 +105,9 @@ export default async function CataloguePage({ searchParams }: CataloguePageProps
 
   // Detail view — one family, products grouped by their (technical) categories.
   const showCategoryHeadings = activeFamily.categories.length > 1;
+  const subFamilyGroups = groupBySubFamily(activeFamily.categories);
+  const hasSubFamilies = subFamilyGroups.some((g) => g.title !== null);
+  const isEquestre = activeFamily.id === EQUESTRE_FAMILY_ID;
 
   return (
     <>
@@ -151,6 +159,15 @@ export default async function CataloguePage({ searchParams }: CataloguePageProps
             title: c.title,
             productCount: c.products.length,
           }));
+          const subFamilies = subFamilyGroups.map((group) => ({
+            key: group.key,
+            title: group.title,
+            items: group.categories.map((c) => ({
+              id: c.id,
+              title: c.title,
+              productCount: c.products.length,
+            })),
+          }));
           return (
             <>
               <details className="mb-6 rounded-card border border-sand-300 bg-white lg:hidden">
@@ -159,12 +176,20 @@ export default async function CataloguePage({ searchParams }: CataloguePageProps
                   <ChevronDown className="h-4 w-4" aria-hidden="true" />
                 </summary>
                 <div className="border-t border-sand-200 px-2 py-3">
-                  <FamilyNav activeId={activeFamily.id} subCategories={subCategories} />
+                  <FamilyNav
+                    activeId={activeFamily.id}
+                    subCategories={subCategories}
+                    subFamilies={hasSubFamilies ? subFamilies : undefined}
+                  />
                 </div>
               </details>
 
               <div className="hidden lg:block">
-                <FamilyNav activeId={activeFamily.id} subCategories={subCategories} />
+                <FamilyNav
+                  activeId={activeFamily.id}
+                  subCategories={subCategories}
+                  subFamilies={hasSubFamilies ? subFamilies : undefined}
+                />
               </div>
             </>
           );
@@ -184,56 +209,95 @@ export default async function CataloguePage({ searchParams }: CataloguePageProps
               </p>
             </>
           ) : (
-          activeFamily.categories.map((category) => {
-            const titleId = `category-${category.id}`;
-            const products = category.products;
-            const groups = groupCategoryProducts(category);
-            const itemCount = supportsVariantGrouping(category.format)
-              ? groups.length
-              : products.length;
-            const itemLabel = supportsVariantGrouping(category.format)
-              ? itemCount > 1
-                ? "articles"
-                : "article"
-              : itemCount > 1
-                ? "références"
-                : "référence";
-
-            return (
-              <section key={category.id} id={`category-${category.id}`} aria-labelledby={titleId} className="scroll-mt-24">
-                {showCategoryHeadings && (
-                  <div className="mb-5">
-                    <h2 id={titleId} className="text-xl font-semibold">
-                      {category.title}
+          <div className="space-y-12">
+            {isEquestre && <EquestreFenceBuilder mode="cart" />}
+            {subFamilyGroups.map((group) => {
+              const CategoryHeading = group.title ? "h3" : "h2";
+              return (
+                <div key={group.key} className="space-y-8">
+                  {group.title && (
+                    <h2
+                      id={`subfamily-${group.key}`}
+                      className="scroll-mt-24 border-b border-sand-300 pb-2 text-2xl font-semibold text-forest-dark"
+                    >
+                      {group.title}
                     </h2>
-                    <p className="mt-1 text-sm text-bark-muted">
-                      {itemCount} {itemLabel}
-                      {supportsVariantGrouping(category.format) &&
-                        products.length > itemCount && (
-                          <> ({products.length} déclinaisons)</>
+                  )}
+                  {group.categories.map((category) => {
+                    const titleId = `category-${category.id}`;
+                    const products = category.products;
+                    const isEmpty = products.length === 0;
+                    const groups = groupCategoryProducts(category);
+                    const itemCount = supportsVariantGrouping(category.format)
+                      ? groups.length
+                      : products.length;
+                    const itemLabel = supportsVariantGrouping(category.format)
+                      ? itemCount > 1
+                        ? "articles"
+                        : "article"
+                      : itemCount > 1
+                        ? "références"
+                        : "référence";
+                    const galleryImages = getCategoryImages(category.id)
+                      .filter((s) => s.src)
+                      .map((s) => ({ src: s.src as string, alt: s.alt }));
+
+                    return (
+                      <section
+                        key={category.id}
+                        id={`category-${category.id}`}
+                        aria-labelledby={titleId}
+                        className="scroll-mt-24"
+                      >
+                        {(showCategoryHeadings || group.title) && (
+                          <div className="mb-5">
+                            <CategoryHeading id={titleId} className="text-xl font-semibold">
+                              {category.title}
+                            </CategoryHeading>
+                            {!isEmpty && (
+                              <p className="mt-1 text-sm text-bark-muted">
+                                {itemCount} {itemLabel}
+                                {supportsVariantGrouping(category.format) &&
+                                  products.length > itemCount && (
+                                    <> ({products.length} déclinaisons)</>
+                                  )}
+                              </p>
+                            )}
+                          </div>
                         )}
-                    </p>
-                  </div>
-                )}
-                {category.notes.length > 0 && (
-                  <details className="mb-5 rounded-lg bg-white p-4 text-sm text-bark-muted ring-1 ring-inset ring-sand-300">
-                    <summary className="cursor-pointer font-medium text-forest-dark">
-                      Informations sur cette gamme
-                    </summary>
-                    <ul className="mt-3 list-disc space-y-2 pl-5">
-                      {category.notes.map((note, i) => (
-                        <li key={i}>{note}</li>
-                      ))}
-                    </ul>
-                  </details>
-                )}
-                <CategoryProductGrid
-                  category={category}
-                  familyId={activeFamily.id}
-                />
-              </section>
-            );
-          })
+                        {category.notes.length > 0 && (
+                          <details className="mb-5 rounded-lg bg-white p-4 text-sm text-bark-muted ring-1 ring-inset ring-sand-300">
+                            <summary className="cursor-pointer font-medium text-forest-dark">
+                              Informations sur cette gamme
+                            </summary>
+                            <ul className="mt-3 list-disc space-y-2 pl-5">
+                              {category.notes.map((note, i) => (
+                                <li key={i}>{note}</li>
+                              ))}
+                            </ul>
+                          </details>
+                        )}
+                        {isEmpty ? (
+                          <div className="space-y-4">
+                            <p className="rounded-lg border border-onorder/30 bg-onorder/10 px-4 py-3 text-sm text-bark">
+                              Références en cours d&apos;intégration.{" "}
+                              <Link href="/pose" className="font-medium text-terracotta hover:underline">
+                                Demandez un devis
+                              </Link>{" "}
+                              pour cette gamme.
+                            </p>
+                            <CategoryGallery images={galleryImages} />
+                          </div>
+                        ) : (
+                          <CategoryProductGrid category={category} familyId={activeFamily.id} />
+                        )}
+                      </section>
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
           )}
         </div>
 

@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import { Plus } from "lucide-react";
 import { getFamilies } from "@/lib/families";
 import {
+  buildEquestreProjectLines,
   buildProjectLine,
+  EQUESTRE_FAMILY_ID,
   getCategoriesForFamily,
   getCategoryFormat,
   getMeasureLabel,
@@ -16,6 +18,7 @@ import {
 import { TextField } from "@/components/forms/FormField";
 import { ProjectLineSummary } from "@/components/forms/installation/ProjectLineSummary";
 import { ProjectProductPicker } from "@/components/forms/installation/ProjectProductPicker";
+import { EquestreFenceBuilder } from "@/components/equestre/EquestreFenceBuilder";
 import { cn } from "@/lib/utils";
 
 interface ProjectLineBuilderProps {
@@ -104,8 +107,18 @@ export function ProjectLineBuilder({ lines, onChange, error }: ProjectLineBuilde
         )}
       </div>
 
+      {/* Guided equestrian builder (post → rails → length) */}
+      {familyId === EQUESTRE_FAMILY_ID && (
+        <EquestreFenceBuilder
+          mode="quote"
+          onQuoteAdd={(result) =>
+            onChange([...lines, ...buildEquestreProjectLines(result)])
+          }
+        />
+      )}
+
       {/* Category picker */}
-      {familyId && categories.length > 1 && (
+      {familyId !== EQUESTRE_FAMILY_ID && familyId && categories.length > 1 && (
         <fieldset className="space-y-2">
           <legend className="text-sm font-medium text-forest-dark">Type précis</legend>
           <div className="space-y-2">

@@ -4,7 +4,10 @@ import {
   getVariantAxesForGroup,
   type ProductGroup,
 } from "@/lib/product-variants";
+import type { EquestreBuildResult } from "@/lib/equestre-builder";
 import type { Category } from "@/lib/types";
+
+export const EQUESTRE_FAMILY_ID = "cloture-equestre";
 
 /** Resolved catalogue product for one installation line. */
 export interface ResolvedProduct {
@@ -26,6 +29,13 @@ export interface ProjectLine {
   variantSummary?: string;
   /** Linear metres or unit count, depending on category format. */
   lengthMeters: number;
+  /**
+   * When set, `lengthMeters` is a piece count displayed with this unit noun
+   * (e.g. "poteaux", "lisses") instead of linear metres. Used by the guided
+   * equestrian builder, which yields estimated quantities. Such lines are
+   * excluded from the linear-metre total.
+   */
+  unit?: string;
   notes?: string;
 }
 
@@ -67,6 +77,9 @@ export function buildVariantSummary(
 }
 
 export function formatLineAmount(line: ProjectLine): string {
+  if (line.unit) {
+    return `${line.lengthMeters} ${line.unit}`;
+  }
   const format = getCategoryFormat(line.categoryId);
   const kind = getMeasureKind(format);
   if (kind === "linear") {
@@ -92,6 +105,7 @@ export function formatLineSummary(line: ProjectLine): string {
 /** Sum of linear-metre lines only (excludes barriers, quincaillerie, etc.). */
 export function computeTotalLinearMeters(lines: ProjectLine[]): number {
   return lines.reduce((sum, line) => {
+    if (line.unit) return sum;
     const format = getCategoryFormat(line.categoryId);
     if (getMeasureKind(format) === "linear") {
       return sum + line.lengthMeters;
@@ -147,4 +161,55 @@ export function buildProjectLine(
     lengthMeters: parsed,
     notes: notes?.trim() || undefined,
   };
+}
+
+/**
+ * Turn a guided equestrian builder result into two project lines (post + rail)
+ * carrying the estimated quantities. The fence length is recorded in the notes
+ * so the installer keeps the context behind the estimate.
+ */
+export function buildEquestreProjectLines(
+  result: EquestreBuildResult,
+  extraNotes?: string,
+): ProjectLine[] {
+  const family = getFamilyById(EQUESTRE_FAMILY_ID);
+  const familyLabel = family?.label ?? "Clôture équestre";
+  const contextNote = `Clôture ≈ ${result.lengthM} m`;
+  const notes = extraNotes?.trim()
+    ? `${contextNote} — ${extraNotes.trim()}`
+    : contextNote;
+
+  const postCount = result.estimate.postCount ?? 0;
+  const railPieces = result.estimate.railPieces ?? 0;
+
+  const lines: ProjectLine[] = [
+    {
+      familyId: EQUESTRE_FAMILY_ID,
+      familyLabel,
+      categoryId: result.post.categoryId,
+      categoryTitle: result.post.categoryTitle,
+      productId: result.post.product.id,
+      productLabel: result.post.product.label,
+      article: result.post.article,
+      variantSummary: result.post.summary || undefined,
+      lengthMeters: postCount,
+      unit: postCount > 1 ? "poteaux" : "poteau",
+      notes,
+    },
+    {
+      familyId: EQUESTRE_FAMILY_ID,
+      familyLabel,
+      categoryId: result.rail.categoryId,
+      categoryTitle: result.rail.categoryTitle,
+      productId: result.rail.product.id,
+      productLabel: result.rail.product.label,
+      article: result.rail.article,
+      variantSummary: result.rail.summary || undefined,
+      lengthMeters: railPieces,
+      unit: railPieces > 1 ? "lisses" : "lisse",
+      notes: `${result.railCount} rang${result.railCount > 1 ? "s" : ""}`,
+    },
+  ];
+
+  return lines;
 }

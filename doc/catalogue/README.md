@@ -2,7 +2,7 @@
 title: Catalogue Clôture Morel
 source: doc/Eshop.xlsx
 category_count: 20
-product_count: 127
+product_count: 128
 ---
 
 # Catalogue produits — Clôture Morel
@@ -40,7 +40,7 @@ Tous les prix sont **HTVA** (hors TVA).
 ### Clôture équestre
 
 - [Post and rail en robinier faux acacia](./post-and-rail-en-robinier-faux-acacia.md) — 2 produit(s)
-- [Pin traités Nobifix](./pin-traites-nobifix.md) — 34 produit(s)
+- [Pin traités Nobifix](./pin-traites-nobifix.md) — 35 produit(s)
 
 ### Morel Wire (grillages, barbelés et fils galvanisés)
 

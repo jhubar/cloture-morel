@@ -33,6 +33,13 @@ export interface Category {
   /** Parent group id (e.g. "barrieres-galvanisees") or null for top-level. */
   parent: string | null;
   parentTitle: string | null;
+  /**
+   * Optional intermediate grouping between parent and category (3rd level),
+   * used by "Clôture équestre" to group leaf categories under a sub-family
+   * (e.g. "bois-exotique", "pin-traite-nobifix"). Null for flat families.
+   */
+  subParent?: string | null;
+  subParentTitle?: string | null;
   format: string;
   dualPricing: boolean;
   notes: string[];

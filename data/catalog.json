@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-09T23:11:00.724459",
+  "generatedAt": "2026-07-04T14:44:05.767999",
   "source": "doc/Eshop.xlsx",
   "currency": "EUR",
   "taxNote": "Tous les prix sont HTVA",
@@ -9,6 +9,8 @@
       "title": "Piquets en robiniers faux acacia ronds",
       "parent": null,
       "parentTitle": null,
+      "subParent": null,
+      "subParentTitle": null,
       "format": "palette",
       "dualPricing": true,
       "notes": [
@@ -194,6 +196,8 @@
       "title": "Grillage à mailles progressives",
       "parent": "morel-wire-grillages-barbeles-et-fils-galvanises",
       "parentTitle": "Morel Wire (grillages, barbelés et fils galvanisés)",
+      "subParent": null,
+      "subParentTitle": null,
       "format": "grillage",
       "dualPricing": false,
       "notes": [],
@@ -271,6 +275,8 @@
       "title": "Grillage à mailles identiques",
       "parent": "morel-wire-grillages-barbeles-et-fils-galvanises",
       "parentTitle": "Morel Wire (grillages, barbelés et fils galvanisés)",
+      "subParent": null,
+      "subParentTitle": null,
       "format": "grillage",
       "dualPricing": false,
       "notes": [],
@@ -337,6 +343,8 @@
       "title": "Barbelés Morel Barbed",
       "parent": "morel-wire-grillages-barbeles-et-fils-galvanises",
       "parentTitle": "Morel Wire (grillages, barbelés et fils galvanisés)",
+      "subParent": null,
+      "subParentTitle": null,
       "format": "grillage",
       "dualPricing": false,
       "notes": [],
@@ -370,6 +378,8 @@
       "title": "Fil galvanisé Morel Wire",
       "parent": "morel-wire-grillages-barbeles-et-fils-galvanises",
       "parentTitle": "Morel Wire (grillages, barbelés et fils galvanisés)",
+      "subParent": null,
+      "subParentTitle": null,
       "format": "grillage",
       "dualPricing": false,
       "notes": [
@@ -405,6 +415,8 @@
       "title": "Barrières fixes en 7 tubes H.120 cm",
       "parent": "barrieres-galvanisees",
       "parentTitle": "Barrières galvanisées",
+      "subParent": null,
+      "subParentTitle": null,
       "format": "standard_note",
       "dualPricing": false,
       "notes": [],
@@ -443,6 +455,8 @@
       "title": "Barrières extensibles en 5 tubes H.120 cm",
       "parent": "barrieres-galvanisees",
       "parentTitle": "Barrières galvanisées",
+      "subParent": null,
+      "subParentTitle": null,
       "format": "standard_note",
       "dualPricing": false,
       "notes": [],
@@ -472,6 +486,8 @@
       "title": "Barrières demi grillagées H.120 cm",
       "parent": "barrieres-galvanisees",
       "parentTitle": "Barrières galvanisées",
+      "subParent": null,
+      "subParentTitle": null,
       "format": "standard_note",
       "dualPricing": false,
       "notes": [],
@@ -519,6 +535,8 @@
       "title": "Barrières entièrement grillagées H.150 cm et H.180 cm",
       "parent": "barrieres-galvanisees",
       "parentTitle": "Barrières galvanisées",
+      "subParent": null,
+      "subParentTitle": null,
       "format": "standard_note",
       "dualPricing": false,
       "notes": [],
@@ -584,6 +602,8 @@
       "title": "Poteaux galvanisés pour barrières",
       "parent": "barrieres-galvanisees",
       "parentTitle": "Barrières galvanisées",
+      "subParent": null,
+      "subParentTitle": null,
       "format": "poteaux_barriere",
       "dualPricing": false,
       "notes": [],
@@ -661,6 +681,8 @@
       "title": "Quincailleries pour barrières galvanisées",
       "parent": "barrieres-galvanisees",
       "parentTitle": "Barrières galvanisées",
+      "subParent": null,
+      "subParentTitle": null,
       "format": "quincaillerie_simple",
       "dualPricing": false,
       "notes": [],
@@ -708,6 +730,8 @@
       "title": "Passage canadien",
       "parent": "barrieres-galvanisees",
       "parentTitle": "Barrières galvanisées",
+      "subParent": null,
+      "subParentTitle": null,
       "format": "passage_canadien",
       "dualPricing": false,
       "notes": [
@@ -732,6 +756,8 @@
       "title": "Barrières anglaises en bois exotique H.120 cm",
       "parent": "barrieres-anglaises",
       "parentTitle": "Barrières anglaises",
+      "subParent": null,
+      "subParentTitle": null,
       "format": "standard_note",
       "dualPricing": false,
       "notes": [],
@@ -824,6 +850,8 @@
       "title": "Poteaux en bois exotique pour barrières anglaises",
       "parent": "barrieres-anglaises",
       "parentTitle": "Barrières anglaises",
+      "subParent": null,
+      "subParentTitle": null,
       "format": "standard_note",
       "dualPricing": false,
       "notes": [],
@@ -844,6 +872,8 @@
       "title": "Quincailleries pour barrières anglaises",
       "parent": "barrieres-anglaises",
       "parentTitle": "Barrières anglaises",
+      "subParent": null,
+      "subParentTitle": null,
       "format": "standard_note",
       "dualPricing": false,
       "notes": [],
@@ -909,6 +939,8 @@
       "title": "Brande de bruyère épaisse 100 % opaque",
       "parent": "brandes-de-bruyere",
       "parentTitle": "Brandes de bruyère",
+      "subParent": null,
+      "subParentTitle": null,
       "format": "brandes",
       "dualPricing": false,
       "notes": [],
@@ -953,6 +985,8 @@
       "title": "Outillage et accessoires clôtures",
       "parent": null,
       "parentTitle": null,
+      "subParent": null,
+      "subParentTitle": null,
       "format": "outillage",
       "dualPricing": false,
       "notes": [],
@@ -1071,6 +1105,8 @@
       "title": "Ganivelles en robiniers faux acacia",
       "parent": null,
       "parentTitle": null,
+      "subParent": null,
+      "subParentTitle": null,
       "format": "ganivelles",
       "dualPricing": false,
       "notes": [],
@@ -1164,49 +1200,48 @@
       ]
     },
     {
-      "id": "post-and-rail-en-robinier-faux-acacia",
-      "title": "Post and rail en robinier faux acacia",
+      "id": "bois-exotique-poteaux",
+      "title": "Poteaux",
       "parent": "cloture-equestre",
       "parentTitle": "Clôture équestre",
+      "subParent": "bois-exotique",
+      "subParentTitle": "Bois exotique",
       "format": "equestre",
       "dualPricing": false,
       "notes": [],
-      "products": [
-        {
-          "id": "post-and-rail-en-robinier-faux-acacia-10-x-15-cm-0",
-          "label": "Poteaux rectangulaires — 10 x 15 cm — 200 cm — 30° — 2 — Avec pointes",
-          "article": "Poteaux rectangulaires",
-          "reference": "10 x 15 cm",
-          "prixUnitaireHTVA": 37.42,
-          "disponibilite": "En stock",
-          "details": {
-            "tete": "30°",
-            "mortaises": "2",
-            "info": "Avec pointes",
-            "dimension": "200 cm",
-            "section": "10 x 15 cm"
-          }
-        },
-        {
-          "id": "post-and-rail-en-robinier-faux-acacia-9-x-6-cm-1",
-          "label": "Lisses fendues — 9 x 6 cm — 300 cm — 0",
-          "article": "Lisses fendues",
-          "reference": "9 x 6 cm",
-          "prixUnitaireHTVA": 20.19,
-          "disponibilite": "En stock",
-          "details": {
-            "tete": "0",
-            "dimension": "300 cm",
-            "section": "9 x 6 cm"
-          }
-        }
-      ]
+      "products": []
     },
     {
-      "id": "pin-traites-nobifix",
-      "title": "Pin traités Nobifix",
+      "id": "bois-exotique-lisses-en-bois-exotique",
+      "title": "Lisses en bois exotique",
       "parent": "cloture-equestre",
       "parentTitle": "Clôture équestre",
+      "subParent": "bois-exotique",
+      "subParentTitle": "Bois exotique",
+      "format": "equestre",
+      "dualPricing": false,
+      "notes": [],
+      "products": []
+    },
+    {
+      "id": "bois-exotique-lisses-en-bois-autoclavees-classe-4",
+      "title": "Lisses autoclavées classe IV",
+      "parent": "cloture-equestre",
+      "parentTitle": "Clôture équestre",
+      "subParent": "bois-exotique",
+      "subParentTitle": "Bois exotique",
+      "format": "equestre",
+      "dualPricing": false,
+      "notes": [],
+      "products": []
+    },
+    {
+      "id": "nobifix-poteaux-carres",
+      "title": "Poteaux carrés",
+      "parent": "cloture-equestre",
+      "parentTitle": "Clôture équestre",
+      "subParent": "pin-traite-nobifix",
+      "subParentTitle": "Pin traité Nobifix",
       "format": "equestre",
       "dualPricing": false,
       "notes": [],
@@ -1392,6 +1427,83 @@
           }
         },
         {
+          "id": "pin-traites-nobifix-12-x-12-cm-34",
+          "label": "Poteaux carrés — 12 x 12 cm — 220 cm — Diamant — 4 — Avec pointes",
+          "article": "Poteaux carrés",
+          "reference": "12 x 12 cm",
+          "prixUnitaireHTVA": 46.39,
+          "disponibilite": null,
+          "details": {
+            "tete": "Diamant",
+            "mortaises": "4",
+            "info": "Avec pointes",
+            "dimension": "220 cm",
+            "section": "12 x 12 cm"
+          }
+        }
+      ]
+    },
+    {
+      "id": "nobifix-lisses",
+      "title": "Lisses rectangulaires",
+      "parent": "cloture-equestre",
+      "parentTitle": "Clôture équestre",
+      "subParent": "pin-traite-nobifix",
+      "subParentTitle": "Pin traité Nobifix",
+      "format": "equestre",
+      "dualPricing": false,
+      "notes": [],
+      "products": [
+        {
+          "id": "pin-traites-nobifix-4-x-12-cm-29",
+          "label": "Lisses rectangulaires — 4 x 12 cm — 250 cm",
+          "article": "Lisses rectangulaires",
+          "reference": "4 x 12 cm",
+          "prixUnitaireHTVA": 10.72,
+          "disponibilite": "Sur commande",
+          "details": {
+            "dimension": "250 cm",
+            "section": "4 x 12 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-4-x-12-cm-30",
+          "label": "Lisses rectangulaires — 4 x 12 cm — 300 cm",
+          "article": "Lisses rectangulaires",
+          "reference": "4 x 12 cm",
+          "prixUnitaireHTVA": 12.86,
+          "disponibilite": "Sur commande",
+          "details": {
+            "dimension": "300 cm",
+            "section": "4 x 12 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-4-x-12-cm-31",
+          "label": "Lisses rectangulaires — 4 x 12 cm — 500 cm",
+          "article": "Lisses rectangulaires",
+          "reference": "4 x 12 cm",
+          "prixUnitaireHTVA": 21.44,
+          "disponibilite": "Sur commande",
+          "details": {
+            "dimension": "500 cm",
+            "section": "4 x 12 cm"
+          }
+        }
+      ]
+    },
+    {
+      "id": "nobifix-poteaux-ronds",
+      "title": "Poteaux ronds",
+      "parent": "cloture-equestre",
+      "parentTitle": "Clôture équestre",
+      "subParent": "pin-traite-nobifix",
+      "subParentTitle": "Pin traité Nobifix",
+      "format": "equestre",
+      "dualPricing": false,
+      "notes": [],
+      "products": [
+        {
           "id": "pin-traites-nobifix-10-cm-12",
           "label": "Poteaux ronds fraisés — 10 cm — 180 cm — Plate — Sans — Avec pointes",
           "article": "Poteaux ronds fraisés",
@@ -1525,7 +1637,81 @@
             "dimension": "250 cm",
             "section": "14 cm"
           }
+        }
+      ]
+    },
+    {
+      "id": "nobifix-demi-rondins",
+      "title": "Demi-rondins",
+      "parent": "cloture-equestre",
+      "parentTitle": "Clôture équestre",
+      "subParent": "pin-traite-nobifix",
+      "subParentTitle": "Pin traité Nobifix",
+      "format": "equestre",
+      "dualPricing": false,
+      "notes": [],
+      "products": [
+        {
+          "id": "pin-traites-nobifix-10-cm-25",
+          "label": "Demi rondins — 10 cm — 500 cm",
+          "article": "Demi rondins",
+          "reference": "10 cm",
+          "prixUnitaireHTVA": 18.66,
+          "disponibilite": "Sur commande",
+          "details": {
+            "dimension": "500 cm",
+            "section": "10 cm"
+          }
         },
+        {
+          "id": "pin-traites-nobifix-10-cm-26",
+          "label": "Demi rondins — 10 cm — 600 cm",
+          "article": "Demi rondins",
+          "reference": "10 cm",
+          "prixUnitaireHTVA": 22.4,
+          "disponibilite": "Sur commande",
+          "details": {
+            "dimension": "600 cm",
+            "section": "10 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-12-cm-27",
+          "label": "Demi rondins — 12 cm — 500 cm",
+          "article": "Demi rondins",
+          "reference": "12 cm",
+          "prixUnitaireHTVA": 26.87,
+          "disponibilite": "Sur commande",
+          "details": {
+            "dimension": "500 cm",
+            "section": "12 cm"
+          }
+        },
+        {
+          "id": "pin-traites-nobifix-12-cm-28",
+          "label": "Demi rondins — 12 cm — 600 cm",
+          "article": "Demi rondins",
+          "reference": "12 cm",
+          "prixUnitaireHTVA": 32.26,
+          "disponibilite": "Sur commande",
+          "details": {
+            "dimension": "600 cm",
+            "section": "12 cm"
+          }
+        }
+      ]
+    },
+    {
+      "id": "nobifix-autres",
+      "title": "Rondins & planches",
+      "parent": "cloture-equestre",
+      "parentTitle": "Clôture équestre",
+      "subParent": "pin-traite-nobifix",
+      "subParentTitle": "Pin traité Nobifix",
+      "format": "equestre",
+      "dualPricing": false,
+      "notes": [],
+      "products": [
         {
           "id": "pin-traites-nobifix-10-cm-21",
           "label": "Rondins fraisés — 10 cm — 500 cm — Sans pointes",
@@ -1579,90 +1765,6 @@
           }
         },
         {
-          "id": "pin-traites-nobifix-10-cm-25",
-          "label": "Demi rondins — 10 cm — 500 cm",
-          "article": "Demi rondins",
-          "reference": "10 cm",
-          "prixUnitaireHTVA": 18.66,
-          "disponibilite": "Sur commande",
-          "details": {
-            "dimension": "500 cm",
-            "section": "10 cm"
-          }
-        },
-        {
-          "id": "pin-traites-nobifix-10-cm-26",
-          "label": "Demi rondins — 10 cm — 600 cm",
-          "article": "Demi rondins",
-          "reference": "10 cm",
-          "prixUnitaireHTVA": 22.4,
-          "disponibilite": "Sur commande",
-          "details": {
-            "dimension": "600 cm",
-            "section": "10 cm"
-          }
-        },
-        {
-          "id": "pin-traites-nobifix-12-cm-27",
-          "label": "Demi rondins — 12 cm — 500 cm",
-          "article": "Demi rondins",
-          "reference": "12 cm",
-          "prixUnitaireHTVA": 26.87,
-          "disponibilite": "Sur commande",
-          "details": {
-            "dimension": "500 cm",
-            "section": "12 cm"
-          }
-        },
-        {
-          "id": "pin-traites-nobifix-12-cm-28",
-          "label": "Demi rondins — 12 cm — 600 cm",
-          "article": "Demi rondins",
-          "reference": "12 cm",
-          "prixUnitaireHTVA": 32.26,
-          "disponibilite": "Sur commande",
-          "details": {
-            "dimension": "600 cm",
-            "section": "12 cm"
-          }
-        },
-        {
-          "id": "pin-traites-nobifix-4-x-12-cm-29",
-          "label": "Lisses rectangulaires — 4 x 12 cm — 250 cm",
-          "article": "Lisses rectangulaires",
-          "reference": "4 x 12 cm",
-          "prixUnitaireHTVA": 10.72,
-          "disponibilite": "Sur commande",
-          "details": {
-            "dimension": "250 cm",
-            "section": "4 x 12 cm"
-          }
-        },
-        {
-          "id": "pin-traites-nobifix-4-x-12-cm-30",
-          "label": "Lisses rectangulaires — 4 x 12 cm — 300 cm",
-          "article": "Lisses rectangulaires",
-          "reference": "4 x 12 cm",
-          "prixUnitaireHTVA": 12.86,
-          "disponibilite": "Sur commande",
-          "details": {
-            "dimension": "300 cm",
-            "section": "4 x 12 cm"
-          }
-        },
-        {
-          "id": "pin-traites-nobifix-4-x-12-cm-31",
-          "label": "Lisses rectangulaires — 4 x 12 cm — 500 cm",
-          "article": "Lisses rectangulaires",
-          "reference": "4 x 12 cm",
-          "prixUnitaireHTVA": 21.44,
-          "disponibilite": "Sur commande",
-          "details": {
-            "dimension": "500 cm",
-            "section": "4 x 12 cm"
-          }
-        },
-        {
           "id": "pin-traites-nobifix-4-x-25-cm-32",
           "label": "Planches — 4 x 25 cm — 500 cm",
           "article": "Planches",
@@ -1684,6 +1786,60 @@
           "details": {
             "dimension": "600 cm",
             "section": "4 x 25 cm"
+          }
+        }
+      ]
+    },
+    {
+      "id": "post-and-rail-poteaux",
+      "title": "Poteaux rectangulaires",
+      "parent": "cloture-equestre",
+      "parentTitle": "Clôture équestre",
+      "subParent": "post-and-rail-en-robiniers-faux-acacia",
+      "subParentTitle": "Post and rail en robinier faux acacia",
+      "format": "equestre",
+      "dualPricing": false,
+      "notes": [],
+      "products": [
+        {
+          "id": "post-and-rail-en-robinier-faux-acacia-10-x-15-cm-0",
+          "label": "Poteaux rectangulaires — 10 x 15 cm — 200 cm — 30° — 2 — Avec pointes",
+          "article": "Poteaux rectangulaires",
+          "reference": "10 x 15 cm",
+          "prixUnitaireHTVA": 37.42,
+          "disponibilite": "En stock",
+          "details": {
+            "tete": "30°",
+            "mortaises": "2",
+            "info": "Avec pointes",
+            "dimension": "200 cm",
+            "section": "10 x 15 cm"
+          }
+        }
+      ]
+    },
+    {
+      "id": "post-and-rail-lisses-fendues",
+      "title": "Lisses fendues",
+      "parent": "cloture-equestre",
+      "parentTitle": "Clôture équestre",
+      "subParent": "post-and-rail-en-robiniers-faux-acacia",
+      "subParentTitle": "Post and rail en robinier faux acacia",
+      "format": "equestre",
+      "dualPricing": false,
+      "notes": [],
+      "products": [
+        {
+          "id": "post-and-rail-en-robinier-faux-acacia-9-x-6-cm-1",
+          "label": "Lisses fendues — 9 x 6 cm — 300 cm — 0",
+          "article": "Lisses fendues",
+          "reference": "9 x 6 cm",
+          "prixUnitaireHTVA": 20.19,
+          "disponibilite": "En stock",
+          "details": {
+            "tete": "0",
+            "dimension": "300 cm",
+            "section": "9 x 6 cm"
           }
         }
       ]

@@ -582,6 +582,87 @@ def product_label(product: dict, fmt: str) -> str:
     return " — ".join(p for p in parts if p)
 
 
+EQUESTRE_PARENT_TITLE = "Clôture équestre"
+
+# Sub-families of the equestrian family, in display order.
+EQUESTRE_SUBFAMILIES = [
+    ("bois-exotique", "Bois exotique"),
+    ("pin-traite-nobifix", "Pin traité Nobifix"),
+    ("post-and-rail-en-robiniers-faux-acacia", "Post and rail en robinier faux acacia"),
+]
+
+# Leaf categories: id -> (title, sub_parent, sub_parent_title). Order = display order.
+EQUESTRE_LEAVES = [
+    ("bois-exotique-poteaux", "Poteaux", "bois-exotique", "Bois exotique"),
+    ("bois-exotique-lisses-en-bois-exotique", "Lisses en bois exotique", "bois-exotique", "Bois exotique"),
+    ("bois-exotique-lisses-en-bois-autoclavees-classe-4", "Lisses autoclavées classe IV", "bois-exotique", "Bois exotique"),
+    ("nobifix-poteaux-carres", "Poteaux carrés", "pin-traite-nobifix", "Pin traité Nobifix"),
+    ("nobifix-lisses", "Lisses rectangulaires", "pin-traite-nobifix", "Pin traité Nobifix"),
+    ("nobifix-poteaux-ronds", "Poteaux ronds", "pin-traite-nobifix", "Pin traité Nobifix"),
+    ("nobifix-demi-rondins", "Demi-rondins", "pin-traite-nobifix", "Pin traité Nobifix"),
+    ("nobifix-autres", "Rondins & planches", "pin-traite-nobifix", "Pin traité Nobifix"),
+    ("post-and-rail-poteaux", "Poteaux rectangulaires", "post-and-rail-en-robiniers-faux-acacia", "Post and rail en robinier faux acacia"),
+    ("post-and-rail-lisses-fendues", "Lisses fendues", "post-and-rail-en-robiniers-faux-acacia", "Post and rail en robinier faux acacia"),
+]
+
+# Which leaf each product article lands in.
+EQUESTRE_ARTICLE_TO_LEAF = {
+    "Poteaux rectangulaires": "post-and-rail-poteaux",
+    "Lisses fendues": "post-and-rail-lisses-fendues",
+    "Poteaux carrés": "nobifix-poteaux-carres",
+    "Lisses rectangulaires": "nobifix-lisses",
+    "Poteaux ronds fraisés": "nobifix-poteaux-ronds",
+    "Piquets ronds fraisés": "nobifix-poteaux-ronds",
+    "Demi rondins": "nobifix-demi-rondins",
+    "Rondins fraisés": "nobifix-autres",
+    "Planches": "nobifix-autres",
+}
+
+
+def split_equestre_categories(categories: list[dict]) -> list[dict]:
+    """Split the two flat equestrian categories into photo-aligned leaf
+    categories (3 sub-families) and inject the empty Bois exotique leaves.
+
+    The client's Excel only provides Post & rail and Pin Nobifix as two flat
+    blocks; the website groups them into sub-families that mirror the photo
+    folders, so the guided fence builder and the catalogue navigation can
+    distinguish posts from rails. Bois exotique has no Excel data yet, so its
+    three leaves are created empty and filled once the client provides prices.
+    """
+    equestre = [c for c in categories if c.get("parentTitle") == EQUESTRE_PARENT_TITLE]
+    if not equestre:
+        return categories
+
+    others = [c for c in categories if c.get("parentTitle") != EQUESTRE_PARENT_TITLE]
+
+    products_by_leaf: dict[str, list[dict]] = {}
+    for category in equestre:
+        for product in category["products"]:
+            leaf_id = EQUESTRE_ARTICLE_TO_LEAF.get(product.get("article") or "")
+            if leaf_id is None:
+                leaf_id = "nobifix-autres"
+            products_by_leaf.setdefault(leaf_id, []).append(product)
+
+    leaves: list[dict] = []
+    for leaf_id, title, sub_parent, sub_parent_title in EQUESTRE_LEAVES:
+        leaves.append(
+            {
+                "id": leaf_id,
+                "title": title,
+                "parent": "cloture-equestre",
+                "parentTitle": EQUESTRE_PARENT_TITLE,
+                "subParent": sub_parent,
+                "subParentTitle": sub_parent_title,
+                "format": "equestre",
+                "dualPricing": False,
+                "notes": [],
+                "products": products_by_leaf.get(leaf_id, []),
+            }
+        )
+
+    return others + leaves
+
+
 def export_catalog_json(categories: list[dict]) -> None:
     parent_slugs = {
         c["title"]: slugify(c["title"])
@@ -642,12 +723,16 @@ def export_catalog_json(categories: list[dict]) -> None:
                 "title": category["title"],
                 "parent": parent_slugs.get(parent_title) if parent_title else None,
                 "parentTitle": parent_title,
+                "subParent": None,
+                "subParentTitle": None,
                 "format": fmt,
                 "dualPricing": category.get("dual_pricing", False),
                 "notes": category.get("notes", []),
                 "products": products,
             }
         )
+
+    catalog_categories = split_equestre_categories(catalog_categories)
 
     payload = {
         "generatedAt": pd.Timestamp.now().isoformat(),
