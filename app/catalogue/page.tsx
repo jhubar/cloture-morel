@@ -212,6 +212,57 @@ export default async function CataloguePage({ searchParams }: CataloguePageProps
           <div className="space-y-12">
             {isEquestre && <EquestreFenceBuilder mode="cart" />}
             {subFamilyGroups.map((group) => {
+              if (isEquestre) {
+                const galleryImages = group.categories.flatMap((category) =>
+                  getCategoryImages(category.id)
+                    .filter((s) => s.src)
+                    .map((s) => ({ src: s.src as string, alt: s.alt })),
+                );
+                const seen = new Set<string>();
+                const uniqueGallery = galleryImages.filter((img) => {
+                  if (seen.has(img.src)) return false;
+                  seen.add(img.src);
+                  return true;
+                });
+                const notes = group.categories.flatMap((c) => c.notes);
+                const allEmpty = group.categories.every((c) => c.products.length === 0);
+
+                return (
+                  <div key={group.key} className="space-y-6">
+                    {group.title && (
+                      <h2
+                        id={`subfamily-${group.key}`}
+                        className="scroll-mt-24 border-b border-sand-300 pb-2 text-2xl font-semibold text-forest-dark"
+                      >
+                        {group.title}
+                      </h2>
+                    )}
+                    {notes.length > 0 && (
+                      <details className="rounded-lg bg-white p-4 text-sm text-bark-muted ring-1 ring-inset ring-sand-300">
+                        <summary className="cursor-pointer font-medium text-forest-dark">
+                          Informations sur cette gamme
+                        </summary>
+                        <ul className="mt-3 list-disc space-y-2 pl-5">
+                          {notes.map((note, i) => (
+                            <li key={i}>{note}</li>
+                          ))}
+                        </ul>
+                      </details>
+                    )}
+                    {allEmpty && (
+                      <p className="rounded-lg border border-onorder/30 bg-onorder/10 px-4 py-3 text-sm text-bark">
+                        Références en cours d&apos;intégration.{" "}
+                        <Link href="/pose" className="font-medium text-terracotta hover:underline">
+                          Demandez un devis
+                        </Link>{" "}
+                        pour cette gamme.
+                      </p>
+                    )}
+                    <CategoryGallery images={uniqueGallery} />
+                  </div>
+                );
+              }
+
               const CategoryHeading = group.title ? "h3" : "h2";
               return (
                 <div key={group.key} className="space-y-8">
