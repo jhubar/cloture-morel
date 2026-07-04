@@ -196,6 +196,11 @@ export const categoryImages: Record<string, ImageSlot[]> = {
     "Poteau rectangulaire acacia",
     [1, 2, 3, 4, 5],
   ),
+  "post-and-rail-poteaux-ronds": seq(
+    `${MAT}/cloture-equestre-en-bois/post-and-rail-en-robiniers-faux-acacia/poteaux`,
+    "Poteau rond acacia",
+    [1, 2, 3, 4, 5],
+  ),
   "post-and-rail-lisses-fendues": seq(
     `${MAT}/cloture-equestre-en-bois/post-and-rail-en-robiniers-faux-acacia/lisses-fendues`,
     "Lisse fendue acacia",

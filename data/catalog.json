@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-04T14:44:05.767999",
+  "generatedAt": "2026-07-04T15:55:52.539464",
   "source": "doc/Eshop.xlsx",
   "currency": "EUR",
   "taxNote": "Tous les prix sont HTVA",
@@ -1817,6 +1817,18 @@
           }
         }
       ]
+    },
+    {
+      "id": "post-and-rail-poteaux-ronds",
+      "title": "Poteaux ronds",
+      "parent": "cloture-equestre",
+      "parentTitle": "Clôture équestre",
+      "subParent": "post-and-rail-en-robiniers-faux-acacia",
+      "subParentTitle": "Post and rail en robinier faux acacia",
+      "format": "equestre",
+      "dualPricing": false,
+      "notes": [],
+      "products": []
     },
     {
       "id": "post-and-rail-lisses-fendues",

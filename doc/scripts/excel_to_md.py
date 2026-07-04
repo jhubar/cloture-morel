@@ -602,6 +602,7 @@ EQUESTRE_LEAVES = [
     ("nobifix-demi-rondins", "Demi-rondins", "pin-traite-nobifix", "Pin traité Nobifix"),
     ("nobifix-autres", "Rondins & planches", "pin-traite-nobifix", "Pin traité Nobifix"),
     ("post-and-rail-poteaux", "Poteaux rectangulaires", "post-and-rail-en-robiniers-faux-acacia", "Post and rail en robinier faux acacia"),
+    ("post-and-rail-poteaux-ronds", "Poteaux ronds", "post-and-rail-en-robiniers-faux-acacia", "Post and rail en robinier faux acacia"),
     ("post-and-rail-lisses-fendues", "Lisses fendues", "post-and-rail-en-robiniers-faux-acacia", "Post and rail en robinier faux acacia"),
 ]
 

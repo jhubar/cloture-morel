@@ -4,7 +4,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { Check, Info, Lock, Plus } from "lucide-react";
 import type { Category, Product } from "@/lib/types";
-import { getCategoryById } from "@/lib/catalog";
 import {
   findMatchingVariant,
   getAvailableValues,
@@ -19,9 +18,12 @@ import {
   RAIL_MAX_LENGTH_CM_MORTISE,
   estimateFence,
   getEssence,
+  getMortiseRailCategoryIds,
   getPostOptions,
   getRailOptions,
   isEssenceAvailable,
+  resolvePostCategory,
+  resolveRailCategory,
   type EquestreBuildResult,
   type EssenceConfig,
   type PartOption,
@@ -158,10 +160,12 @@ function PostConfigurator({
   category,
   group,
   onResolve,
+  mortaiseCountOptions = MORTAISE_COUNT_OPTIONS,
 }: {
   category: Category;
   group: ProductGroup;
   onResolve: (payload: PostResolve) => void;
+  mortaiseCountOptions?: string[];
 }) {
   const format = category.format;
   const variants = group.variants;
@@ -252,7 +256,7 @@ function PostConfigurator({
           label="Nombre de mortaises"
           name={`equestre-${category.id}-mortaise-count`}
           value={mortaiseCount}
-          options={MORTAISE_COUNT_OPTIONS}
+          options={mortaiseCountOptions}
           onChange={setMortaiseCount}
         />
       )}
@@ -355,7 +359,10 @@ export function EquestreFenceBuilder({
   }, [essenceKey]);
 
   const postOption = postOptions[postIndex] ?? postOptions[0];
-  const postCategory = postOption ? getCategoryById(postOption.categoryId) : undefined;
+  const postCategory =
+    postOption && essence
+      ? resolvePostCategory(postOption, essence)
+      : undefined;
 
   const mortiseCount = postMortiseCount;
   const isMortise = mortiseCount !== null;
@@ -366,21 +373,30 @@ export function EquestreFenceBuilder({
     return postOption.image;
   }, [postOption, isMortise]);
 
-  // Rail option: imposed for mortise posts, chosen otherwise.
-  const effectiveRailOption = useMemo(() => {
-    if (!essence) return undefined;
-    if (isMortise) {
-      return (
-        railOptions.find((o) => o.categoryId === essence.mortiseRailCategoryId) ??
-        railOptions[0]
-      );
-    }
-    return railOptions[railIndex] ?? railOptions[0];
-  }, [essence, isMortise, railOptions, railIndex]);
+  // Reset rail when mortise mode changes (subset of rail options may differ).
+  useEffect(() => {
+    setRailIndex(0);
+  }, [isMortise]);
 
-  const railCategory = effectiveRailOption
-    ? getCategoryById(effectiveRailOption.categoryId)
-    : undefined;
+  const selectableRailOptions = useMemo(() => {
+    if (!essence) return [];
+    if (isMortise) {
+      const mortiseIds = getMortiseRailCategoryIds(essence);
+      return railOptions.filter((o) => mortiseIds.includes(o.categoryId));
+    }
+    return railOptions;
+  }, [essence, isMortise, railOptions]);
+
+  // Rail option: mortise posts pick among compatible rails; otherwise full list.
+  const effectiveRailOption = useMemo(
+    () => selectableRailOptions[railIndex] ?? selectableRailOptions[0],
+    [selectableRailOptions, railIndex],
+  );
+
+  const railCategory =
+    effectiveRailOption && essence
+      ? resolveRailCategory(effectiveRailOption, essence)
+      : undefined;
 
   const railCount = isMortise ? mortiseCount! : railCountManual;
 
@@ -566,6 +582,7 @@ export function EquestreFenceBuilder({
             category={postCategory}
             group={postOption.group}
             onResolve={handlePostResolve}
+            mortaiseCountOptions={essence?.mortaiseCountOptions}
           />
         )}
         {postPreviewImage?.src && (
@@ -599,20 +616,46 @@ export function EquestreFenceBuilder({
         </legend>
 
         {isMortise ? (
-          <div className="flex items-start gap-2 rounded-lg border border-terracotta/30 bg-terracotta/5 px-3 py-2 text-sm text-bark">
-            <Lock className="mt-0.5 h-4 w-4 shrink-0 text-terracotta" aria-hidden="true" />
-            <span>
-              Poteau à <strong>{mortiseCount} mortaises</strong> : la lisse{" "}
-              <strong>{effectiveRailOption?.label}</strong> est imposée
-              (elle s&apos;emboîte dans les mortaises), soit{" "}
-              <strong>{mortiseCount} rangs</strong>.
-            </span>
-          </div>
+          <>
+            <div className="flex items-start gap-2 rounded-lg border border-terracotta/30 bg-terracotta/5 px-3 py-2 text-sm text-bark">
+              <Lock className="mt-0.5 h-4 w-4 shrink-0 text-terracotta" aria-hidden="true" />
+              <span>
+                Poteau à <strong>{mortiseCount} mortaises</strong> : les lisses
+                s&apos;emboîtent dans les mortaises, soit{" "}
+                <strong>{mortiseCount} rangs</strong>.
+                {selectableRailOptions.length === 1 && effectiveRailOption && (
+                  <>
+                    {" "}
+                    Type : <strong>{effectiveRailOption.label}</strong>.
+                  </>
+                )}
+              </span>
+            </div>
+            {selectableRailOptions.length > 1 && (
+              <div className="flex flex-wrap gap-2">
+                {selectableRailOptions.map((option, index) => (
+                  <button
+                    key={`${option.categoryId}-${option.group.article}`}
+                    type="button"
+                    onClick={() => setRailIndex(index)}
+                    className={cn(
+                      "inline-flex min-h-9 items-center rounded-full border px-3 py-1.5 text-sm transition-colors cursor-pointer",
+                      railIndex === index
+                        ? "border-forest bg-forest text-white"
+                        : "border-sand-300 bg-white text-bark hover:border-forest/50",
+                    )}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </>
         ) : (
           <>
-            {railOptions.length > 1 && (
+            {selectableRailOptions.length > 1 && (
               <div className="flex flex-wrap gap-2">
-                {railOptions.map((option, index) => (
+                {selectableRailOptions.map((option, index) => (
                   <button
                     key={`${option.categoryId}-${option.group.article}`}
                     type="button"
