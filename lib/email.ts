@@ -170,8 +170,12 @@ export async function sendMaterialsQuoteEmails(
   const lineRows = quote.lines
     .map((l) => {
       const qtyLabel = l.piecesPerPalette
-        ? `x${l.quantity} palette(s) - ${l.quantity * l.piecesPerPalette} pieces`
-        : `x${l.quantity}`;
+        ? `x${l.quantity} palette(s) - ${l.quantity * l.piecesPerPalette} pièces`
+        : l.piecesPerPack
+          ? l.packUnit === "carton"
+            ? `x${l.quantity} carton(s) - ${l.quantity * l.piecesPerPack} pièces`
+            : `x${l.quantity} sachet(s) - ${l.quantity * l.piecesPerPack} pièces`
+          : `x${l.quantity}`;
       return `<tr><td style="padding:4px 0;border-bottom:1px solid #e3ddd2;">${htmlEscape(l.reference)} <span style="color:#5b6b61;">${qtyLabel}</span></td><td style="padding:4px 0;border-bottom:1px solid #e3ddd2;text-align:right;">${l.lineTotal !== null ? eur(l.lineTotal) : "Sur demande"}</td></tr>`;
     })
     .join("");

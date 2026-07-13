@@ -86,6 +86,18 @@ const FAMILY_META: Record<string, FamilyMeta> = {
   },
 };
 
+/** Ordre d'affichage des familles dans le catalogue (grille, navigation, accueil). */
+const FAMILY_ORDER: string[] = [
+  "piquets-en-robiniers-faux-acacia-ronds",
+  "morel-wire-grillages-barbeles-et-fils-galvanises",
+  "cloture-equestre",
+  "barrieres-galvanisees",
+  "barrieres-anglaises",
+  "ganivelles-en-robiniers-faux-acacia",
+  "brandes-de-bruyere",
+  "outillage-et-accessoires-clotures",
+];
+
 const FALLBACK_ICON: LucideIcon = Fence;
 
 /** A navigation family enriched with customer-friendly presentation data. */
@@ -102,7 +114,7 @@ export interface Family extends CategoryNode {
 
 /** Build the list of families from the catalog tree + presentation metadata. */
 export function getFamilies(): Family[] {
-  return getCategoryTree().map((node) => {
+  const families = getCategoryTree().map((node) => {
     const meta = FAMILY_META[node.id];
     const productCount = node.categories.reduce(
       (sum, category) => sum + category.products.length,
@@ -116,6 +128,17 @@ export function getFamilies(): Family[] {
       icon: meta?.icon ?? FALLBACK_ICON,
       productCount,
     };
+  });
+
+  const orderIndex = new Map(FAMILY_ORDER.map((id, index) => [id, index]));
+
+  return families.sort((a, b) => {
+    const ia = orderIndex.get(a.id);
+    const ib = orderIndex.get(b.id);
+    if (ia !== undefined && ib !== undefined) return ia - ib;
+    if (ia !== undefined) return -1;
+    if (ib !== undefined) return 1;
+    return a.label.localeCompare(b.label, "fr");
   });
 }
 

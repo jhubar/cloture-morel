@@ -33,6 +33,7 @@ export const materialsQuoteSchema = z.object({
       z.object({
         productId: z.string().min(1),
         quantity: z.number().int().positive().max(100000),
+        packUnit: z.enum(["sachet", "carton"]).optional(),
       }),
     )
     .min(1, "Votre sélection est vide."),

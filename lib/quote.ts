@@ -1,6 +1,6 @@
 import { findProduct, TAX_NOTE } from "@/lib/catalog";
 import { getProductCommercialReference } from "@/lib/product-display";
-import { getProductPricing } from "@/lib/pricing";
+import { getProductPricing, resolveSellablePricing } from "@/lib/pricing";
 import type { MaterialsQuoteCustomer } from "@/lib/types";
 import type { MaterialsQuoteInput } from "@/lib/validation";
 
@@ -14,6 +14,10 @@ export interface QuoteLine {
   unitLabel: string;
   /** Pieces per palette when sold by palette, otherwise null. */
   piecesPerPalette: number | null;
+  /** Pieces per sachet when sold by pack, otherwise null. */
+  piecesPerPack: number | null;
+  /** Conditionnement choisi (sachet ou carton). */
+  packUnit?: "sachet" | "carton";
   /** Catalog price per piece, or null when "sur demande". */
   piecePrice: number | null;
   /** Price per sellable unit (palette price when sold by palette), or null. */
@@ -54,7 +58,10 @@ export function buildMaterialsQuote(input: MaterialsQuoteInput): MaterialsQuote 
     const found = findProduct(item.productId);
     if (!found) continue;
     const { product, category } = found;
-    const pricing = getProductPricing(product);
+    const pricing = resolveSellablePricing(
+      getProductPricing(product),
+      item.packUnit,
+    );
     lines.push({
       reference: getProductCommercialReference(product) || product.label,
       label: product.label,
@@ -62,6 +69,8 @@ export function buildMaterialsQuote(input: MaterialsQuoteInput): MaterialsQuote 
       quantity: item.quantity,
       unitLabel: pricing.unitLabel,
       piecesPerPalette: pricing.piecesPerPalette,
+      piecesPerPack: pricing.piecesPerPack,
+      packUnit: item.packUnit,
       piecePrice: pricing.piecePrice,
       unitPrice: pricing.unitPrice,
       lineTotal:

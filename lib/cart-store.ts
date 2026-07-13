@@ -4,7 +4,18 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import type { CartItem, ResolvedCartItem } from "@/lib/types";
 import { findProduct } from "@/lib/catalog";
-import { getProductPricing } from "@/lib/pricing";
+import { getProductPricing, resolveSellablePricing, type PackUnit } from "@/lib/pricing";
+
+function matchesCartItem(
+  item: CartItem,
+  productId: string,
+  packUnit?: PackUnit,
+): boolean {
+  return (
+    item.productId === productId &&
+    (item.packUnit ?? "sachet") === (packUnit ?? "sachet")
+  );
+}
 
 interface CartState {
   items: CartItem[];
@@ -12,11 +23,11 @@ interface CartState {
   hydrated: boolean;
   /** Incremented to request opening the mobile cart drawer after add-to-cart. */
   drawerOpenNonce: number;
-  addItem: (productId: string, quantity?: number) => void;
-  removeItem: (productId: string) => void;
-  setQuantity: (productId: string, quantity: number) => void;
-  increment: (productId: string) => void;
-  decrement: (productId: string) => void;
+  addItem: (productId: string, quantity?: number, packUnit?: PackUnit) => void;
+  removeItem: (productId: string, packUnit?: PackUnit) => void;
+  setQuantity: (productId: string, quantity: number, packUnit?: PackUnit) => void;
+  increment: (productId: string, packUnit?: PackUnit) => void;
+  decrement: (productId: string, packUnit?: PackUnit) => void;
   clear: () => void;
   requestDrawerOpen: () => void;
   setHydrated: (value: boolean) => void;
@@ -28,17 +39,26 @@ export const useCartStore = create<CartState>()(
       items: [],
       hydrated: false,
       drawerOpenNonce: 0,
-      addItem: (productId, quantity = 1) =>
+      addItem: (productId, quantity = 1, packUnit) =>
         set((state) => {
           const wasEmpty = state.items.length === 0;
-          const existing = state.items.find((i) => i.productId === productId);
+          const existing = state.items.find((i) =>
+            matchesCartItem(i, productId, packUnit),
+          );
           const items = existing
             ? state.items.map((i) =>
-                i.productId === productId
+                matchesCartItem(i, productId, packUnit)
                   ? { ...i, quantity: i.quantity + quantity }
                   : i,
               )
-            : [...state.items, { productId, quantity }];
+            : [
+                ...state.items,
+                {
+                  productId,
+                  quantity,
+                  ...(packUnit ? { packUnit } : {}),
+                },
+              ];
 
           return {
             items,
@@ -46,32 +66,44 @@ export const useCartStore = create<CartState>()(
             ...(wasEmpty ? { drawerOpenNonce: state.drawerOpenNonce + 1 } : {}),
           };
         }),
-      removeItem: (productId) =>
+      removeItem: (productId, packUnit) =>
         set((state) => ({
-          items: state.items.filter((i) => i.productId !== productId),
+          items: state.items.filter(
+            (i) => !matchesCartItem(i, productId, packUnit),
+          ),
         })),
-      setQuantity: (productId, quantity) =>
+      setQuantity: (productId, quantity, packUnit) =>
         set((state) => {
           if (quantity <= 0) {
-            return { items: state.items.filter((i) => i.productId !== productId) };
+            return {
+              items: state.items.filter(
+                (i) => !matchesCartItem(i, productId, packUnit),
+              ),
+            };
           }
           return {
             items: state.items.map((i) =>
-              i.productId === productId ? { ...i, quantity } : i,
+              matchesCartItem(i, productId, packUnit)
+                ? { ...i, quantity }
+                : i,
             ),
           };
         }),
-      increment: (productId) =>
+      increment: (productId, packUnit) =>
         set((state) => ({
           items: state.items.map((i) =>
-            i.productId === productId ? { ...i, quantity: i.quantity + 1 } : i,
+            matchesCartItem(i, productId, packUnit)
+              ? { ...i, quantity: i.quantity + 1 }
+              : i,
           ),
         })),
-      decrement: (productId) =>
+      decrement: (productId, packUnit) =>
         set((state) => ({
           items: state.items
             .map((i) =>
-              i.productId === productId ? { ...i, quantity: i.quantity - 1 } : i,
+              matchesCartItem(i, productId, packUnit)
+                ? { ...i, quantity: i.quantity - 1 }
+                : i,
             )
             .filter((i) => i.quantity > 0),
         })),
@@ -106,7 +138,10 @@ export function resolveCartItems(items: CartItem[]): ResolvedCartItem[] {
     const found = findProduct(item.productId);
     if (!found) continue;
     const { product, category } = found;
-    const pricing = getProductPricing(product);
+    const pricing = resolveSellablePricing(
+      getProductPricing(product),
+      item.packUnit,
+    );
     resolved.push({
       product,
       category,
@@ -116,8 +151,11 @@ export function resolveCartItems(items: CartItem[]): ResolvedCartItem[] {
         pricing.unitPrice !== null ? pricing.unitPrice * item.quantity : null,
       isPalette: pricing.isPalette,
       piecesPerPalette: pricing.piecesPerPalette,
+      isPack: pricing.isPack,
+      piecesPerPack: pricing.piecesPerPack,
       piecePrice: pricing.piecePrice,
       unitLabel: pricing.unitLabel,
+      packUnit: item.packUnit,
     });
   }
   return resolved;

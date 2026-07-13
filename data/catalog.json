@@ -43,8 +43,9 @@
           "prixUnitaireHTVA": 7.49,
           "disponibilite": "Sur commande",
           "details": {
-            "nombre_par_palette": "75",
-            "nombre_par_palette_camion": "75",
+            "nombre_par_palette": "70",
+            "nombre_par_palette_camion": "70",
+            "note_palette": "Le nombre de pièces par palette peut varier de 65 à 75 selon les lots.",
             "note_camion": "Sur commande"
           },
           "prixCamionCompletHTVA": 6.93
@@ -71,8 +72,9 @@
           "prixUnitaireHTVA": 8.43,
           "disponibilite": "En stock",
           "details": {
-            "nombre_par_palette": "75",
-            "nombre_par_palette_camion": "75",
+            "nombre_par_palette": "70",
+            "nombre_par_palette_camion": "70",
+            "note_palette": "Le nombre de pièces par palette peut varier de 65 à 75 selon les lots.",
             "note_camion": "En stock"
           },
           "prixCamionCompletHTVA": 7.8
@@ -99,8 +101,9 @@
           "prixUnitaireHTVA": 9.37,
           "disponibilite": "En stock",
           "details": {
-            "nombre_par_palette": "75",
-            "nombre_par_palette_camion": "75",
+            "nombre_par_palette": "70",
+            "nombre_par_palette_camion": "70",
+            "note_palette": "Le nombre de pièces par palette peut varier de 65 à 75 selon les lots.",
             "note_camion": "En stock"
           },
           "prixCamionCompletHTVA": 8.67
@@ -127,8 +130,9 @@
           "prixUnitaireHTVA": 11.71,
           "disponibilite": "En stock",
           "details": {
-            "nombre_par_palette": "75",
-            "nombre_par_palette_camion": "75",
+            "nombre_par_palette": "70",
+            "nombre_par_palette_camion": "70",
+            "note_palette": "Le nombre de pièces par palette peut varier de 65 à 75 selon les lots.",
             "note_camion": "En stock"
           },
           "prixCamionCompletHTVA": 10.84
@@ -141,8 +145,9 @@
           "prixUnitaireHTVA": 14.05,
           "disponibilite": "En stock",
           "details": {
-            "nombre_par_palette": "75",
-            "nombre_par_palette_camion": "75",
+            "nombre_par_palette": "70",
+            "nombre_par_palette_camion": "70",
+            "note_palette": "Le nombre de pièces par palette peut varier de 65 à 75 selon les lots.",
             "note_camion": "En stock"
           },
           "prixCamionCompletHTVA": 13.01
@@ -157,6 +162,7 @@
           "details": {
             "nombre_par_palette": "60",
             "nombre_par_palette_camion": "60",
+            "note_palette": "Le nombre de pièces par palette peut varier de 50 à 60 selon les lots.",
             "note_camion": "Sur commande"
           },
           "prixCamionCompletHTVA": 17.46
@@ -394,7 +400,8 @@
           "prixUnitaireHTVA": 105.0,
           "disponibilite": "En stock",
           "details": {
-            "metres_par_rlx": "625"
+            "conditionnement": "Bobine de 25 kg — 625 m",
+            "metres_par_rlx": "625 m"
           }
         },
         {
@@ -405,7 +412,8 @@
           "prixUnitaireHTVA": 15.0,
           "disponibilite": "En stock",
           "details": {
-            "metres_par_rlx": "125"
+            "conditionnement": "Bobine de 5 kg — 125 m",
+            "metres_par_rlx": "125 m"
           }
         }
       ]
@@ -752,6 +760,32 @@
       ]
     },
     {
+      "id": "fabrication-sur-mesure-barrieres-galvanisees",
+      "title": "Barrières et ouvrages galvanisés sur mesure",
+      "parent": "barrieres-galvanisees",
+      "parentTitle": "Barrières galvanisées",
+      "subParent": "fabrication-sur-mesure",
+      "subParentTitle": "Fabrication sur mesure",
+      "format": "standard_note",
+      "dualPricing": false,
+      "notes": [
+        "Photos à venir.",
+        "Tarif à convenir selon votre projet.",
+        "Atelier complet en ferronnerie : barrières, passages, portails et ouvrages aux dimensions souhaitées."
+      ],
+      "products": [
+        {
+          "id": "fabrication-sur-mesure-barrieres-galvanisees-sur-mesure-0",
+          "label": "Fabrication sur mesure — Barrières et ouvrages galvanisés",
+          "article": "Fabrication sur mesure",
+          "reference": "Sur mesure",
+          "prixUnitaireHTVA": "À convenir",
+          "disponibilite": "Sur commande",
+          "details": {}
+        }
+      ]
+    },
+    {
       "id": "barrieres-anglaises-en-bois-exotique-h-120-cm",
       "title": "Barrières anglaises en bois exotique H.120 cm",
       "parent": "barrieres-anglaises",
@@ -1064,7 +1098,8 @@
           "prixUnitaireHTVA": 18.8,
           "disponibilite": "En stock",
           "details": {
-            "quantite_pack": "20"
+            "quantite_pack": "20",
+            "quantite_carton": "200"
           }
         },
         {
@@ -1075,7 +1110,8 @@
           "prixUnitaireHTVA": 18.8,
           "disponibilite": "En stock",
           "details": {
-            "quantite_pack": "20"
+            "quantite_pack": "20",
+            "quantite_carton": "200"
           }
         },
         {
@@ -1086,7 +1122,8 @@
           "prixUnitaireHTVA": 48.6,
           "disponibilite": "En stock",
           "details": {
-            "quantite_pack": "20"
+            "quantite_pack": "20",
+            "quantite_carton": "200"
           }
         },
         {

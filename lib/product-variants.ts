@@ -156,6 +156,40 @@ function parseCmValue(value: string): number | null {
   return match ? Number.parseInt(match[1], 10) : null;
 }
 
+function parseNumericSegment(segment: string): number | null {
+  const normalized = segment.trim().replace(",", ".");
+  const n = Number.parseFloat(normalized);
+  return Number.isFinite(n) ? n : null;
+}
+
+/** Grillage model codes like 8/80/15 or 13/122/7,5 — sort by each segment numerically. */
+function parseSlashModel(value: string): number[] | null {
+  const parts = value.trim().split("/").map(parseNumericSegment);
+  if (parts.length < 2 || parts.some((n) => n === null)) return null;
+  return parts as number[];
+}
+
+function compareSlashModels(a: string, b: string): number {
+  const pa = parseSlashModel(a);
+  const pb = parseSlashModel(b);
+  if (!pa || !pb) return a.localeCompare(b, "fr");
+
+  const len = Math.max(pa.length, pb.length);
+  for (let i = 0; i < len; i += 1) {
+    const diff = (pa[i] ?? 0) - (pb[i] ?? 0);
+    if (diff !== 0) return diff;
+  }
+  return 0;
+}
+
+/** Low tensile before high tensile (e.g. fil galvanisé Morel Wire). */
+function compareTensileReferences(a: string, b: string): number {
+  const aIsLow = /low\s*tensile/i.test(a);
+  const bIsLow = /low\s*tensile/i.test(b);
+  if (aIsLow !== bIsLow) return aIsLow ? -1 : 1;
+  return a.localeCompare(b, "fr", { sensitivity: "base" });
+}
+
 function sortValues(key: string, values: string[]): string[] {
   const unique = [...new Set(values)];
 
@@ -166,6 +200,14 @@ function sortValues(key: string, values: string[]): string[] {
       if (na !== null && nb !== null) return na - nb;
       return a.localeCompare(b, "fr");
     });
+  }
+
+  if (key === "reference" && unique.some((value) => /^\d+\/\d+/.test(value))) {
+    return unique.sort(compareSlashModels);
+  }
+
+  if (key === "reference" && unique.some((value) => /tensile/i.test(value))) {
+    return unique.sort(compareTensileReferences);
   }
 
   if (key === "reference" && unique.some((value) => /^H\./i.test(value))) {
@@ -179,6 +221,45 @@ function sortValues(key: string, values: string[]): string[] {
 
   if (key === "mortaises") {
     const order = ["Sans", "2", "3", "4"];
+    return unique.sort((a, b) => {
+      const ia = order.indexOf(a);
+      const ib = order.indexOf(b);
+      if (ia >= 0 && ib >= 0) return ia - ib;
+      if (ia >= 0) return -1;
+      if (ib >= 0) return 1;
+      return a.localeCompare(b, "fr");
+    });
+  }
+
+  // Clameuse Stockade : machine avant consommables
+  if (
+    key === "reference" &&
+    unique.some((v) => /stockade st315i/i.test(v)) &&
+    unique.some((v) => /consommable st 315i/i.test(v))
+  ) {
+    const order = (value: string): number => {
+      if (/stockade st315i/i.test(value)) return 0;
+      if (/consommable st 315i/i.test(value)) return 1;
+      return 2;
+    };
+    return unique.sort((a, b) => {
+      const diff = order(a) - order(b);
+      if (diff !== 0) return diff;
+      return a.localeCompare(b, "fr");
+    });
+  }
+
+  // Gripple : medium → T-clip → Barbed → pince de tension
+  if (
+    key === "reference" &&
+    unique.some((v) => /gripple plus m/i.test(v) || /gripple t-clip/i.test(v))
+  ) {
+    const order = [
+      "Gripple plus médium",
+      "Gripple T-clip 1",
+      "Gripple Barbed",
+      "Pince de tension métallique",
+    ];
     return unique.sort((a, b) => {
       const ia = order.indexOf(a);
       const ib = order.indexOf(b);

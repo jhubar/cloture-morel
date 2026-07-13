@@ -25,6 +25,10 @@ export function CartLineItem({ line }: CartLineItemProps) {
     lineTotal,
     isPalette,
     piecesPerPalette,
+    isPack,
+    piecesPerPack,
+    unitLabel,
+    packUnit,
   } = line;
 
   const unitLine =
@@ -32,7 +36,26 @@ export function CartLineItem({ line }: CartLineItemProps) {
       ? "Prix sur demande"
       : isPalette
         ? `${formatEUR(unitPrice)} / palette · ${piecesPerPalette} pièces`
-        : `${formatEUR(unitPrice)} / unité HTVA`;
+        : isPack
+          ? packUnit === "carton"
+            ? `${formatEUR(unitPrice)} / carton · ${piecesPerPack} pièces`
+            : `${formatEUR(unitPrice)} / sachet · ${piecesPerPack} pièces`
+          : `${formatEUR(unitPrice)} / ${unitLabel} HTVA`;
+
+  const quantityLabel = isPalette
+    ? "Nombre de palettes"
+    : isPack
+      ? packUnit === "carton"
+        ? "Nombre de cartons"
+        : "Nombre de sachets"
+      : "Quantité";
+
+  const piecesTotal =
+    isPalette && piecesPerPalette
+      ? quantity * piecesPerPalette
+      : isPack && piecesPerPack
+        ? quantity * piecesPerPack
+        : null;
 
   return (
     <div className="flex flex-col gap-3 py-4 sm:flex-row sm:items-start">
@@ -50,18 +73,18 @@ export function CartLineItem({ line }: CartLineItemProps) {
         <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-2">
           <QuantityStepper
             value={quantity}
-            onChange={(q) => setQuantity(product.id, q)}
+            onChange={(q) => setQuantity(product.id, q, packUnit)}
             size="sm"
-            label={isPalette ? "Nombre de palettes" : "Quantité"}
+            label={quantityLabel}
           />
-          {isPalette && piecesPerPalette ? (
+          {piecesTotal !== null ? (
             <span className="text-xs text-bark-muted">
-              = {quantity * piecesPerPalette} pièce{quantity * piecesPerPalette > 1 ? "s" : ""}
+              = {piecesTotal} pièce{piecesTotal > 1 ? "s" : ""}
             </span>
           ) : null}
           <button
             type="button"
-            onClick={() => removeItem(product.id)}
+            onClick={() => removeItem(product.id, packUnit)}
             className="inline-flex min-h-11 items-center gap-1 text-xs text-bark-muted transition-colors hover:text-terracotta cursor-pointer"
             aria-label={`Retirer ${product.label} du panier`}
           >

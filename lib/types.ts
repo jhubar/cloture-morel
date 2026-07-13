@@ -66,6 +66,8 @@ export interface CategoryNode {
 export interface CartItem {
   productId: string;
   quantity: number;
+  /** Sachet ou carton pour les produits vendus par lot (Gripple, etc.). */
+  packUnit?: "sachet" | "carton";
 }
 
 /** A cart line resolved against the current catalog, ready for display. */
@@ -82,10 +84,16 @@ export interface ResolvedCartItem {
   isPalette: boolean;
   /** Pieces per palette when isPalette, otherwise null. */
   piecesPerPalette: number | null;
+  /** True when the catalog price is per sachet of N pieces. */
+  isPack: boolean;
+  /** Pieces per sachet when isPack, otherwise null. */
+  piecesPerPack: number | null;
   /** Catalog price per piece, or null when "sur demande". */
   piecePrice: number | null;
-  /** Singular label of the sellable unit ("palette" | "unité"). */
+  /** Singular label of the sellable unit ("palette" | "sachet" | "carton" | "unité"). */
   unitLabel: string;
+  /** Conditionnement choisi pour les produits vendus par lot. */
+  packUnit?: "sachet" | "carton";
 }
 
 /** Customer payload sent with a materials quote request. */

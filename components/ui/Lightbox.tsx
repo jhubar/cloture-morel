@@ -49,8 +49,12 @@ export function Lightbox({ images, initialIndex = 0, open, onClose }: LightboxPr
         <Dialog.Overlay className="fixed inset-0 z-50 bg-black/85 data-[state=open]:animate-in data-[state=open]:fade-in-0" />
         <Dialog.Content
           className="fixed inset-0 z-50 flex flex-col items-center justify-center outline-none"
-          aria-label={current.alt}
         >
+          <Dialog.Title className="sr-only">
+            {images.length > 1
+              ? `Galerie photo — ${current.alt} (${index + 1} sur ${images.length})`
+              : current.alt}
+          </Dialog.Title>
           {/* Close */}
           <Dialog.Close asChild>
             <button
@@ -139,10 +143,18 @@ interface GalleryThumbProps {
   index?: number;
   className?: string;
   sizes?: string;
+  fit?: "cover" | "contain";
   onOpen: (index: number) => void;
 }
 
-export function GalleryThumb({ images, index = 0, className, sizes = "100vw", onOpen }: GalleryThumbProps) {
+export function GalleryThumb({
+  images,
+  index = 0,
+  className,
+  sizes = "100vw",
+  fit = "cover",
+  onOpen,
+}: GalleryThumbProps) {
   const img = images[index];
   if (!img) return null;
 
@@ -150,14 +162,22 @@ export function GalleryThumb({ images, index = 0, className, sizes = "100vw", on
     <button
       type="button"
       onClick={() => onOpen(index)}
-      className={cn("group relative cursor-zoom-in overflow-hidden", className)}
+      className={cn(
+        "group relative cursor-zoom-in overflow-hidden",
+        fit === "contain" && "bg-sand-200",
+        className,
+      )}
       aria-label={`Agrandir : ${img.alt}`}
     >
       <Image
         src={img.src}
         alt={img.alt}
         fill
-        className="object-cover transition-transform duration-300 group-hover:scale-105"
+        className={cn(
+          fit === "contain"
+            ? "object-contain p-4"
+            : "object-cover transition-transform duration-300 group-hover:scale-105",
+        )}
         sizes={sizes}
       />
       {/* Badge multi-photos */}

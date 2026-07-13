@@ -91,6 +91,12 @@ export function getProductDisplaySubtitle(product: Product): string | null {
   return `${label} ${ref}`;
 }
 
+/** Conditionnement vendu (bobine, rouleau, palette…). */
+export function getProductConditionnement(product: Product): string | null {
+  const value = product.details?.conditionnement?.trim();
+  return value || null;
+}
+
 /** Caractéristiques complémentaires (taille passage canadien, rouleau, palette…). */
 export function getProductDetailRows(
   product: Product,
@@ -112,6 +118,13 @@ export function getProductDetailRows(
       if (title.includes(normalized)) return false;
       return true;
     })
+    .filter(([key]) =>
+      key !== "note_palette" &&
+      key !== "note_pack" &&
+      key !== "quantite_pack" &&
+      key !== "quantite_carton" &&
+      key !== "conditionnement",
+    )
     .map(([key, value]) => ({
       key,
       label: DETAIL_LABELS[key] ?? humanizeDetailKey(key),

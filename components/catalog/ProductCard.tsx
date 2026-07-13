@@ -5,16 +5,23 @@ import Link from "next/link";
 import { Check, Plus, Truck } from "lucide-react";
 import type { Category, Product } from "@/lib/types";
 import { formatEUR, formatPrice, isNumericPrice } from "@/lib/format";
-import { getProductPricing } from "@/lib/pricing";
+import { getProductPricing, getSellableUnitPlural, resolveSellablePricing, type PackUnit } from "@/lib/pricing";
 import {
   getProductDetailRows,
+  getProductConditionnement,
   getProductDisplayTitle,
   getProductDisplaySubtitle,
 } from "@/lib/product-display";
-import { getCategoryImages } from "@/lib/assets";
+import {
+  getCategoryImagesForSelection,
+  getCategoryGalleryFit,
+} from "@/lib/assets";
 import { useCartStore } from "@/lib/cart-store";
+import { SellableUnitPricing } from "@/components/catalog/SellableUnitPricing";
+import { PackUnitPicker } from "@/components/catalog/PackUnitPicker";
 import { AvailabilityBadge } from "@/components/catalog/AvailabilityBadge";
 import { QuantityStepper } from "@/components/ui/QuantityStepper";
+import { ImageSlot } from "@/components/ui/ImageSlot";
 import { GalleryThumb, Lightbox } from "@/components/ui/Lightbox";
 import { cn } from "@/lib/utils";
 
@@ -32,32 +39,41 @@ export function ProductCard({
 }: ProductCardProps) {
   const addItem = useCartStore((s) => s.addItem);
   const [quantity, setQuantity] = useState(1);
+  const [packUnit, setPackUnit] = useState<PackUnit>("sachet");
   const [added, setAdded] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
-  const pricing = getProductPricing(product);
+  const basePricing = getProductPricing(product);
+  const sellablePricing = resolveSellablePricing(basePricing, packUnit);
   const title = getProductDisplayTitle(product);
   const subtitle = getProductDisplaySubtitle(product);
   const detailRows = getProductDetailRows(product);
+  const conditionnement = getProductConditionnement(product);
   const hasTruckPrice = isNumericPrice(product.prixCamionCompletHTVA);
 
-  // Images propres à la catégorie (sous-dossier exact)
-  const catImages = getCategoryImages(category.id).map((s) => ({
-    src: s.src ?? "",
-    alt: s.alt,
-  })).filter((img) => img.src !== "");
+  // Images propres à la catégorie / sous-dossier (référence produit)
+  const imageSelection: Record<string, string> = {};
+  const reference = product.reference?.trim();
+  if (reference) imageSelection.reference = reference;
+  const modele = product.details?.modele?.trim();
+  if (modele) imageSelection.modele = modele;
 
-  const unitNoun = pricing.isPalette
-    ? quantity > 1
-      ? "palettes"
-      : "palette"
-    : quantity > 1
-      ? "unités"
-      : "unité";
+  const imageSlots = getCategoryImagesForSelection(category.id, imageSelection);
+  const galleryFit = getCategoryGalleryFit(category.id);
+  const catImages = imageSlots
+    .map((s) => ({ src: s.src ?? "", alt: s.alt }))
+    .filter((img) => img.src !== "");
+  const placeholderSlot = imageSlots.find((slot) => !slot.src);
+
+  const unitNoun = getSellableUnitPlural(sellablePricing, quantity);
 
   const handleAdd = () => {
-    addItem(product.id, quantity);
+    addItem(
+      product.id,
+      quantity,
+      basePricing.isPack ? packUnit : undefined,
+    );
     setAdded(true);
     window.setTimeout(() => setAdded(false), 4000);
   };
@@ -67,21 +83,35 @@ export function ProductCard({
 
   return (
     <article className="min-w-0 overflow-hidden rounded-card border border-sand-300 bg-white shadow-card sm:flex sm:flex-row">
-      {catImages.length > 0 && (
+      {(catImages.length > 0 || placeholderSlot) && (
         <div className="relative w-full shrink-0 overflow-hidden border-b border-sand-200 sm:w-60 sm:border-b-0 sm:border-r md:w-72">
           <div className="aspect-[16/10] sm:aspect-auto sm:h-full">
-            <GalleryThumb
-              images={catImages}
-              className="h-full w-full"
-              sizes="(max-width: 640px) 100vw, 288px"
-              onOpen={(i) => { setLightboxIndex(i); setLightboxOpen(true); }}
-            />
-            <Lightbox
-              images={catImages}
-              initialIndex={lightboxIndex}
-              open={lightboxOpen}
-              onClose={() => setLightboxOpen(false)}
-            />
+            {catImages.length > 0 ? (
+              <>
+                <GalleryThumb
+                  images={catImages}
+                  fit={galleryFit}
+                  className="h-full w-full"
+                  sizes="(max-width: 640px) 100vw, 288px"
+                  onOpen={(i) => { setLightboxIndex(i); setLightboxOpen(true); }}
+                />
+                <Lightbox
+                  images={catImages}
+                  initialIndex={lightboxIndex}
+                  open={lightboxOpen}
+                  onClose={() => setLightboxOpen(false)}
+                />
+              </>
+            ) : (
+              placeholderSlot && (
+                <ImageSlot
+                  slot={placeholderSlot}
+                  showHint
+                  className="h-full min-h-[200px] w-full"
+                  sizes="(max-width: 640px) 100vw, 288px"
+                />
+              )
+            )}
           </div>
         </div>
       )}
@@ -118,20 +148,26 @@ export function ProductCard({
 
       <div className="mt-4">
         <p className="font-display text-2xl font-semibold text-forest-dark">
-          {pricing.unitPrice !== null
-            ? formatEUR(pricing.unitPrice)
+          {sellablePricing.unitPrice !== null
+            ? formatEUR(sellablePricing.unitPrice)
             : formatPrice(product.prixUnitaireHTVA)}
         </p>
-        {pricing.isPalette && pricing.piecesPerPalette !== null ? (
-          <p className="mt-1 text-xs text-bark-muted">
-            Prix pour <span className="font-medium text-forest-dark">1 palette</span> de{" "}
-            {pricing.piecesPerPalette} pièces
-            {pricing.piecePrice !== null && (
-              <> ({formatEUR(pricing.piecePrice)} par pièce HTVA)</>
-            )}
-          </p>
+        {basePricing.isPack ? (
+          <PackUnitPicker
+            pricing={basePricing}
+            value={packUnit}
+            onChange={setPackUnit}
+            className="mt-3"
+          />
         ) : (
-          <p className="text-xs text-bark-muted">Prix unitaire HTVA</p>
+          <SellableUnitPricing
+            pricing={basePricing}
+            className="text-xs text-bark-muted"
+            detailClassName="mt-1 text-xs text-bark-muted"
+          />
+        )}
+        {conditionnement && (
+          <p className="mt-1 text-xs text-bark-muted">{conditionnement}</p>
         )}
         {hasTruckPrice && (
           <p className="mt-2 text-xs text-bark-muted">

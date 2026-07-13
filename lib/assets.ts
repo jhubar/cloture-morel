@@ -114,19 +114,11 @@ export const categoryImages: Record<string, ImageSlot[]> = {
     [1, 2, 3, 4, 5, 6],
   ),
 
-  // Poteaux galvanisés (récepteurs + supports)
-  "poteaux-galvanises-pour-barrieres": [
-    ...seq(`${MAT}/barrieres-galvanisees/poteaux-galvanises/recepteurs`, "Poteau galvanisé récepteur", [1, 2, 3]),
-    ...seq(`${MAT}/barrieres-galvanisees/poteaux-galvanises/supports`,   "Poteau galvanisé support",   [1, 2, 3]),
-  ],
+  // Poteaux galvanisés — galerie par modèle (récepteur / support), voir categoryImagesBySelectionKey
+  "poteaux-galvanises-pour-barrieres": [],
 
-  // Quincailleries barrières galvanisées (toutes pièces)
-  "quincailleries-pour-barrieres-galvanisees": [
-    ...seq(`${MAT}/barrieres-galvanisees/quincailleries/paire-de-gonds`,      "Paire de gonds",           [1, 2]),
-    ...seq(`${MAT}/barrieres-galvanisees/quincailleries/oeillet-de-fermeture`, "Œillet de fermeture",     [1, 2]),
-    ...seq(`${MAT}/barrieres-galvanisees/quincailleries/levier-de-fermeture`,  "Levier de fermeture",     [1, 2]),
-    ...seq(`${MAT}/barrieres-galvanisees/quincailleries/baionettes`,           "Baïonnette",               [1, 2, 3]),
-  ],
+  // Quincailleries barrières galvanisées — galerie par article, voir categoryImagesBySelectionKey
+  "quincailleries-pour-barrieres-galvanisees": [],
 
   // Passage canadien
   "passage-canadien": seq(
@@ -134,6 +126,15 @@ export const categoryImages: Record<string, ImageSlot[]> = {
     "Passage canadien (cattle grid)",
     [1, 2],
   ),
+
+  // Fabrication sur mesure — photos à fournir
+  "fabrication-sur-mesure-barrieres-galvanisees": [
+    {
+      src: null,
+      alt: "Fabrication sur mesure — barrières galvanisées",
+      hint: `${MAT}/barrieres-galvanisees/fabrication-sur-mesure/`,
+    },
+  ],
 
   // Barrières anglaises en bois exotique + portillons ganivelles (bois)
   "barrieres-anglaises-en-bois-exotique-h-120-cm": [
@@ -148,15 +149,8 @@ export const categoryImages: Record<string, ImageSlot[]> = {
     [1, 2, 3],
   ),
 
-  // Quincailleries barrières anglaises (toutes pièces)
-  "quincailleries-pour-barrieres-anglaises": [
-    ...seq(`${MAT}/barrieres-en-bois/quincailleries-pour-barrieres-anglaises/kit-charnieres-reglables`, "Kit charnières réglables",  [1, 2]),
-    ...seq(`${MAT}/barrieres-en-bois/quincailleries-pour-barrieres-anglaises/fermeture-oscillante`,     "Fermeture oscillante",       [1, 2, 3, 4]),
-    ...seq(`${MAT}/barrieres-en-bois/quincailleries-pour-barrieres-anglaises/fermeture-a-ressort`,      "Fermeture à ressort",        [1, 2]),
-    ...seq(`${MAT}/barrieres-en-bois/quincailleries-pour-barrieres-anglaises/levier-de-fermeture`,      "Levier de fermeture bois",   [1, 2]),
-    ...seq(`${MAT}/barrieres-en-bois/quincailleries-pour-barrieres-anglaises/verrou-lourd`,              "Verrou lourd",               [1, 2]),
-    ...seq(`${MAT}/barrieres-en-bois/quincailleries-pour-barrieres-anglaises/baionettes`,               "Baïonnette",                 [1, 2]),
-  ],
+  // Quincailleries barrières anglaises — galerie par article, voir categoryImagesBySelectionKey
+  "quincailleries-pour-barrieres-anglaises": [],
 
   // Brande de bruyère
   "brande-de-bruyere-epaisse-100-opaque": seq(
@@ -165,21 +159,8 @@ export const categoryImages: Record<string, ImageSlot[]> = {
     [1, 2, 3],
   ),
 
-  // Outillage & accessoires clôtures (toutes sous-catégories)
-  "outillage-et-accessoires-clotures": [
-    ...seq(`${MAT}/outils-et-accessoires/stockade/st-315i`,                      "Stockade ST 315I",                      [1, 2]),
-    ...seq(`${MAT}/outils-et-accessoires/stockade/consommables`,                  "Consommable Stockade",                  [1, 2]),
-    ...seq(`${MAT}/outils-et-accessoires/gripple/gripple-plus-medium`,            "Gripple Plus Medium",                   [1, 2, 4, 5, 6]),
-    ...seq(`${MAT}/outils-et-accessoires/gripple/gripple-t-clip-1`,               "Gripple T-Clip",                        [1, 2, 3, 4]),
-    ...seq(`${MAT}/outils-et-accessoires/gripple/barbed`,                         "Gripple Barbed",                        [1, 2, 3, 4]),
-    ...seq(`${MAT}/outils-et-accessoires/gripple/pince-de-tension`,               "Pince de tension Gripple",              [1, 2]),
-    ...seq(`${MAT}/outils-et-accessoires/enfonce-pieux-thermique/50-cc`,          "Enfonce-pieux thermique 50 CC",         [1, 2, 3, 4]),
-    slots([[`${MAT}/outils-et-accessoires/enfonce-pieux-thermique/adaptateur-cornieres/1.webp`, "Adaptateur cornières"]]),
-    ...seq(`${MAT}/outils-et-accessoires/derouleuses-de-grillage`,                "Dérouleuse de grillage",                [1, 2, 3, 4, 5]),
-    ...seq(`${MAT}/outils-et-accessoires/autoporteur-protech-evo`,                "Autoporteur Protech Evo",               [1, 2, 3, 4, 5, 6]),
-    slots([[`${MAT}/outils-et-accessoires/cloche-pour-brise-roche/1.webp`, "Cloche pour brise-roche"]]),
-    slots([[`${MAT}/outils-et-accessoires/cloche-pour-brise-roche/2.webp`, "Cloche pour brise-roche — vue 2"]]),
-  ].flat(),
+  // Outillage & accessoires — galerie par référence, voir categoryImagesBySelectionKey
+  "outillage-et-accessoires-clotures": [],
 
   // Ganivelles en robinier faux acacia + portillons ganivelles
   "ganivelles-en-robiniers-faux-acacia": [
@@ -247,9 +228,235 @@ export const categoryImages: Record<string, ImageSlot[]> = {
   ),
 };
 
+/** Galeries photo liées à une option de configuration (ex. modèle récepteur / support). */
+const categoryImagesBySelectionKey: Record<
+  string,
+  { axisKey: string; galleries: Record<string, ImageSlot[]> }
+> = {
+  "poteaux-galvanises-pour-barrieres": {
+    axisKey: "modele",
+    galleries: {
+      Récepteur: seq(
+        `${MAT}/barrieres-galvanisees/poteaux-galvanises/recepteurs`,
+        "Poteau galvanisé récepteur",
+        [1, 2, 3],
+      ),
+      Support: seq(
+        `${MAT}/barrieres-galvanisees/poteaux-galvanises/supports`,
+        "Poteau galvanisé support",
+        [1, 2, 3],
+      ),
+    },
+  },
+  "quincailleries-pour-barrieres-galvanisees": {
+    axisKey: "reference",
+    galleries: {
+      "Paire de gonds": seq(
+        `${MAT}/barrieres-galvanisees/quincailleries/paire-de-gonds`,
+        "Paire de gonds",
+        [1, 2],
+      ),
+      "Œillets fermeture": seq(
+        `${MAT}/barrieres-galvanisees/quincailleries/oeillet-de-fermeture`,
+        "Œillet de fermeture",
+        [1, 2],
+      ),
+      "Levier de fermeture": seq(
+        `${MAT}/barrieres-galvanisees/quincailleries/levier-de-fermeture`,
+        "Levier de fermeture",
+        [1, 2],
+      ),
+      Baionettes: seq(
+        `${MAT}/barrieres-galvanisees/quincailleries/baionettes`,
+        "Baïonnette",
+        [1, 2, 3],
+      ),
+    },
+  },
+  "quincailleries-pour-barrieres-anglaises": {
+    axisKey: "reference",
+    galleries: {
+      "Kit charnières réglables": seq(
+        `${MAT}/barrieres-en-bois/quincailleries-pour-barrieres-anglaises/kit-charnieres-reglables`,
+        "Kit charnières réglables",
+        [1, 2],
+      ),
+      "Fermeture oscillante": seq(
+        `${MAT}/barrieres-en-bois/quincailleries-pour-barrieres-anglaises/fermeture-oscillante`,
+        "Fermeture oscillante",
+        [1, 2, 3, 4],
+      ),
+      Baionnette: seq(
+        `${MAT}/barrieres-en-bois/quincailleries-pour-barrieres-anglaises/baionettes`,
+        "Baïonnette",
+        [1, 2],
+      ),
+      "Serrure à ressort": seq(
+        `${MAT}/barrieres-en-bois/quincailleries-pour-barrieres-anglaises/fermeture-a-ressort`,
+        "Fermeture à ressort",
+        [1, 2],
+      ),
+      "Verrou lourd": seq(
+        `${MAT}/barrieres-en-bois/quincailleries-pour-barrieres-anglaises/verrou-lourd`,
+        "Verrou lourd",
+        [1, 2],
+      ),
+      "Levier de fermeture": seq(
+        `${MAT}/barrieres-en-bois/quincailleries-pour-barrieres-anglaises/levier-de-fermeture`,
+        "Levier de fermeture",
+        [1, 2],
+      ),
+    },
+  },
+  "outillage-et-accessoires-clotures": {
+    axisKey: "reference",
+    galleries: {
+      "Stockade ST315I": seq(
+        `${MAT}/outils-et-accessoires/stockade/st-315i`,
+        "Stockade ST 315I",
+        [1, 2],
+      ),
+      "Consommable ST 315I": seq(
+        `${MAT}/outils-et-accessoires/stockade/consommables`,
+        "Consommable Stockade",
+        [1, 2],
+      ),
+      "Easy Petrol Post Driver 50 CC": seq(
+        `${MAT}/outils-et-accessoires/enfonce-pieux-thermique/50-cc`,
+        "Enfonce-pieux thermique 50 CC",
+        [1, 2, 3, 4],
+      ),
+      "Adaptateur pour cornières métalliques": slots([
+        [
+          `${MAT}/outils-et-accessoires/enfonce-pieux-thermique/adaptateur-cornieres/1.webp`,
+          "Adaptateur cornières",
+        ],
+      ]),
+      "Pour mini pelles et autres": seq(
+        `${MAT}/outils-et-accessoires/derouleuses-de-grillage`,
+        "Dérouleuse de grillage",
+        [1, 2, 3, 4, 5],
+      ),
+      "Cloche de battage pour brise roche": seq(
+        `${MAT}/outils-et-accessoires/cloche-pour-brise-roche`,
+        "Cloche pour brise-roche",
+        [1, 2],
+      ),
+      "Protech Evo": seq(
+        `${MAT}/outils-et-accessoires/autoporteur-protech-evo`,
+        "Autoporteur Protech Evo",
+        [1, 2, 3, 4, 5, 6],
+      ),
+      "Gripple plus médium": seq(
+        `${MAT}/outils-et-accessoires/gripple/gripple-plus-medium`,
+        "Gripple Plus Medium",
+        [1, 2, 4, 5, 6],
+      ),
+      "Gripple T-clip 1": seq(
+        `${MAT}/outils-et-accessoires/gripple/gripple-t-clip-1`,
+        "Gripple T-Clip",
+        [1, 2, 3, 4],
+      ),
+      "Gripple Barbed": seq(
+        `${MAT}/outils-et-accessoires/gripple/barbed`,
+        "Gripple Barbed",
+        [1, 2, 3, 4],
+      ),
+      "Pince de tension métallique": seq(
+        `${MAT}/outils-et-accessoires/gripple/pince-de-tension`,
+        "Pince de tension Gripple",
+        [1, 2],
+      ),
+    },
+  },
+};
+
+/** object-contain pour les photos produit petites (évite le flou au sur-étirement). */
+const categoryGalleryFit: Record<string, "cover" | "contain"> = {
+  "quincailleries-pour-barrieres-galvanisees": "contain",
+  "quincailleries-pour-barrieres-anglaises": "contain",
+};
+
+/** Règles de vignette galerie par catégorie (index 0-based). */
+const categoryGalleryPreview: Record<
+  string,
+  {
+    /** Vignette pour la sélection par défaut (ex. demi-grillagées). */
+    defaultIndex?: number;
+    /** Vignette pour une référence / dimension précise. */
+    byReference?: Record<string, number>;
+  }
+> = {
+  "barrieres-demi-grillagees-h-120-cm": { defaultIndex: 2 },
+  "barrieres-entierement-grillagees-h-150-cm-et-h-180-cm": {
+    byReference: { "H.150 x 120 cm": 1 },
+  },
+};
+
 /** Retourne la galerie d'images d'une catégorie (tableau vide si inconnue). */
 export function getCategoryImages(categoryId: string): ImageSlot[] {
   return categoryImages[categoryId] ?? [];
+}
+
+/**
+ * Galerie filtrée selon la configuration choisie (ex. récepteur vs support).
+ * Retombe sur getCategoryImages si la catégorie n'a pas de sous-galeries.
+ */
+export function getCategoryImagesForSelection(
+  categoryId: string,
+  selection: Record<string, string>,
+): ImageSlot[] {
+  const config = categoryImagesBySelectionKey[categoryId];
+  if (!config) return getCategoryImages(categoryId);
+
+  const value = selection[config.axisKey]?.trim();
+  if (value && config.galleries[value]) return config.galleries[value];
+
+  const fallback = Object.values(config.galleries)[0];
+  return fallback ?? [];
+}
+
+/** Mode d'affichage de la vignette galerie (cover par défaut). */
+export function getCategoryGalleryFit(categoryId: string): "cover" | "contain" {
+  return categoryGalleryFit[categoryId] ?? "cover";
+}
+
+/**
+ * Index de la photo affichée en vignette.
+ * Certaines catégories utilisent une autre photo que la 1re pour une dimension donnée ;
+ * les autres options conservent la photo 1.
+ */
+export function getCategoryGalleryPreviewIndex(
+  categoryId: string,
+  selection: Record<string, string>,
+  defaultSelection: Record<string, string>,
+): number {
+  const images = getCategoryImagesForSelection(categoryId, selection);
+  const clamp = (index: number) =>
+    images.length > 0 ? Math.min(index, images.length - 1) : 0;
+
+  const config = categoryGalleryPreview[categoryId];
+
+  if (config) {
+    const reference = selection.reference?.trim();
+    if (reference && config.byReference?.[reference] !== undefined) {
+      return clamp(config.byReference[reference]);
+    }
+
+    const isDefaultSelection = Object.keys(defaultSelection).every(
+      (key) => selection[key] === defaultSelection[key],
+    );
+    if (isDefaultSelection && config.defaultIndex !== undefined) {
+      return clamp(config.defaultIndex);
+    }
+  }
+
+  // Quincailleries : vignette = photo HD (2e), lightbox = toutes les photos
+  if (categoryGalleryFit[categoryId] === "contain" && images.length > 1) {
+    return clamp(1);
+  }
+
+  return 0;
 }
 
 // ── Images représentatives par famille (FamilyGrid) ───────────────────────────

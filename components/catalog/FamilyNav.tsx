@@ -45,8 +45,22 @@ export function FamilyNav({ activeId, subCategories, subFamilies }: FamilyNavPro
       <ul className="space-y-0.5">
         {families.map((family) => {
           const active = family.id === activeId;
-          const hasSubFamilies = active && subFamilies && subFamilies.length > 1;
-          const showSubs = active && subCategories && subCategories.length > 1;
+          const namedSubFamilies =
+            active && subFamilies ? subFamilies.filter((group) => group.title) : [];
+          const flatSubFamily =
+            active && subFamilies
+              ? subFamilies.find((group) => !group.title || group.key === "__flat__")
+              : undefined;
+          const hasNamedSubFamilies = namedSubFamilies.length > 0;
+          const showFlatSubs =
+            active &&
+            flatSubFamily &&
+            flatSubFamily.items.length > 1;
+          const showSubs =
+            active &&
+            subCategories &&
+            subCategories.length > 1 &&
+            !hasNamedSubFamilies;
           return (
             <li key={family.id}>
               <Link
@@ -70,11 +84,27 @@ export function FamilyNav({ activeId, subCategories, subFamilies }: FamilyNavPro
                 </span>
               </Link>
 
-              {/* Sub-families → one quick-access anchor per sub-family (3rd level) */}
-              {hasSubFamilies && (
+              {/* Named sub-families + flat categories when the family mixes both */}
+              {hasNamedSubFamilies && (
                 <ul className="mt-1 ml-3 space-y-0.5 border-l-2 border-terracotta/25 pl-2">
-                  {subFamilies!.map((group) => {
-                    const count = group.items.reduce((sum, item) => sum + item.productCount, 0);
+                  {showFlatSubs &&
+                    flatSubFamily!.items.map((sub) => (
+                      <li key={sub.id}>
+                        <a
+                          href={`#category-${sub.id}`}
+                          title={sub.title}
+                          className="flex min-h-9 items-center justify-between gap-2 rounded-md px-2 text-xs text-bark-muted transition-colors duration-150 hover:bg-terracotta/15 hover:text-terracotta-dark"
+                        >
+                          <span className="truncate leading-snug">{sub.title}</span>
+                          <span className="shrink-0 text-bark-muted/60">{sub.productCount}</span>
+                        </a>
+                      </li>
+                    ))}
+                  {namedSubFamilies.map((group) => {
+                    const count = group.items.reduce(
+                      (sum, item) => sum + item.productCount,
+                      0,
+                    );
                     return (
                       <li key={group.key}>
                         <a
@@ -92,7 +122,7 @@ export function FamilyNav({ activeId, subCategories, subFamilies }: FamilyNavPro
               )}
 
               {/* Flat sub-categories as anchor jump links */}
-              {!hasSubFamilies && showSubs && (
+              {showSubs && (
                 <ul className="mt-1 ml-3 space-y-0.5 border-l-2 border-terracotta/25 pl-2">
                   {subCategories!.map((sub) => (
                     <li key={sub.id}>

@@ -176,12 +176,22 @@ export function MaterialsQuotePdf({ quote }: { quote: MaterialsQuote }) {
                 {line.category}
                 {line.piecesPerPalette
                   ? ` · palette de ${line.piecesPerPalette} pièces`
-                  : ""}
+                  : line.piecesPerPack
+                    ? line.packUnit === "carton"
+                      ? ` · carton de ${line.piecesPerPack} pièces`
+                      : ` · sachet de ${line.piecesPerPack} pièces`
+                    : ""}
               </Text>
             </View>
             <Text style={styles.cQty}>
               {line.quantity}
-              {line.piecesPerPalette ? " pal." : ""}
+              {line.piecesPerPalette
+                ? " pal."
+                : line.piecesPerPack
+                  ? line.packUnit === "carton"
+                    ? " cart."
+                    : " sach."
+                  : ""}
             </Text>
             <Text style={styles.cUnit}>
               {line.unitPrice !== null ? formatEURForPdf(line.unitPrice) : "Sur demande"}

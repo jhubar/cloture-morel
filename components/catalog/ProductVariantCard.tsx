@@ -1,14 +1,14 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import Link from "next/link";
 import { Check, Plus, Truck } from "lucide-react";
 import type { Category } from "@/lib/types";
 import { formatEUR, formatPrice, isNumericPrice } from "@/lib/format";
-import { getProductPricing } from "@/lib/pricing";
-import { productFamilyImages } from "@/lib/assets";
+import { getProductPricing, getSellableUnitPlural, resolveSellablePricing, type PackUnit } from "@/lib/pricing";
+import { getCategoryImagesForSelection, getCategoryGalleryPreviewIndex, getCategoryGalleryFit, productFamilyImages } from "@/lib/assets";
 import { useCartStore } from "@/lib/cart-store";
-import { ImageSlot } from "@/components/ui/ImageSlot";
+import { GalleryThumb, Lightbox } from "@/components/ui/Lightbox";
 import {
   buildDefaultSelection,
   findMatchingVariant,
@@ -16,6 +16,9 @@ import {
   getVariantAxesForGroup,
   type ProductGroup,
 } from "@/lib/product-variants";
+import { getProductConditionnement } from "@/lib/product-display";
+import { SellableUnitPricing } from "@/components/catalog/SellableUnitPricing";
+import { PackUnitPicker } from "@/components/catalog/PackUnitPicker";
 import { AvailabilityBadge } from "@/components/catalog/AvailabilityBadge";
 import { OptionPicker } from "@/components/catalog/OptionPicker";
 import { QuantityStepper } from "@/components/ui/QuantityStepper";
@@ -51,25 +54,50 @@ export function ProductVariantCard({
   );
   const [selection, setSelection] = useState(defaultSelection);
   const [quantity, setQuantity] = useState(1);
+  const [packUnit, setPackUnit] = useState<PackUnit>("sachet");
   const [added, setAdded] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
 
   const product =
     findMatchingVariant(group.variants, selection, category.format) ??
     group.variants[0];
 
-  const pricing = getProductPricing(product);
+  const basePricing = getProductPricing(product);
+  const sellablePricing = resolveSellablePricing(basePricing, packUnit);
+  const conditionnement = getProductConditionnement(product);
   const hasTruckPrice = isNumericPrice(product.prixCamionCompletHTVA);
+  const catImages = getCategoryImagesForSelection(category.id, selection)
+    .map((s) => ({ src: s.src ?? "", alt: s.alt }))
+    .filter((img) => img.src !== "");
   const familyImage = familyId ? productFamilyImages[familyId] : undefined;
-  const unitNoun = pricing.isPalette
-    ? quantity > 1
-      ? "palettes"
-      : "palette"
-    : quantity > 1
-      ? "unités"
-      : "unité";
+  const galleryImages =
+    catImages.length > 0
+      ? catImages
+      : familyImage?.src
+        ? [{ src: familyImage.src, alt: familyImage.alt }]
+        : [];
+  const unitNoun = getSellableUnitPlural(sellablePricing, quantity);
 
   const metaParts = [category.title];
   if (familyLabel) metaParts.unshift(familyLabel);
+
+  const galleryPreviewIndex = getCategoryGalleryPreviewIndex(
+    category.id,
+    selection,
+    defaultSelection,
+  );
+  const galleryFit = getCategoryGalleryFit(category.id);
+  const galleryKey = galleryImages.map((img) => img.src).join("|");
+
+  useEffect(() => {
+    setLightboxOpen(false);
+    setLightboxIndex(0);
+  }, [galleryKey]);
+
+  useEffect(() => {
+    setPackUnit("sachet");
+  }, [product.id]);
 
   const handleAxisChange = (key: string, value: string) => {
     const next = { ...selection, [key]: value };
@@ -92,19 +120,40 @@ export function ProductVariantCard({
   };
 
   const handleAdd = () => {
-    addItem(product.id, quantity);
+    addItem(
+      product.id,
+      quantity,
+      basePricing.isPack ? packUnit : undefined,
+    );
     setAdded(true);
     window.setTimeout(() => setAdded(false), 4000);
   };
 
   return (
     <article className="min-w-0 overflow-hidden rounded-card border border-sand-300 bg-white shadow-card">
-      {familyImage && (
-        <ImageSlot
-          slot={familyImage}
-          className="relative aspect-[16/9] w-full max-w-full min-h-[200px] border-b border-sand-200 sm:min-h-[260px] lg:min-h-[300px]"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 960px"
-        />
+      {galleryImages.length > 0 && (
+        <div
+          key={galleryKey}
+          className="relative aspect-[16/9] w-full max-w-full min-h-[200px] overflow-hidden border-b border-sand-200 sm:min-h-[260px] lg:min-h-[300px]"
+        >
+          <GalleryThumb
+            images={galleryImages}
+            index={galleryPreviewIndex}
+            fit={galleryFit}
+            className="h-full w-full"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 960px"
+            onOpen={(i) => {
+              setLightboxIndex(i);
+              setLightboxOpen(true);
+            }}
+          />
+          <Lightbox
+            images={galleryImages}
+            initialIndex={lightboxIndex}
+            open={lightboxOpen}
+            onClose={() => setLightboxOpen(false)}
+          />
+        </div>
       )}
 
       <div className="border-b border-sand-200 px-4 py-4 sm:px-8 sm:py-5">
@@ -154,20 +203,22 @@ export function ProductVariantCard({
               Prix sélectionné
             </p>
             <p className="mt-1 break-words font-display text-3xl font-semibold tabular-nums text-forest-dark sm:text-4xl">
-              {pricing.unitPrice !== null
-                ? formatEUR(pricing.unitPrice)
+              {sellablePricing.unitPrice !== null
+                ? formatEUR(sellablePricing.unitPrice)
                 : formatPrice(product.prixUnitaireHTVA)}
             </p>
-            {pricing.isPalette && pricing.piecesPerPalette !== null ? (
-              <p className="mt-2 text-sm leading-relaxed text-bark-muted">
-                Pour <span className="font-medium text-forest-dark">1 palette</span> de{" "}
-                {pricing.piecesPerPalette} pièces
-                {pricing.piecePrice !== null && (
-                  <> ({formatEUR(pricing.piecePrice)} / pièce HTVA)</>
-                )}
-              </p>
+            {basePricing.isPack ? (
+              <PackUnitPicker
+                pricing={basePricing}
+                value={packUnit}
+                onChange={setPackUnit}
+                className="mt-3"
+              />
             ) : (
-              <p className="mt-1 text-sm text-bark-muted">Prix unitaire HTVA</p>
+              <SellableUnitPricing pricing={basePricing} />
+            )}
+            {conditionnement && (
+              <p className="mt-2 text-sm text-bark-muted">{conditionnement}</p>
             )}
             {hasTruckPrice && (
               <div className="mt-3 flex flex-wrap items-center gap-2 text-sm text-bark-muted">
