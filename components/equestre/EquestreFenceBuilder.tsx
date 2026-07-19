@@ -709,16 +709,19 @@ export function EquestreFenceBuilder({
           />
         )}
         {postPreviewImage?.src && (
-          <figure className="overflow-hidden rounded-card border border-sand-300 bg-sand-50">
-            <div className="relative aspect-[4/3] w-full max-w-sm">
+          <figure className="w-full max-w-[18rem] overflow-hidden rounded-card border border-sand-300 bg-sand-50">
+            <div className="relative aspect-[3/4] w-full">
               <Image
                 src={postPreviewImage.src}
                 alt={postPreviewImage.alt}
                 fill
                 className="object-cover"
-                sizes="(max-width: 640px) 100vw, 384px"
+                sizes="(max-width: 640px) 100vw, 288px"
               />
             </div>
+            <figcaption className="border-t border-sand-200 px-3 py-2 text-xs text-bark-muted">
+              {postPreviewImage.alt}
+            </figcaption>
           </figure>
         )}
         {postPriceTBD && (

@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import {
   Wrench,
-  Zap,
   Truck,
   Hammer,
   Scissors,
-  Shovel,
   Settings,
-  Wind,
+  Snowflake,
+  KeyRound,
+  Factory,
+  Construction,
 } from "lucide-react";
 import { MachineGallery } from "@/components/materiel/MachineGallery";
 import type { LightboxImage } from "@/components/ui/Lightbox";
@@ -21,7 +22,7 @@ import {
 export const metadata: Metadata = {
   title: "Notre matériel",
   description:
-    "Découvrez le matériel professionnel de Clôtures Morel : enfonceuses à pieux, autoporteurs, machines de broyage, tracteurs et outillage spécialisé pour la pose de clôtures.",
+    "Parc machines professionnel de Clôtures Morel : autoporteur, pelle foresterie, enfonce-pieux hydraulique, dérouleuses, agrafeuse Stockade, transport, préparation de chantier, déneigement, location et atelier de soudure.",
 };
 
 const MAT = "/images/site/photos-materiaux";
@@ -30,32 +31,14 @@ function slot(src: string, alt: string): LightboxImage {
   return { src, alt };
 }
 
-// Converts our ImageSlot arrays (which have guaranteed src after optimization)
-// to plain LightboxImage arrays.
 function toGallery(slots: { src: string | null; alt: string }[]): LightboxImage[] {
   return slots.filter((s) => s.src !== null).map((s) => ({ src: s.src!, alt: s.alt }));
 }
 
-const grippleImages: LightboxImage[] = [
-  slot(`${MAT}/outils-et-accessoires/gripple/gripple-t-clip-1/1.webp`, "Gripple T-clip — vue 1"),
-  slot(`${MAT}/outils-et-accessoires/gripple/gripple-t-clip-1/2.webp`, "Gripple T-clip — vue 2"),
-  slot(`${MAT}/outils-et-accessoires/gripple/gripple-t-clip-1/3.webp`, "Gripple T-clip — vue 3"),
-  slot(`${MAT}/outils-et-accessoires/gripple/gripple-plus-medium/1.webp`, "Gripple Plus Medium — vue 1"),
-  slot(`${MAT}/outils-et-accessoires/gripple/gripple-plus-medium/2.webp`, "Gripple Plus Medium — vue 2"),
-  slot(`${MAT}/outils-et-accessoires/gripple/barbed/1.webp`, "Gripple Barbed — vue 1"),
-  slot(`${MAT}/outils-et-accessoires/gripple/barbed/2.webp`, "Gripple Barbed — vue 2"),
-  slot(`${MAT}/outils-et-accessoires/gripple/pince-de-tension/1.webp`, "Pince de tension Gripple"),
-  slot(`${MAT}/outils-et-accessoires/gripple/pince-de-tension/2.webp`, "Pince de tension Gripple — vue 2"),
-];
-
-const terrassementImages: LightboxImage[] = [
-  slot(`${MAT}/outils-et-accessoires/cloche-pour-brise-roche/1.webp`, "Cloche pour brise-roche — vue 1"),
-  slot(`${MAT}/outils-et-accessoires/cloche-pour-brise-roche/2.webp`, "Cloche pour brise-roche — vue 2"),
-];
-
-const enfonceusesAdaptateur: LightboxImage[] = [
-  ...toGallery(materielEnfonceusesImages),
-  slot(`${MAT}/outils-et-accessoires/enfonce-pieux-thermique/adaptateur-cornieres/1.webp`, "Adaptateur cornières"),
+const stockadeImages: LightboxImage[] = [
+  ...toGallery(materielStockadeImages),
+  slot(`${MAT}/outils-et-accessoires/stockade/consommables/1.webp`, "Consommables Stockade — vue 1"),
+  slot(`${MAT}/outils-et-accessoires/stockade/consommables/2.webp`, "Consommables Stockade — vue 2"),
 ];
 
 const categories: {
@@ -67,115 +50,134 @@ const categories: {
   images: LightboxImage[];
 }[] = [
   {
-    id: "enfonceuses",
-    icon: Hammer,
-    title: "Enfoncement de pieux",
-    description:
-      "Nous disposons d'enfonceuses thermiques et hydrauliques adaptées à tous types de pieux : ronds, carrés, cornières. Adaptateur cornières disponible pour les clôtures en grillage.",
-    items: [
-      { name: "Enfonce-pieux thermique 50 CC", detail: "Léger et maniable pour terrains dégagés" },
-      { name: "Adaptateur cornières", detail: "Pour piquets et cornières métalliques" },
-    ],
-    images: enfonceusesAdaptateur,
-  },
-  {
     id: "autoporteur",
     icon: Settings,
     title: "Autoporteur Protech Evo",
     description:
-      "Machine autoporteuse hydraulique pour l'enfoncement de pieux en terrain difficile. Puissance et précision pour les grands chantiers agricoles et forestiers.",
+      "Notre autoporteur hydraulique est la machine phare pour l'enfoncement de pieux en terrain difficile. Puissant, précis et autonome, il intervient sur les grands chantiers agricoles et forestiers là où les machines classiques peinent à accéder.",
     items: [
-      { name: "Autoporteur Protech Evo", detail: "Hydraulique, tous terrains" },
+      { name: "Autoporteur Protech Evo", detail: "Enfoncement hydraulique, tous terrains" },
+      { name: "Grands chantiers", detail: "Idéal pour les longues lignes de clôture" },
     ],
     images: toGallery(materielAutoporteurImages),
   },
   {
-    id: "stockade",
-    icon: Wrench,
-    title: "Stockade ST 315I",
+    id: "pelle-foresterie",
+    icon: Construction,
+    title: "Pelle foresterie",
     description:
-      "Machine à agrafer le grillage Stockade ST 315I — agrafage professionnel et rapide pour grillage à mailles progressives ou identiques. Consommables disponibles.",
+      "Pelle mécanique professionnelle équipée pour les travaux forestiers et la préparation de chantier. Blindée et protégée pour intervenir en milieu exigeant, y compris sur terrains sensibles.",
     items: [
-      { name: "Stockade ST 315I", detail: "Agrafage automatique du grillage" },
-      { name: "Consommables Stockade", detail: "Agrafes et pièces de rechange" },
-    ],
-    images: [
-      ...toGallery(materielStockadeImages),
-      slot(`${MAT}/outils-et-accessoires/stockade/consommables/1.webp`, "Consommables Stockade — vue 1"),
-      slot(`${MAT}/outils-et-accessoires/stockade/consommables/2.webp`, "Consommables Stockade — vue 2"),
-    ],
-  },
-  {
-    id: "derouleurs",
-    icon: Settings,
-    title: "Dérouleuses de grillage",
-    description:
-      "Dérouleuses professionnelles pour dérouler les bobines de grillage sans effort ni pli, même sur terrain accidenté.",
-    items: [
-      { name: "Dérouleuses de grillage", detail: "Plusieurs modèles selon la hauteur de grillage" },
-    ],
-    images: toGallery(materielDerouleuseImages),
-  },
-  {
-    id: "broyage",
-    icon: Scissors,
-    title: "Broyage & débroussaillage",
-    description:
-      "Matériel de broyage pour la préparation et le nettoyage de chantiers. Idéal pour créer le couloir dégagé nécessaire à la pose de clôtures (5-6 m de largeur).",
-    items: [
-      { name: "Broyeur à branches sur tracteur", detail: "Pour branches jusqu'à Ø 15 cm" },
-      { name: "Gyrobroyeur sur tracteur", detail: "Débroussaillage grande surface" },
-      { name: "Broyeur forestier sur pelle", detail: "Pour végétation dense et souches" },
-      { name: "Gyrobroyeur sur pelle", detail: "Pour zones à accès restreint" },
+      { name: "Blindage de patin anti-déchaînement", detail: "Protection renforcée des chenilles" },
+      { name: "Patins en caoutchouc", detail: "Préservation des sols et des revêtements" },
+      { name: "Accessoires forestiers", detail: "Sillage, broyage, abattage et élagage" },
     ],
     images: [],
   },
   {
-    id: "terrassement",
-    icon: Shovel,
-    title: "Terrassement & élagage",
+    id: "enfonce-pieux-hydraulique",
+    icon: Hammer,
+    title: "Enfonce-pieux hydraulique",
     description:
-      "Pelles et équipements de terrassement pour la préparation de terrain, l'abattage, l'élagage et la création de terrasses ou de pontons.",
+      "Enfonce les piquets en vibrant dans le sol — une technologie qui permet d'enfoncer les pieux dans tout type de sol, y compris les terrains compacts, rocheux ou humides, là où une enfonceuse classique ne suffit pas.",
     items: [
-      { name: "Cisaille sur pelle", detail: "Abattage et élagage mécanique" },
-      { name: "Cloche pour brise-roche", detail: "Travaux en terrain rocheux" },
+      { name: "Enfoncement par vibration", detail: "Efficace sur sols variés et difficiles" },
+      { name: "Pieux ronds, carrés et cornières", detail: "Adapté à tous types de clôtures" },
     ],
-    images: terrassementImages,
+    images: [],
+  },
+  {
+    id: "derouleuses",
+    icon: Settings,
+    title: "Dérouleuses de grillage",
+    description:
+      "Dérouleuses professionnelles pour tendre et dérouler le grillage sans effort ni pli. Grande tension, longueur de grillage de 50 à 500 mètres, hauteur de 0 à 3 m — adaptées aux chantiers de toutes envergures.",
+    items: [
+      { name: "Grande tension", detail: "Pose nette et durable du grillage" },
+      { name: "Longueur 50 à 500 m", detail: "Pour les petites clôtures comme les grandes lignes" },
+      { name: "Hauteur 0 à 3 m", detail: "Compatible avec tous les modèles de grillage" },
+    ],
+    images: toGallery(materielDerouleuseImages),
+  },
+  {
+    id: "stockade",
+    icon: Wrench,
+    title: "Agrafeuse Stockade ST 215I",
+    description:
+      "Machine à agrafer le grillage Stockade ST 215I — agrafage professionnel et rapide pour grillage à mailles progressives ou identiques. Un outil indispensable pour une pose de qualité en série.",
+    items: [
+      { name: "Stockade ST 215I", detail: "Agrafage automatique du grillage" },
+      { name: "Consommables Stockade", detail: "Agrafes et pièces de rechange disponibles" },
+    ],
+    images: stockadeImages,
   },
   {
     id: "transport",
     icon: Truck,
-    title: "Transport & livraison",
+    title: "Transport & logistique",
     description:
-      "Flotte de véhicules pour le transport et la livraison de matériaux sur vos chantiers — camion complet ou petite quantité.",
+      "Flotte de véhicules et engins de manutention pour le transport de matériaux et de machines sur vos chantiers — en Belgique et pays limitrophes.",
     items: [
-      { name: "Livraison camion complet", detail: "Tarifs dégressifs" },
-      { name: "Transport de matériaux", detail: "Belgique et pays limitrophes" },
+      { name: "Manitou Clark", detail: "Manutention et levage sur chantier" },
+      { name: "Fasttrack tracteur-camion", detail: "Transport lourd et livraison de matériaux" },
     ],
     images: [slot(`${MAT}/barrieres-galvanisees/camion-complet.webp`, "Livraison camion complet")],
   },
   {
-    id: "accessoires",
-    icon: Zap,
-    title: "Outillage & accessoires",
+    id: "preparation-chantier",
+    icon: Scissors,
+    title: "Travaux préparatoires de chantier",
     description:
-      "Gripples, pinces de tension, quincaillerie spécialisée et consommables pour la pose de clôtures — disponibles à la vente.",
+      "Avant la pose de clôture, nous préparons votre terrain : dégagement, nivellement et création du couloir nécessaire à l'installation (5 à 6 m de largeur).",
     items: [
-      { name: "Gripple T-clip & Plus Medium", detail: "Connexion et tension de fils" },
-      { name: "Pince de tension Gripple", detail: "Pour fils lisses et barbelés" },
-      { name: "Gripple Barbed", detail: "Pour fils barbelés" },
+      { name: "Abattage & élagage", detail: "Dégagement mécanique de la végétation" },
+      { name: "Sillage sur pelle", detail: "Jusqu'à 30 cm de diamètre" },
+      { name: "Broyage & élagage", detail: "Nettoyage et broyage des branches et souches" },
+      { name: "Terrassement", detail: "Petits terrassements, nivellement, mare d'eau" },
     ],
-    images: grippleImages,
+    images: [
+      slot(`${MAT}/outils-et-accessoires/cloche-pour-brise-roche/1.webp`, "Cloche pour brise-roche — vue 1"),
+      slot(`${MAT}/outils-et-accessoires/cloche-pour-brise-roche/2.webp`, "Cloche pour brise-roche — vue 2"),
+    ],
   },
   {
-    id: "hydraulique",
-    icon: Wind,
-    title: "Flexibles hydrauliques",
+    id: "deneigement",
+    icon: Snowflake,
+    title: "Déneigement & salage",
     description:
-      "Fabrication et remplacement de flexibles hydrauliques pour engins de chantier, tracteurs et machines agricoles — en atelier ou sur place.",
+      "Service de déneigement et de salage pour entreprises, communes et particuliers. Intervention rapide pour sécuriser vos accès en période hivernale.",
     items: [
-      { name: "Fabrication sur mesure", detail: "Toutes longueurs et pressions" },
-      { name: "Intervention rapide", detail: "Dépannage sur chantier possible" },
+      { name: "Déneigement mécanique", detail: "Parkings, voies d'accès et cours" },
+      { name: "Salage", detail: "Traitement préventif et curatif des surfaces" },
+    ],
+    images: [],
+  },
+  {
+    id: "location",
+    icon: KeyRound,
+    title: "Location de machines & matériel",
+    description:
+      "Mise à disposition de matériel professionnel avec ou sans opérateur. Idéal pour vos chantiers ponctuels ou vos projets en autonomie.",
+    items: [
+      { name: "Pelle avec opérateur", detail: "Location avec conducteur qualifié" },
+      { name: "Pelle avec tous les accessoires", detail: "Équipement complet pour votre chantier" },
+      { name: "Agrafeuse Stockade", detail: "Location à la journée ou à la semaine" },
+      { name: "Enfonce-pieux thermique", detail: "Enfonceuse 50 CC, légère et maniable" },
+      { name: "Tracteur avec opérateur", detail: "Tracteur équipé, prêt à l'emploi" },
+    ],
+    images: toGallery(materielEnfonceusesImages),
+  },
+  {
+    id: "atelier",
+    icon: Factory,
+    title: "Atelier de soudure, réparation & ferronnerie",
+    description:
+      "Atelier équipé pour la fabrication sur mesure, la réparation d'engins et la conception en ferronnerie. Intervention en atelier ou sur place selon vos besoins.",
+    items: [
+      { name: "Flexibles hydrauliques", detail: "Fabrication sur mesure et remplacement rapide" },
+      { name: "Plieuse industrielle", detail: "Formage de tôles et pièces métalliques" },
+      { name: "Table de soudure", detail: "Soudure MIG/MAG et assemblages sur mesure" },
+      { name: "Conception ferronnerie", detail: "Portails, grilles, garde-corps et ouvrages métalliques" },
     ],
     images: [],
   },
@@ -190,12 +192,13 @@ export default function MaterielPage() {
             Notre matériel
           </p>
           <h1 className="mt-2 text-3xl font-semibold sm:text-4xl">
-            Un parc machines complet pour vos chantiers
+            Un parc machines professionnel à votre disposition
           </h1>
           <p className="mt-3 max-w-2xl text-bark-muted">
-            Clôtures Morel dispose d'un équipement professionnel varié pour intervenir
-            sur tous types de terrains et de clôtures — de l'enfoncement de pieux à la
-            préparation de chantier, en passant par le transport et la livraison.
+            Clôtures Morel met à disposition un équipement lourd et spécialisé pour vos
+            chantiers de clôtures et travaux extérieurs — autoporteurs, pelles forestières,
+            enfonce-pieux, dérouleuses, transport, préparation de terrain, déneigement et
+            atelier de soudure. Machines disponibles en location avec ou sans opérateur.
           </p>
         </div>
       </div>
@@ -204,7 +207,7 @@ export default function MaterielPage() {
         <div className="space-y-16">
           {categories.map(({ id, icon: Icon, title, description, items, images }, index) => (
             <section key={id} aria-labelledby={`materiel-${id}`}>
-              <div className={`grid items-center gap-8 lg:grid-cols-2`}>
+              <div className="grid items-center gap-8 lg:grid-cols-2">
                 <div className={index % 2 === 1 ? "lg:order-2" : ""}>
                   <div className="flex items-center gap-3">
                     <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-terracotta/10 text-terracotta">
@@ -221,7 +224,10 @@ export default function MaterielPage() {
                   <ul className="mt-4 space-y-2">
                     {items.map(({ name, detail }) => (
                       <li key={name} className="flex items-start gap-2 text-sm">
-                        <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-terracotta" aria-hidden="true" />
+                        <span
+                          className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-terracotta"
+                          aria-hidden="true"
+                        />
                         <span>
                           <span className="font-medium text-forest-dark">{name}</span>
                           {detail && <span className="text-bark-muted"> — {detail}</span>}
@@ -256,11 +262,11 @@ export default function MaterielPage() {
             Vous avez un projet ?
           </p>
           <h2 className="mt-2 font-display text-2xl font-semibold text-forest-dark">
-            Notre matériel est à votre service
+            Notre matériel professionnel est à votre service
           </h2>
           <p className="mt-3 max-w-2xl text-bark-muted">
-            Que ce soit pour la pose d'une clôture, la préparation d'un terrain ou la
-            location d'équipement, contactez-nous pour discuter de votre projet.
+            Pose de clôture, préparation de terrain, location de machines avec opérateur
+            ou dépannage en atelier — contactez-nous pour discuter de votre projet.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <a

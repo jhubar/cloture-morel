@@ -33,6 +33,24 @@ export const heroImage: ImageSlot = {
   hint: `${REAL}/1.webp`,
 };
 
+/** Homepage hero carousel — sélection de réalisations variées qui défilent. */
+export const heroCarouselImages: ImageSlot[] = (
+  [
+    [1, "Clôture posée par Clôtures Morel en région liégeoise"],
+    [5, "Grillage et piquets sur terrain agricole"],
+    [12, "Barrière et clôture en bois exotique"],
+    [18, "Clôture de grande longueur en pleine campagne"],
+    [23, "Chantier de pose de clôture professionnelle"],
+    [30, "Ganivelles et clôture décorative en robinier"],
+    [36, "Clôture équestre et pâturage clôturé"],
+    [41, "Réalisation de clôture soignée par Clôtures Morel"],
+  ] as [number, string][]
+).map(([n, alt]) => ({
+  src: `${REAL}/${n}.webp`,
+  alt,
+  hint: `${REAL}/${n}.webp`,
+}));
+
 /** Pose page — galerie des 42 réalisations numérotées par le client. */
 export const poseGalleryImages: ImageSlot[] = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10,

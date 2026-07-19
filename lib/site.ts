@@ -17,11 +17,10 @@ export const site = {
   phone: "0497 91 77 39",
   phoneTel: "+32497917739",
   email: "Clotures-morel@outlook.com",
-  /** Set `confirmed: true` and fill `lines` once Nicolas validates opening hours. */
   hours: {
-    confirmed: false,
-    label: "Horaires sur demande",
-    lines: [] as string[],
+    confirmed: true,
+    label: "Lundi – vendredi : 7h30 – 17h",
+    lines: ["Lundi – vendredi : 7h30 – 17h"],
   },
   vatNumber: "BE 0707.588.769",
   serviceArea: "Toute la Belgique et pays limitrophes (France, Luxembourg, Allemagne, Pays-Bas)",
