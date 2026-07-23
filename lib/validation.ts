@@ -43,19 +43,21 @@ export const materialsQuoteSchema = z.object({
 export type MaterialsQuoteInput = z.infer<typeof materialsQuoteSchema>;
 
 export const projectLineSchema = z.object({
-  familyId: z.string().min(1),
-  familyLabel: z.string().min(1),
-  categoryId: z.string().min(1),
-  categoryTitle: z.string().min(1),
-  productId: z.string().min(1),
-  productLabel: z.string().min(1),
-  article: z.string().trim().optional(),
-  variantSummary: z.string().trim().optional(),
-  lengthMeters: z.number().positive().max(100_000),
+  fenceTypeId: z.string().min(1),
+  typeLabel: z.string().min(1),
+  measureKind: z.enum(["linear", "quantity"]),
+  amount: z.number().positive().max(100_000),
   notes: z.string().trim().max(500).optional(),
 });
 
 export type ProjectLineInput = z.infer<typeof projectLineSchema>;
+
+const photoSchema = z.object({
+  name: z.string(),
+  data: z.string(),
+  type: z.string(),
+  kind: z.enum(["aerienne", "terrain"]),
+});
 
 export const installationQuoteSchema = z.object({
   // Contact
@@ -69,7 +71,7 @@ export const installationQuoteSchema = z.object({
   projectAddress: requiredString("L'adresse du chantier"),
   projectLines: z
     .array(projectLineSchema)
-    .min(1, "Ajoutez au moins une ligne de clôture."),
+    .min(1, "Ajoutez au moins une clôture."),
   fenceRole: z.string().trim().optional(),
   // Site conditions
   hasBarriers: z.enum(["oui", "non", ""]).optional(),
@@ -78,11 +80,16 @@ export const installationQuoteSchema = z.object({
   terrainCleared: z.enum(["oui", "non", "partiel", ""]).optional(),
   slope: z.enum(["plat", "leger", "important", ""]).optional(),
   undergroundHazards: z.string().trim().max(1000).optional(),
-  // Photos (base64 data, max 5)
+  // Photos (base64 data) — at least one aerial view and one terrain photo
   photos: z
-    .array(z.object({ name: z.string(), data: z.string(), type: z.string() }))
-    .max(5, "Maximum 5 photos.")
-    .optional(),
+    .array(photoSchema)
+    .max(6, "Maximum 6 photos.")
+    .refine((photos) => photos.some((p) => p.kind === "aerienne"), {
+      message: "Ajoutez au moins une vue aérienne.",
+    })
+    .refine((photos) => photos.some((p) => p.kind === "terrain"), {
+      message: "Ajoutez au moins une photo du terrain.",
+    }),
   // Scheduling & notes
   timing: z.string().trim().optional(),
   message: z.string().trim().max(2000).optional(),

@@ -4,7 +4,11 @@ import { useRef, useState } from "react";
 import { ImageIcon, Loader2, Upload, X } from "lucide-react";
 import { SelectField, TextAreaField } from "@/components/forms/FormField";
 import { compressImage } from "@/components/forms/installation/photo-utils";
-import type { InstallationFormState, PhotoFile } from "@/components/forms/installation/types";
+import type {
+  InstallationFormState,
+  PhotoFile,
+  PhotoKind,
+} from "@/components/forms/installation/types";
 
 const timingOptions = [
   { value: "Dès que possible", label: "Dès que possible" },
@@ -13,23 +17,120 @@ const timingOptions = [
   { value: "Pas de date précise", label: "Pas de date précise" },
 ];
 
+const MAX_PHOTOS = 6;
+
 interface StepPhotosProps {
   state: InstallationFormState;
   errors: Record<string, string>;
   onChange: (patch: Partial<InstallationFormState>) => void;
 }
 
+interface PhotoZoneProps {
+  kind: PhotoKind;
+  title: string;
+  description: string;
+  photos: PhotoFile[];
+  totalCount: number;
+  error?: string;
+  onAdd: (files: FileList | null, kind: PhotoKind) => void;
+  onRemove: (photo: PhotoFile) => void;
+  compressing: boolean;
+}
+
+function PhotoZone({
+  kind,
+  title,
+  description,
+  photos,
+  totalCount,
+  error,
+  onAdd,
+  onRemove,
+  compressing,
+}: PhotoZoneProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const full = totalCount >= MAX_PHOTOS;
+
+  return (
+    <fieldset className="space-y-3">
+      <legend className="text-sm font-semibold text-forest-dark">
+        {title} <span className="text-terracotta">*</span>
+      </legend>
+      <p className="text-xs text-bark-muted">{description}</p>
+
+      {photos.length > 0 && (
+        <ul className="flex flex-wrap gap-2">
+          {photos.map((p, i) => (
+            <li key={`${kind}-${i}`} className="relative">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={p.previewUrl}
+                alt={p.name}
+                className="h-20 w-20 rounded-lg border border-sand-300 object-cover"
+              />
+              <button
+                type="button"
+                onClick={() => onRemove(p)}
+                className="absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-terracotta text-white shadow"
+                aria-label={`Supprimer ${p.name}`}
+              >
+                <X className="h-3 w-3" aria-hidden="true" />
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {!full && (
+        <>
+          <input
+            ref={inputRef}
+            type="file"
+            accept="image/*"
+            multiple
+            className="sr-only"
+            onChange={(e) => onAdd(e.target.files, kind)}
+          />
+          <button
+            type="button"
+            onClick={() => inputRef.current?.click()}
+            disabled={compressing}
+            className="flex min-h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-dashed border-sand-300 bg-sand-200/40 px-4 py-3 text-sm text-bark-muted transition-colors hover:border-terracotta/40 hover:bg-terracotta/5 hover:text-terracotta disabled:opacity-60"
+          >
+            {compressing ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                Compression…
+              </>
+            ) : (
+              <>
+                <ImageIcon className="h-4 w-4" aria-hidden="true" />
+                <Upload className="h-4 w-4" aria-hidden="true" />
+                Ajouter {photos.length > 0 ? "d'autres photos" : "des photos"}
+              </>
+            )}
+          </button>
+        </>
+      )}
+
+      {error && <p className="text-xs text-terracotta-dark">{error}</p>}
+    </fieldset>
+  );
+}
+
 export function StepPhotos({ state, errors, onChange }: StepPhotosProps) {
   const [photoError, setPhotoError] = useState<string | null>(null);
   const [compressing, setCompressing] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFiles = async (files: FileList | null) => {
+  const aerialPhotos = state.photos.filter((p) => p.kind === "aerienne");
+  const terrainPhotos = state.photos.filter((p) => p.kind === "terrain");
+
+  const handleFiles = async (files: FileList | null, kind: PhotoKind) => {
     if (!files) return;
     setPhotoError(null);
-    const remaining = 5 - state.photos.length;
+    const remaining = MAX_PHOTOS - state.photos.length;
     if (remaining <= 0) {
-      setPhotoError("Maximum 5 photos atteint.");
+      setPhotoError(`Maximum ${MAX_PHOTOS} photos atteint.`);
       return;
     }
     const toProcess = Array.from(files).slice(0, remaining);
@@ -47,6 +148,7 @@ export function StepPhotos({ state, errors, onChange }: StepPhotosProps) {
           data,
           type,
           previewUrl: data,
+          kind,
         });
       }
       onChange({ photos: [...state.photos, ...results] });
@@ -55,78 +157,48 @@ export function StepPhotos({ state, errors, onChange }: StepPhotosProps) {
     }
   };
 
-  const removePhoto = (index: number) => {
-    onChange({ photos: state.photos.filter((_, i) => i !== index) });
+  const removePhoto = (photo: PhotoFile) => {
+    onChange({ photos: state.photos.filter((p) => p !== photo) });
   };
 
   return (
     <div className="space-y-6">
-      <fieldset className="space-y-3">
-        <legend className="text-sm font-semibold uppercase tracking-wider text-bark-muted">
-          Photos (optionnel)
-        </legend>
-        <p className="text-xs text-bark-muted">
-          Joignez une vue aérienne (Géoportail, Google Earth…) et/ou des photos du terrain.
-          Max&nbsp;5 photos, 15 Mo chacune — compressées automatiquement.
+      <div className="space-y-1">
+        <p className="text-sm font-semibold uppercase tracking-wider text-bark-muted">
+          Photos du projet
         </p>
+        <p className="text-xs text-bark-muted">
+          Une vue aérienne et des photos du terrain sont indispensables pour
+          établir un devis précis. Max&nbsp;{MAX_PHOTOS} photos, 15&nbsp;Mo
+          chacune — compressées automatiquement.
+        </p>
+      </div>
 
-        {state.photos.length > 0 && (
-          <ul className="flex flex-wrap gap-2">
-            {state.photos.map((p, i) => (
-              <li key={i} className="relative">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={p.previewUrl}
-                  alt={p.name}
-                  className="h-20 w-20 rounded-lg border border-sand-300 object-cover"
-                />
-                <button
-                  type="button"
-                  onClick={() => removePhoto(i)}
-                  className="absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-terracotta text-white shadow"
-                  aria-label={`Supprimer ${p.name}`}
-                >
-                  <X className="h-3 w-3" aria-hidden="true" />
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
+      <PhotoZone
+        kind="aerienne"
+        title="Vue aérienne"
+        description="Capture depuis Géoportail, Google Earth ou Google Maps, avec le tracé souhaité si possible."
+        photos={aerialPhotos}
+        totalCount={state.photos.length}
+        error={errors.photosAerienne}
+        onAdd={handleFiles}
+        onRemove={removePhoto}
+        compressing={compressing}
+      />
 
-        {state.photos.length < 5 && (
-          <>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              multiple
-              className="sr-only"
-              onChange={(e) => handleFiles(e.target.files)}
-            />
-            <button
-              type="button"
-              onClick={() => fileInputRef.current?.click()}
-              disabled={compressing}
-              className="flex min-h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-dashed border-sand-300 bg-sand-200/40 px-4 py-3 text-sm text-bark-muted transition-colors hover:border-terracotta/40 hover:bg-terracotta/5 hover:text-terracotta disabled:opacity-60"
-            >
-              {compressing ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-                  Compression…
-                </>
-              ) : (
-                <>
-                  <ImageIcon className="h-4 w-4" aria-hidden="true" />
-                  <Upload className="h-4 w-4" aria-hidden="true" />
-                  Ajouter des photos ({state.photos.length}/5)
-                </>
-              )}
-            </button>
-          </>
-        )}
+      <PhotoZone
+        kind="terrain"
+        title="Photos du terrain"
+        description="Vues du terrain sous plusieurs angles : limites, accès, végétation, dénivelé."
+        photos={terrainPhotos}
+        totalCount={state.photos.length}
+        error={errors.photosTerrain}
+        onAdd={handleFiles}
+        onRemove={removePhoto}
+        compressing={compressing}
+      />
 
-        {photoError && <p className="text-xs text-terracotta-dark">{photoError}</p>}
-      </fieldset>
+      {photoError && <p className="text-xs text-terracotta-dark">{photoError}</p>}
 
       <fieldset className="space-y-4">
         <legend className="text-sm font-semibold uppercase tracking-wider text-bark-muted">

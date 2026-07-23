@@ -1,6 +1,14 @@
 import type { ProjectLine } from "@/lib/installation-project";
 
-export type PhotoFile = { name: string; data: string; type: string; previewUrl: string };
+export type PhotoKind = "aerienne" | "terrain";
+
+export type PhotoFile = {
+  name: string;
+  data: string;
+  type: string;
+  previewUrl: string;
+  kind: PhotoKind;
+};
 
 export type InstallationFormState = {
   projectAddress: string;
@@ -47,7 +55,7 @@ export const emptyInstallationForm: InstallationFormState = {
 };
 
 export const WIZARD_STEPS = [
-  { id: 1, label: "Votre clôture" },
+  { id: 1, label: "Votre projet" },
   { id: 2, label: "Terrain" },
   { id: 3, label: "Photos" },
   { id: 4, label: "Coordonnées" },

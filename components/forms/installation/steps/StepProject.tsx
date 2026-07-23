@@ -16,9 +16,27 @@ export function StepProject({ state, errors, onChange }: StepProjectProps) {
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
       onChange({ [key]: e.target.value });
 
+  // Pre-fill the usage field from the guided quiz, but never overwrite what the
+  // visitor already typed.
+  const applyUsageHint = (text: string) => {
+    if (text && !state.fenceRole.trim()) onChange({ fenceRole: text });
+  };
+
   return (
     <fieldset className="space-y-6">
-      <legend className="sr-only">Votre clôture</legend>
+      <legend className="sr-only">Votre projet</legend>
+
+      <p className="text-sm text-bark-muted">
+        Commençons par l&apos;essentiel : quel type de clôture souhaitez-vous ?
+        Laissez-vous guider ou choisissez directement.
+      </p>
+
+      <ProjectLineBuilder
+        lines={state.projectLines}
+        onChange={(projectLines) => onChange({ projectLines })}
+        onUsageHint={applyUsageHint}
+        error={errors.projectLines}
+      />
 
       <TextField
         label="Adresse du chantier"
@@ -29,12 +47,6 @@ export function StepProject({ state, errors, onChange }: StepProjectProps) {
         value={state.projectAddress}
         onChange={update("projectAddress")}
         error={errors.projectAddress}
-      />
-
-      <ProjectLineBuilder
-        lines={state.projectLines}
-        onChange={(projectLines) => onChange({ projectLines })}
-        error={errors.projectLines}
       />
 
       <TextAreaField

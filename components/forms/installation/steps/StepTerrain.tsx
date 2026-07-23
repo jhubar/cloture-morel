@@ -1,6 +1,19 @@
 "use client";
 
+import {
+  CircleDashed,
+  DoorOpen,
+  HelpCircle,
+  Minus,
+  Mountain,
+  Ban,
+  Shovel,
+  TrendingUp,
+  Truck,
+  TriangleAlert,
+} from "lucide-react";
 import { TextAreaField, TextField } from "@/components/forms/FormField";
+import { OptionCardGroup } from "@/components/forms/installation/OptionCardGroup";
 import type { InstallationFormState } from "@/components/forms/installation/types";
 
 interface StepTerrainProps {
@@ -14,124 +27,73 @@ export function StepTerrain({ state, errors, onChange }: StepTerrainProps) {
     onChange({ [key]: value });
 
   return (
-    <fieldset className="space-y-6">
+    <fieldset className="space-y-7">
       <legend className="sr-only">État du terrain</legend>
 
-      <div>
-        <p className="mb-2 text-sm font-medium text-forest-dark">
-          Y a-t-il des barrières à intégrer dans la nouvelle clôture ?
-        </p>
-        <div className="flex flex-wrap gap-3">
-          {(["oui", "non"] as const).map((v) => (
-            <label key={v} className="flex cursor-pointer items-center gap-2 text-sm">
-              <input
-                type="radio"
-                name="hasBarriers"
-                value={v}
-                checked={state.hasBarriers === v}
-                onChange={() => set("hasBarriers", v)}
-                className="h-4 w-4 accent-terracotta"
-              />
-              {v === "oui" ? "Oui" : "Non"}
-            </label>
-          ))}
-        </div>
-        {state.hasBarriers === "oui" && (
-          <TextField
-            label="Précisions sur les barrières"
-            name="barriersDetails"
-            placeholder="Ex. 2 barrières de 3 m — galvanisées, 1 portail bois de 4 m…"
-            value={state.barriersDetails}
-            onChange={(e) => set("barriersDetails", e.target.value)}
-            error={errors.barriersDetails}
-            className="mt-3"
-          />
-        )}
-      </div>
+      <p className="text-sm text-bark-muted">
+        Ces quelques précisions nous aident à préparer un devis juste et à
+        organiser le chantier. Répondez au mieux — en cas de doute, choisissez
+        « Je ne sais pas ».
+      </p>
 
-      <div>
-        <p className="mb-2 text-sm font-medium text-forest-dark">
-          Le chantier est-il facilement accessible ?
-        </p>
-        <div className="flex flex-wrap gap-3">
-          {(
-            [
-              { value: "facile", label: "Oui, accès facile" },
-              { value: "difficile", label: "Non, accès difficile" },
-              { value: "inconnu", label: "Je ne sais pas" },
-            ] as const
-          ).map(({ value, label }) => (
-            <label key={value} className="flex cursor-pointer items-center gap-2 text-sm">
-              <input
-                type="radio"
-                name="siteAccess"
-                value={value}
-                checked={state.siteAccess === value}
-                onChange={() => set("siteAccess", value)}
-                className="h-4 w-4 accent-terracotta"
-              />
-              {label}
-            </label>
-          ))}
-        </div>
-      </div>
+      <OptionCardGroup
+        name="hasBarriers"
+        legend="Y a-t-il des barrières ou portails à intégrer ?"
+        options={[
+          { value: "oui", label: "Oui", icon: DoorOpen },
+          { value: "non", label: "Non", icon: Ban },
+        ]}
+        columnsClassName="sm:grid-cols-2"
+        value={state.hasBarriers}
+        onChange={(v) => set("hasBarriers", v)}
+      />
+      {state.hasBarriers === "oui" && (
+        <TextField
+          label="Précisions sur les barrières"
+          name="barriersDetails"
+          placeholder="Ex. 2 barrières de 3 m — galvanisées, 1 portail bois de 4 m…"
+          value={state.barriersDetails}
+          onChange={(e) => set("barriersDetails", e.target.value)}
+          error={errors.barriersDetails}
+        />
+      )}
 
-      <div>
-        <p className="mb-1 text-sm font-medium text-forest-dark">
-          Un couloir dégagé de 5 à 6 m est-il disponible le long de la future clôture ?
-        </p>
-        <p className="mb-2 text-xs text-bark-muted">
-          Nécessaire pour nos machines et véhicules.
-        </p>
-        <div className="flex flex-wrap gap-3">
-          {(
-            [
-              { value: "oui", label: "Oui" },
-              { value: "non", label: "Non, à préparer" },
-              { value: "partiel", label: "Partiellement" },
-            ] as const
-          ).map(({ value, label }) => (
-            <label key={value} className="flex cursor-pointer items-center gap-2 text-sm">
-              <input
-                type="radio"
-                name="terrainCleared"
-                value={value}
-                checked={state.terrainCleared === value}
-                onChange={() => set("terrainCleared", value)}
-                className="h-4 w-4 accent-terracotta"
-              />
-              {label}
-            </label>
-          ))}
-        </div>
-      </div>
+      <OptionCardGroup
+        name="siteAccess"
+        legend="Le chantier est-il facilement accessible ?"
+        options={[
+          { value: "facile", label: "Accès facile", icon: Truck },
+          { value: "difficile", label: "Accès difficile", icon: TriangleAlert },
+          { value: "inconnu", label: "Je ne sais pas", icon: HelpCircle },
+        ]}
+        value={state.siteAccess}
+        onChange={(v) => set("siteAccess", v)}
+      />
 
-      <div>
-        <p className="mb-2 text-sm font-medium text-forest-dark">
-          Y a-t-il un dénivelé important ?
-        </p>
-        <div className="flex flex-wrap gap-3">
-          {(
-            [
-              { value: "plat", label: "Terrain plat" },
-              { value: "leger", label: "Légère pente" },
-              { value: "important", label: "Dénivelé important" },
-            ] as const
-          ).map(({ value, label }) => (
-            <label key={value} className="flex cursor-pointer items-center gap-2 text-sm">
-              <input
-                type="radio"
-                name="slope"
-                value={value}
-                checked={state.slope === value}
-                onChange={() => set("slope", value)}
-                className="h-4 w-4 accent-terracotta"
-              />
-              {label}
-            </label>
-          ))}
-        </div>
-      </div>
+      <OptionCardGroup
+        name="terrainCleared"
+        legend="Un couloir dégagé de 5 à 6 m est-il disponible ?"
+        helper="Nécessaire pour le passage de nos machines et véhicules."
+        options={[
+          { value: "oui", label: "Oui", icon: Truck },
+          { value: "non", label: "Non, à préparer", icon: Shovel },
+          { value: "partiel", label: "Partiellement", icon: CircleDashed },
+        ]}
+        value={state.terrainCleared}
+        onChange={(v) => set("terrainCleared", v)}
+      />
+
+      <OptionCardGroup
+        name="slope"
+        legend="Y a-t-il un dénivelé important ?"
+        options={[
+          { value: "plat", label: "Terrain plat", icon: Minus },
+          { value: "leger", label: "Légère pente", icon: TrendingUp },
+          { value: "important", label: "Dénivelé important", icon: Mountain },
+        ]}
+        value={state.slope}
+        onChange={(v) => set("slope", v)}
+      />
 
       <TextAreaField
         label="Présence d'objets sensibles dans le sol (optionnel)"

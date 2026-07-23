@@ -115,10 +115,7 @@ function projectLinesTable(
   const rows = lines
     .map(
       (line) => `<tr>
-        <td style="padding:6px 8px;border-bottom:1px solid #e3ddd2;">${htmlEscape(line.familyLabel)}</td>
-        <td style="padding:6px 8px;border-bottom:1px solid #e3ddd2;">${htmlEscape(line.categoryTitle)}</td>
-        <td style="padding:6px 8px;border-bottom:1px solid #e3ddd2;">${htmlEscape(line.article ?? line.productLabel)}</td>
-        <td style="padding:6px 8px;border-bottom:1px solid #e3ddd2;">${line.variantSummary ? htmlEscape(line.variantSummary) : htmlEscape(line.productLabel)}</td>
+        <td style="padding:6px 8px;border-bottom:1px solid #e3ddd2;">${htmlEscape(line.typeLabel)}</td>
         <td style="padding:6px 8px;border-bottom:1px solid #e3ddd2;white-space:nowrap;">${htmlEscape(formatLineAmount(line))}</td>
         <td style="padding:6px 8px;border-bottom:1px solid #e3ddd2;">${line.notes ? htmlEscape(line.notes) : "—"}</td>
       </tr>`,
@@ -128,10 +125,7 @@ function projectLinesTable(
   return `<table style="font-size:13px;border-collapse:collapse;width:100%;margin-top:8px;">
     <thead>
       <tr style="background:#f1ece2;">
-        <th style="padding:6px 8px;text-align:left;">Famille</th>
-        <th style="padding:6px 8px;text-align:left;">Type</th>
-        <th style="padding:6px 8px;text-align:left;">Article</th>
-        <th style="padding:6px 8px;text-align:left;">Modele</th>
+        <th style="padding:6px 8px;text-align:left;">Type de cloture</th>
         <th style="padding:6px 8px;text-align:left;">Quantite</th>
         <th style="padding:6px 8px;text-align:left;">Notes</th>
       </tr>
@@ -264,11 +258,17 @@ export async function sendInstallationEmail(
   };
 
   const attachments = (data.photos ?? [])
-    .map((p, i) => ({
-      filename: p.name || `photo-${i + 1}.jpg`,
-      content: p.data.replace(/^data:[^;]+;base64,/, ""),
-    }))
+    .map((p, i) => {
+      const prefix = p.kind === "aerienne" ? "vue-aerienne" : "terrain";
+      return {
+        filename: `${prefix}-${i + 1}-${p.name || "photo.jpg"}`,
+        content: p.data.replace(/^data:[^;]+;base64,/, ""),
+      };
+    })
     .filter((a) => a.content.length > 0);
+
+  const aerialCount = (data.photos ?? []).filter((p) => p.kind === "aerienne").length;
+  const terrainCount = (data.photos ?? []).filter((p) => p.kind === "terrain").length;
 
   const adminBody = `
     <table style="font-size:14px;border-collapse:collapse;width:100%;">
@@ -295,7 +295,7 @@ export async function sendInstallationEmail(
       ${row("Delai souhaite", data.timing)}
     </table>
     ${data.message ? `<p style="background:#f1ece2;padding:10px;border-radius:6px;margin-top:12px;"><strong>Informations complementaires :</strong><br/>${htmlEscape(data.message)}</p>` : ""}
-    ${attachments.length > 0 ? `<p style="color:#5b6b61;font-size:13px;margin-top:8px;">${attachments.length} photo(s) jointe(s) a cet e-mail.</p>` : ""}
+    ${attachments.length > 0 ? `<p style="color:#5b6b61;font-size:13px;margin-top:8px;">${attachments.length} photo(s) jointe(s) : ${aerialCount} vue(s) aerienne(s), ${terrainCount} photo(s) terrain.</p>` : ""}
   `;
 
   try {

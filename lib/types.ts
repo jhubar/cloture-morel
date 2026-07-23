@@ -118,15 +118,10 @@ export interface InstallationQuoteRequest {
   phone: string;
   projectAddress: string;
   projectLines: Array<{
-    familyId: string;
-    familyLabel: string;
-    categoryId: string;
-    categoryTitle: string;
-    productId: string;
-    productLabel: string;
-    article?: string;
-    variantSummary?: string;
-    lengthMeters: number;
+    fenceTypeId: string;
+    typeLabel: string;
+    measureKind: "linear" | "quantity";
+    amount: number;
     notes?: string;
   }>;
   fenceRole?: string;

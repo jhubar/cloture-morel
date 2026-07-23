@@ -1,5 +1,10 @@
 import { getCategoryById } from "@/lib/catalog";
 import { getCategoryImages, type ImageSlot } from "@/lib/assets";
+import {
+  buildPiquetRoundMortisedVariants,
+  buildPiquetRoundSansMortaiseVariants,
+  isPiquetRoundVariant,
+} from "@/lib/piquet-dimensions";
 import { groupCategoryProducts, type ProductGroup } from "@/lib/product-variants";
 import type { Category, Product } from "@/lib/types";
 
@@ -36,6 +41,10 @@ export interface PostOptionDef {
   mortisePreviewSrc?: string;
   /** Fixed tête / section when the post has mortaises (Nobifix carrés: Diamant, 12×12). */
   mortisedConstraints?: { tete?: string; section?: string };
+  /** Mortise count choices for this post type (defaults to 2/3/4). Acacia ronds: 2/3 only. */
+  mortaiseCountOptions?: string[];
+  /** Fixed post height per mortise count when mortaises are selected. */
+  dimensionByMortiseCount?: Record<string, string>;
   /** Supplements catalogue variants with validation stubs (price TBD combos). */
   validationStub?: "round" | "square" | "exotic";
   /** Head style choice driving mortise rules (acacia: biseautée → mortaises 10×15). */
@@ -53,6 +62,8 @@ export interface HeadStyleRule {
   sansMortaiseOnly?: boolean;
   mortaiseCountOptions?: string[];
   mortisedConstraints?: { tete?: string; section?: string };
+  /** Fixed post height per mortise count (acacia biseautée: 2 → 200 cm, 3 → 225 cm). */
+  dimensionByMortiseCount?: Record<string, string>;
 }
 
 /** Validation-only rail line before Excel references exist. */
@@ -77,7 +88,7 @@ export interface EssenceConfig {
   mortiseRailCategoryId: string;
   /** Rail categories compatible with mortised posts (subset of railCategoryIds). */
   mortiseRailCategoryIds?: string[];
-  /** Mortaise count choices (defaults to 2/3/4). Bois exotique: 2/3 only. */
+  /** Mortaise count choices (defaults to 2/3). */
   mortaiseCountOptions?: string[];
   /** When true, only mortised posts are offered (no "Sans mortaise" path). */
   mortisePostsOnly?: boolean;
@@ -114,11 +125,13 @@ export const EQUESTRE_ESSENCES: EssenceConfig[] = [
               requiresMortises: true,
               mortaiseCountOptions: ["2", "3"],
               mortisedConstraints: { tete: "30°", section: "10 x 15 cm" },
+              dimensionByMortiseCount: { "2": "200 cm", "3": "225 cm" },
             },
             {
               id: "plate",
               label: "Tête plate",
               tete: "Plate",
+              sansMortaiseOnly: true,
             },
           ],
         },
@@ -131,6 +144,9 @@ export const EQUESTRE_ESSENCES: EssenceConfig[] = [
         validationStub: "round",
         mortisePreviewSrc:
           "/images/site/realisations-de-clotures-par-clotures-et-travaux-morel-photos-a-fournir/19.webp",
+        mortaiseCountOptions: ["2", "3"],
+        mortisedConstraints: { section: "12/14 cm" },
+        dimensionByMortiseCount: { "2": "200 cm", "3": "225 cm" },
       },
     ],
     railCategoryIds: [
@@ -140,6 +156,7 @@ export const EQUESTRE_ESSENCES: EssenceConfig[] = [
       "acacia-equestre-planches",
     ],
     mortiseRailCategoryId: "post-and-rail-lisses-fendues",
+    mortiseRailCategoryIds: ["post-and-rail-lisses-fendues", "nobifix-lisses"],
     nonMortiseRailCategoryIds: [
       "nobifix-lisses",
       "nobifix-demi-rondins",
@@ -150,14 +167,33 @@ export const EQUESTRE_ESSENCES: EssenceConfig[] = [
       "Demi rondins": "Demi-rondins Nobifix",
       "Planches acacia": "Planches acacia",
     },
+    railLengthFilterByArticle: {
+      "Planches acacia": [250, 300],
+    },
     validationRails: [
       {
         categoryId: "acacia-equestre-planches",
         categoryTitle: "Planches acacia",
         article: "Planches acacia",
         label: "Planches acacia",
-        dimensions: ["500 cm", "600 cm"],
+        dimensions: ["250 cm", "300 cm"],
         sections: ["4 x 25 cm"],
+      },
+      {
+        categoryId: "nobifix-lisses",
+        categoryTitle: "Rails Nobifix",
+        article: "Lisses rectangulaires",
+        label: "Rails Nobifix",
+        dimensions: ["250 cm", "300 cm", "500 cm", "600 cm"],
+        sections: ["4 x 12 cm"],
+      },
+      {
+        categoryId: "nobifix-demi-rondins",
+        categoryTitle: "Demi-rondins Nobifix",
+        article: "Demi rondins",
+        label: "Demi-rondins Nobifix",
+        dimensions: ["250 cm", "300 cm", "500 cm", "600 cm"],
+        sections: ["10 cm", "12 cm"],
       },
     ],
   },
@@ -172,18 +208,27 @@ export const EQUESTRE_ESSENCES: EssenceConfig[] = [
         label: "Poteaux carrés",
         previewImage: 1,
         mortisedConstraints: { tete: "Diamant", section: "12 x 12 cm" },
+        mortaiseCountOptions: ["2", "3"],
       },
       {
         categoryId: "nobifix-poteaux-ronds",
         article: "Poteaux ronds fraisés",
         label: "Poteaux ronds",
         previewImage: 1,
+        validationStub: "round",
         mortisePreviewSrc:
           "/images/site/realisations-de-clotures-par-clotures-et-travaux-morel-photos-a-fournir/19.webp",
       },
     ],
     railCategoryIds: ["nobifix-lisses", "nobifix-demi-rondins", "nobifix-autres"],
     mortiseRailCategoryId: "nobifix-lisses",
+    mortiseRailCategoryIds: ["nobifix-lisses"],
+    mortaiseCountOptions: ["2", "3"],
+    nonMortiseRailCategoryIds: ["nobifix-lisses", "nobifix-demi-rondins"],
+    railLabelOverrides: {
+      "Lisses rectangulaires": "Rails Nobifix",
+      "Demi rondins": "Demi-rondins Nobifix",
+    },
     nonMortiseExcludedRailArticles: ["Rondins fraisés"],
   },
   {
@@ -205,7 +250,7 @@ export const EQUESTRE_ESSENCES: EssenceConfig[] = [
       "bois-exotique-lisses-en-bois-autoclavees-classe-4",
     ],
     mortiseRailCategoryId: "bois-exotique-lisses-en-bois-exotique",
-    mortaiseCountOptions: ["2"],
+    mortaiseCountOptions: ["2", "3"],
     railCategoryIds: [
       "bois-exotique-lisses-en-bois-exotique",
       "bois-exotique-lisses-en-bois-autoclavees-classe-4",
@@ -363,6 +408,10 @@ export interface PartOption {
   /** Fixed tête / section when the post has mortaises. */
   mortisedConstraints?: { tete?: string; section?: string };
   headStyleRules?: { options: HeadStyleRule[] };
+  mortaiseCountOptions?: string[];
+  dimensionByMortiseCount?: Record<string, string>;
+  /** Round posts use piquet bois longueur × diamètre schema in the configurator. */
+  usesPiquetDimensions?: boolean;
 }
 
 /** Stub variants for client validation before Excel references exist. */
@@ -393,7 +442,9 @@ function createPostValidationStub(
     const sections = ["10 x 10 cm", "11.5 x 11.5 cm"];
     for (const section of sections) {
       for (const dimension of ["200 cm", "220 cm"]) {
-        add(section, dimension, "Diamant", "2", "Avec pointes");
+        for (const mort of ["2", "3"]) {
+          add(section, dimension, "Diamant", mort, "Avec pointes");
+        }
       }
     }
     return { article, variants };
@@ -401,33 +452,28 @@ function createPostValidationStub(
 
   if (profile === "square") {
     const sectionsSans = ["10 x 10 cm", "10 x 15 cm", "12 x 12 cm"];
-    const dimensions = ["180 cm", "200 cm", "225 cm", "250 cm"];
+    const dimensionsSans = ["180 cm", "200 cm", "225 cm", "250 cm"];
     for (const section of sectionsSans) {
-      for (const dimension of dimensions) {
+      for (const dimension of dimensionsSans) {
         add(section, dimension, "Plate", "Sans", "Avec pointes");
-        for (const mort of ["2", "3", "4"]) {
-          add(section, dimension, "Plate", mort, "Avec pointes");
-        }
       }
     }
-    for (const dimension of dimensions) {
-      for (const mort of ["2", "3"]) {
-        add("10 x 15 cm", dimension, "30°", mort, "Avec pointes");
-      }
-    }
+    add("10 x 15 cm", "200 cm", "30°", "2", "Avec pointes");
+    add("10 x 15 cm", "225 cm", "30°", "3", "Avec pointes");
     return { article, variants };
   }
 
-  const sections = ["10 cm", "12 cm", "14 cm"];
-  const dimensions = ["180 cm", "200 cm", "225 cm", "250 cm"];
+  return createRoundPostValidationStub(article);
+}
 
-  for (const section of sections) {
-    for (const dimension of dimensions) {
-      add(section, dimension, "Plate", "Sans", "Avec pointes");
-    }
-  }
-
-  return { article, variants };
+function createRoundPostValidationStub(article: string): ProductGroup {
+  return {
+    article,
+    variants: [
+      ...buildPiquetRoundSansMortaiseVariants({ article }),
+      ...buildPiquetRoundMortisedVariants({ article }),
+    ],
+  };
 }
 
 /** Category for a post option (real leaf or synthetic for validation stubs). */
@@ -459,6 +505,20 @@ function mergeValidationVariants(group: ProductGroup, stub: ProductGroup): Produ
   return { ...group, variants: [...group.variants, ...extra] };
 }
 
+function filterGroupByMortiseCount(
+  group: ProductGroup,
+  allowedCounts: string[] | undefined,
+): ProductGroup {
+  if (!allowedCounts?.length) return group;
+  const allowed = new Set(allowedCounts);
+  const variants = group.variants.filter((v) => {
+    const mortaises = v.details?.mortaises;
+    if (!mortaises || mortaises === "Sans") return true;
+    return allowed.has(mortaises);
+  });
+  return variants.length > 0 ? { ...group, variants } : group;
+}
+
 /** Post choices for an essence, resolved to real product groups (skips empties). */
 export function getPostOptions(essence: EssenceConfig): PartOption[] {
   const result: PartOption[] = [];
@@ -473,12 +533,22 @@ export function getPostOptions(essence: EssenceConfig): PartOption[] {
         def.label ?? def.article,
         def.validationStub,
       );
+    } else if (group && def.validationStub === "round") {
+      const stub = createPostValidationStub(def.label ?? def.article, "round");
+      const catalogMatches = {
+        ...group,
+        variants: group.variants.filter(isPiquetRoundVariant),
+      };
+      group = mergeValidationVariants(catalogMatches, stub);
     } else if (group && def.validationStub) {
       const stub = createPostValidationStub(def.label ?? def.article, def.validationStub);
       group = mergeValidationVariants(group, stub);
     }
 
     if (!group) continue;
+
+    const allowedMortises = def.mortaiseCountOptions ?? essence.mortaiseCountOptions;
+    group = filterGroupByMortiseCount(group, allowedMortises);
 
     const categoryTitle =
       category?.title ?? def.label ?? group.article;
@@ -507,6 +577,9 @@ export function getPostOptions(essence: EssenceConfig): PartOption[] {
       imageMortise,
       mortisedConstraints: def.mortisedConstraints,
       headStyleRules: def.headStyleRules,
+      mortaiseCountOptions: def.mortaiseCountOptions,
+      dimensionByMortiseCount: def.dimensionByMortiseCount,
+      usesPiquetDimensions: def.validationStub === "round",
     });
   }
   return result;
@@ -620,6 +693,19 @@ export const RAIL_COUNT_CHOICES = [2, 3, 4, 5];
 export const RAIL_MAX_LENGTH_CM_MORTISE = 500;
 /** Max rail length (cm) when the post has no mortaises. */
 export const RAIL_MAX_LENGTH_CM_FREE = 600;
+
+/** Mortised posts: longer rails allowed for specific articles (Rails Nobifix 4×12). */
+const RAIL_MORTISE_MAX_LENGTH_CM_BY_ARTICLE: Record<string, number> = {
+  "Lisses rectangulaires": 600,
+};
+
+export function getRailMaxLengthCm(
+  isMortise: boolean,
+  railArticle: string | undefined,
+): number {
+  if (!isMortise) return RAIL_MAX_LENGTH_CM_FREE;
+  return RAIL_MORTISE_MAX_LENGTH_CM_BY_ARTICLE[railArticle ?? ""] ?? RAIL_MAX_LENGTH_CM_MORTISE;
+}
 
 
 /** Resolved selection produced by the builder. */

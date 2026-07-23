@@ -1,7 +1,7 @@
 "use client";
 
 import { TextField } from "@/components/forms/FormField";
-import { ProjectLineSummary } from "@/components/forms/installation/ProjectLineSummary";
+import { ReviewSummary } from "@/components/forms/installation/ReviewSummary";
 import type { InstallationFormState } from "@/components/forms/installation/types";
 
 interface StepContactProps {
@@ -18,9 +18,7 @@ export function StepContact({ state, errors, onChange }: StepContactProps) {
 
   return (
     <div className="space-y-6">
-      {state.projectLines.length > 0 && (
-        <ProjectLineSummary lines={state.projectLines} className="lg:hidden" />
-      )}
+      {state.projectLines.length > 0 && <ReviewSummary state={state} />}
 
       <fieldset className="space-y-4">
         <legend className="text-sm font-semibold uppercase tracking-wider text-bark-muted">

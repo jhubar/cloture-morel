@@ -17,12 +17,18 @@ import {
   materielAutoporteurImages,
   materielStockadeImages,
   materielDerouleuseImages,
+  materielPelleForesterieImages,
+  materielEnfoncePieuxHydrauliqueImages,
+  materielTransportImages,
+  materielPreparationChantierImages,
+  materielDeneigementImages,
+  materielAtelierImages,
 } from "@/lib/assets";
 
 export const metadata: Metadata = {
   title: "Notre matériel",
   description:
-    "Parc machines professionnel de Clôtures Morel : autoporteur, pelle foresterie, enfonce-pieux hydraulique, dérouleuses, agrafeuse Stockade, transport, préparation de chantier, déneigement, location et atelier de soudure.",
+    "Parc machines professionnel de Clôtures Morel : autoporteur, pelle forestière, enfonce-pieux hydraulique, dérouleuses, agrafeuse Stockade, transport, préparation de chantier, déneigement, location et atelier de soudure.",
 };
 
 const MAT = "/images/site/photos-materiaux";
@@ -64,7 +70,7 @@ const categories: {
   {
     id: "pelle-foresterie",
     icon: Construction,
-    title: "Pelle foresterie",
+    title: "Pelle forestière",
     description:
       "Pelle mécanique professionnelle équipée pour les travaux forestiers et la préparation de chantier. Blindée et protégée pour intervenir en milieu exigeant, y compris sur terrains sensibles.",
     items: [
@@ -72,7 +78,7 @@ const categories: {
       { name: "Patins en caoutchouc", detail: "Préservation des sols et des revêtements" },
       { name: "Accessoires forestiers", detail: "Sillage, broyage, abattage et élagage" },
     ],
-    images: [],
+    images: toGallery(materielPelleForesterieImages),
   },
   {
     id: "enfonce-pieux-hydraulique",
@@ -84,7 +90,7 @@ const categories: {
       { name: "Enfoncement par vibration", detail: "Efficace sur sols variés et difficiles" },
       { name: "Pieux ronds, carrés et cornières", detail: "Adapté à tous types de clôtures" },
     ],
-    images: [],
+    images: toGallery(materielEnfoncePieuxHydrauliqueImages),
   },
   {
     id: "derouleuses",
@@ -121,7 +127,7 @@ const categories: {
       { name: "Manitou Clark", detail: "Manutention et levage sur chantier" },
       { name: "Fasttrack tracteur-camion", detail: "Transport lourd et livraison de matériaux" },
     ],
-    images: [slot(`${MAT}/barrieres-galvanisees/camion-complet.webp`, "Livraison camion complet")],
+    images: toGallery(materielTransportImages),
   },
   {
     id: "preparation-chantier",
@@ -135,10 +141,7 @@ const categories: {
       { name: "Broyage & élagage", detail: "Nettoyage et broyage des branches et souches" },
       { name: "Terrassement", detail: "Petits terrassements, nivellement, mare d'eau" },
     ],
-    images: [
-      slot(`${MAT}/outils-et-accessoires/cloche-pour-brise-roche/1.webp`, "Cloche pour brise-roche — vue 1"),
-      slot(`${MAT}/outils-et-accessoires/cloche-pour-brise-roche/2.webp`, "Cloche pour brise-roche — vue 2"),
-    ],
+    images: toGallery(materielPreparationChantierImages),
   },
   {
     id: "deneigement",
@@ -150,7 +153,7 @@ const categories: {
       { name: "Déneigement mécanique", detail: "Parkings, voies d'accès et cours" },
       { name: "Salage", detail: "Traitement préventif et curatif des surfaces" },
     ],
-    images: [],
+    images: toGallery(materielDeneigementImages),
   },
   {
     id: "location",
@@ -179,7 +182,7 @@ const categories: {
       { name: "Table de soudure", detail: "Soudure MIG/MAG et assemblages sur mesure" },
       { name: "Conception ferronnerie", detail: "Portails, grilles, garde-corps et ouvrages métalliques" },
     ],
-    images: [],
+    images: toGallery(materielAtelierImages),
   },
 ];
 

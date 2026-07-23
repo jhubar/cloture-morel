@@ -14,8 +14,7 @@ import {
 import {
   EQUESTRE_ESSENCES,
   RAIL_COUNT_CHOICES,
-  RAIL_MAX_LENGTH_CM_FREE,
-  RAIL_MAX_LENGTH_CM_MORTISE,
+  getRailMaxLengthCm,
   estimateFence,
   getEssence,
   getSelectableRailOptions,
@@ -136,8 +135,8 @@ function VariantPicker({
   );
 }
 
-const POINTE_OPTIONS = ["Avec pointes", "Sans pointes"];
-const MORTAISE_COUNT_OPTIONS = ["2", "3", "4"];
+const POST_POINTE = "Avec pointes";
+const MORTAISE_COUNT_OPTIONS = ["2", "3"];
 const MORTAISE_MODE_OPTIONS = ["Sans mortaise", "Avec mortaises"];
 // Core (price-defining) post axes resolved from real references, in order.
 const POST_CORE_AXES = ["tete", "section", "dimension"] as const;
@@ -146,16 +145,15 @@ export interface PostResolve {
   product: Product | null;
   summary: string;
   mortiseCount: number | null;
-  /** True when the chosen tête × pointe × mortaises combo has no priced SKU yet. */
+  /** True when the chosen tête × mortaises combo has no priced SKU yet. */
   priceTBD: boolean;
 }
 
 /**
  * Dedicated post configurator: tête, section, longueur come from real
- * references (cascaded), while "mortaises" and "pointe" are offered as
- * independent choices (the client validated they are orderable in any
- * combination). Combos without a priced reference resolve to the nearest
- * base variant and flag `priceTBD` so the UI can show "tarif à confirmer".
+ * references (cascaded). Mortaises are configurable; pointes are always
+ * présentes. Combos without a priced reference resolve to the nearest base
+ * variant and flag `priceTBD` so the UI can show "tarif à confirmer".
  */
 function PostConfigurator({
   category,
@@ -165,6 +163,8 @@ function PostConfigurator({
   mortisePostsOnly = false,
   mortisedConstraints,
   headStyleRules,
+  dimensionByMortiseCount,
+  usesPiquetDimensions = false,
 }: {
   category: Category;
   group: ProductGroup;
@@ -173,6 +173,8 @@ function PostConfigurator({
   mortisePostsOnly?: boolean;
   mortisedConstraints?: { tete?: string; section?: string };
   headStyleRules?: { options: HeadStyleRule[] };
+  dimensionByMortiseCount?: Record<string, string>;
+  usesPiquetDimensions?: boolean;
 }) {
   const format = category.format;
   const variants = group.variants;
@@ -202,7 +204,6 @@ function PostConfigurator({
   const [mortaiseCount, setMortaiseCount] = useState(
     effectiveMortaiseCountOptions[0] ?? "2",
   );
-  const [pointe, setPointe] = useState("Avec pointes");
 
   useEffect(() => {
     if (requiresMortises) setMortaiseMode("Avec mortaises");
@@ -212,6 +213,14 @@ function PostConfigurator({
 
   const mortaise = mortaiseMode === "Sans mortaise" ? "Sans" : mortaiseCount;
   const isMortised = mortaise !== "Sans";
+
+  const effectiveDimensionConstraint = useMemo(() => {
+    if (!isMortised) return undefined;
+    return (
+      selectedHeadStyle?.dimensionByMortiseCount?.[mortaiseCount] ??
+      dimensionByMortiseCount?.[mortaiseCount]
+    );
+  }, [isMortised, selectedHeadStyle, mortaiseCount, dimensionByMortiseCount]);
 
   const activeVariants = useMemo(() => {
     let pool = variants;
@@ -236,8 +245,9 @@ function PostConfigurator({
       if (effectiveMortisedConstraints.tete) s.tete = effectiveMortisedConstraints.tete;
       if (effectiveMortisedConstraints.section) s.section = effectiveMortisedConstraints.section;
     }
+    if (effectiveDimensionConstraint) s.dimension = effectiveDimensionConstraint;
     return s;
-  }, [variantPool, format, isMortised, effectiveMortisedConstraints]);
+  }, [variantPool, format, isMortised, effectiveMortisedConstraints, effectiveDimensionConstraint]);
 
   const [core, setCore] = useState<Record<string, string>>(buildCore);
 
@@ -246,15 +256,17 @@ function PostConfigurator({
   }, [buildCore]);
 
   const effectiveCore = useMemo(() => {
-    if (!isMortised || !effectiveMortisedConstraints) return core;
-    return {
-      ...core,
-      ...(effectiveMortisedConstraints.tete ? { tete: effectiveMortisedConstraints.tete } : {}),
-      ...(effectiveMortisedConstraints.section
+    const locked = {
+      ...(isMortised && effectiveMortisedConstraints?.tete
+        ? { tete: effectiveMortisedConstraints.tete }
+        : {}),
+      ...(isMortised && effectiveMortisedConstraints?.section
         ? { section: effectiveMortisedConstraints.section }
         : {}),
+      ...(effectiveDimensionConstraint ? { dimension: effectiveDimensionConstraint } : {}),
     };
-  }, [core, isMortised, effectiveMortisedConstraints]);
+    return Object.keys(locked).length > 0 ? { ...core, ...locked } : core;
+  }, [core, isMortised, effectiveMortisedConstraints, effectiveDimensionConstraint]);
 
   const handleCore = (key: string, value: string) => {
     if (
@@ -265,6 +277,7 @@ function PostConfigurator({
     ) {
       return;
     }
+    if (key === "dimension" && effectiveDimensionConstraint) return;
     const next = { ...core, [key]: value };
     const idx = POST_CORE_AXES.indexOf(key as (typeof POST_CORE_AXES)[number]);
     for (let i = idx + 1; i < POST_CORE_AXES.length; i += 1) {
@@ -283,10 +296,10 @@ function PostConfigurator({
     () =>
       findMatchingVariant(
         variantPool,
-        { ...effectiveCore, mortaises: mortaise, info: pointe },
+        { ...effectiveCore, mortaises: mortaise, info: POST_POINTE },
         format,
       ),
-    [variantPool, effectiveCore, mortaise, pointe, format],
+    [variantPool, effectiveCore, mortaise, format],
   );
 
   const product = exact ?? base;
@@ -300,11 +313,10 @@ function PostConfigurator({
         effectiveCore.section,
         effectiveCore.dimension,
         mortaise === "Sans" ? null : `${mortaise} mortaises`,
-        pointe,
       ]
         .filter(Boolean)
         .join(" · "),
-    [selectedHeadStyle, effectiveCore, mortaise, pointe],
+    [selectedHeadStyle, effectiveCore, mortaise],
   );
 
   useEffect(() => {
@@ -322,6 +334,7 @@ function PostConfigurator({
     Boolean(
       effectiveMortisedConstraints?.tete ||
         effectiveMortisedConstraints?.section ||
+        effectiveDimensionConstraint ||
         selectedHeadStyle?.label,
     );
   const showMortaiseModePicker =
@@ -368,7 +381,14 @@ function PostConfigurator({
             {effectiveMortisedConstraints?.section && (
               <>
                 {" "}
-                · section <strong>{effectiveMortisedConstraints.section}</strong>
+                · {usesPiquetDimensions ? "diamètre" : "section"}{" "}
+                <strong>{effectiveMortisedConstraints.section}</strong>
+              </>
+            )}
+            {effectiveDimensionConstraint && (
+              <>
+                {" "}
+                · hauteur <strong>{effectiveDimensionConstraint}</strong>
               </>
             )}
             .
@@ -389,32 +409,27 @@ function PostConfigurator({
           )}
         {!(isMortised && effectiveMortisedConstraints?.section) && (
           <OptionPicker
-            label="Section"
+            label={usesPiquetDimensions ? "Diamètre" : "Section"}
             name={`equestre-${category.id}-section`}
             value={effectiveCore.section ?? null}
             options={sectionOptions}
             onChange={(v) => handleCore("section", v)}
           />
         )}
-        <OptionPicker
-          label="Hauteur"
-          name={`equestre-${category.id}-dimension`}
-          value={effectiveCore.dimension ?? null}
-          options={getAvailableValues(
-            variantPool,
-            "dimension",
-            { tete: effectiveCore.tete, section: effectiveCore.section },
-            format,
-          )}
-          onChange={(v) => handleCore("dimension", v)}
-        />
-        <OptionPicker
-          label="Pointe du pied"
-          name={`equestre-${category.id}-pointe`}
-          value={pointe}
-          options={POINTE_OPTIONS}
-          onChange={setPointe}
-        />
+        {!effectiveDimensionConstraint && (
+          <OptionPicker
+            label={usesPiquetDimensions ? "Longueur" : "Hauteur"}
+            name={`equestre-${category.id}-dimension`}
+            value={effectiveCore.dimension ?? null}
+            options={getAvailableValues(
+              variantPool,
+              "dimension",
+              { tete: effectiveCore.tete, section: effectiveCore.section },
+              format,
+            )}
+            onChange={(v) => handleCore("dimension", v)}
+          />
+        )}
       </div>
     </div>
   );
@@ -510,6 +525,15 @@ export function EquestreFenceBuilder({
   const effectiveRailOption = useMemo(
     () => selectableRailOptions[railIndex] ?? selectableRailOptions[0],
     [selectableRailOptions, railIndex],
+  );
+
+  const railMaxDimensionCm = useMemo(
+    () =>
+      getRailMaxLengthCm(
+        isMortise || forcesMortisePosts,
+        effectiveRailOption?.group.article,
+      ),
+    [isMortise, forcesMortisePosts, effectiveRailOption],
   );
 
   const railCategory =
@@ -702,10 +726,14 @@ export function EquestreFenceBuilder({
             category={postCategory}
             group={postOption.group}
             onResolve={handlePostResolve}
-            mortaiseCountOptions={essence?.mortaiseCountOptions}
+            mortaiseCountOptions={
+              postOption.mortaiseCountOptions ?? essence?.mortaiseCountOptions
+            }
             mortisePostsOnly={essence?.mortisePostsOnly}
             mortisedConstraints={postOption.mortisedConstraints}
             headStyleRules={postOption.headStyleRules}
+            dimensionByMortiseCount={postOption.dimensionByMortiseCount}
+            usesPiquetDimensions={postOption.usesPiquetDimensions}
           />
         )}
         {postPreviewImage?.src && (
@@ -815,11 +843,7 @@ export function EquestreFenceBuilder({
             group={effectiveRailOption.group}
             onResolve={handleRailResolve}
             labelOverrides={{ dimension: "Longueur" }}
-            maxDimensionCm={
-              isMortise || forcesMortisePosts
-                ? RAIL_MAX_LENGTH_CM_MORTISE
-                : RAIL_MAX_LENGTH_CM_FREE
-            }
+            maxDimensionCm={railMaxDimensionCm}
           />
         )}
       </fieldset>

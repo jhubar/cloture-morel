@@ -24,6 +24,43 @@ function seq(base: string, alt: string, ns: number[]): ImageSlot[] {
   return ns.map((n) => ({ src: `${base}/${n}.webp`, alt: `${alt} — vue ${n}`, hint: `${base}/${n}.webp` }));
 }
 
+function img(src: string, alt: string): ImageSlot {
+  return { src, alt, hint: src };
+}
+
+/** Galerie par modèle : photo produit, récap, dessin technique. */
+function modelGallery(produit: string, recap: string, dessin: string, label: string): ImageSlot[] {
+  return [
+    img(produit, `${label} — photo produit`),
+    img(recap, `${label} — récapitulatif`),
+    img(dessin, `${label} — dessin technique`),
+  ];
+}
+
+function modelGalleryRecap(produit: string, recap: string, label: string): ImageSlot[] {
+  return [
+    img(produit, `${label} — photo produit`),
+    img(recap, `${label} — récapitulatif`),
+  ];
+}
+
+const GI = `${MAT}/grillage-et-barbele/grillage-a-mailles-identiques`;
+const GI_P = `${GI}/produit`;
+const GP = `${MAT}/grillage-et-barbele/grillage-a-mailles-progressives`;
+const GP_P = `${GP}/produit`;
+const GV_P = `${MAT}/ganivelles/ganivelles/produit`;
+const GV_RECAP = `${MAT}/ganivelles/ganivelles/recap.webp`;
+const PG = `${MAT}/ganivelles/portillons-en-ganivelles`;
+const BR = `${MAT}/brise-vue-naturels/brandes-de-bruyeres`;
+const BR_RECAP = `${BR}/recap.webp`;
+const BG_7T = `${MAT}/barrieres-galvanisees/7-tubes-fixes`;
+const BG_EXT = `${MAT}/barrieres-galvanisees/extensibles-5-tubes`;
+const BG_DEMI = `${MAT}/barrieres-galvanisees/demi-grillagees`;
+const BG_ENT = `${MAT}/barrieres-galvanisees/entierement-grillagees`;
+const BG_TUBES_RECAP = `${MAT}/barrieres-galvanisees/recap-tubes-demi-extensibles.webp`;
+const BG_DEMI_RECAP = `${BG_DEMI}/recap.webp`;
+const BG_ENT_RECAP = `${BG_ENT}/recap.webp`;
+
 // ── Hero & réalisations ───────────────────────────────────────────────────────
 
 /** Homepage hero (right column) — première réalisation. */
@@ -77,16 +114,16 @@ export const categoryImages: Record<string, ImageSlot[]> = {
     [1, 2, 3, 4, 5, 7, 8, 9],
   ),
 
-  // Grillage à mailles progressives
+  // Grillage à mailles progressives — galerie par modèle via categoryImagesBySelectionKey
   "grillage-a-mailles-progressives": seq(
-    `${MAT}/grillage-et-barbele/grillage-a-mailles-progressives`,
+    `${GP_P}`,
     "Grillage à mailles progressives",
     [1, 2, 3, 4, 5],
   ),
 
-  // Grillage à mailles identiques
+  // Grillage à mailles identiques — galerie par modèle via categoryImagesBySelectionKey
   "grillage-a-mailles-identiques": seq(
-    `${MAT}/grillage-et-barbele/grillage-a-mailles-identiques`,
+    `${GI_P}`,
     "Grillage à mailles identiques",
     [1, 2, 3, 4, 5, 6],
   ),
@@ -104,32 +141,32 @@ export const categoryImages: Record<string, ImageSlot[]> = {
     [`${MAT}/grillage-et-barbele/fil-lisses/low-tensile/1.webp`,  "Fil galvanisé low-tensile"],
   ]),
 
-  // Barrières galvanisées — 7 tubes fixes
+  // Barrières galvanisées — galerie par dimension via categoryImagesBySelectionKey
   "barrieres-fixes-en-7-tubes-h-120-cm": seq(
-    `${MAT}/barrieres-galvanisees/7-tubes-fixes`,
+    BG_7T,
     "Barrière galvanisée 7 tubes fixe",
     [1, 2, 3, 4],
   ),
 
   // Barrières galvanisées — extensibles 5 tubes
   "barrieres-extensibles-en-5-tubes-h-120-cm": seq(
-    `${MAT}/barrieres-galvanisees/extensibles-5-tubes`,
+    BG_EXT,
     "Barrière galvanisée extensible 5 tubes",
     [1, 2, 3, 4],
   ),
 
-  // Barrières demi-grillagées
+  // Barrières demi-grillagées — photos produit (#2–6), récap séparé
   "barrieres-demi-grillagees-h-120-cm": seq(
-    `${MAT}/barrieres-galvanisees/demi-grillagees`,
+    BG_DEMI,
     "Barrière demi-grillagée",
-    [1, 2, 3, 4, 5, 6],
+    [2, 3, 4, 5, 6],
   ),
 
-  // Barrières entièrement grillagées
+  // Barrières entièrement grillagées — photos produit (#2–6), récap séparé
   "barrieres-entierement-grillagees-h-150-cm-et-h-180-cm": seq(
-    `${MAT}/barrieres-galvanisees/entierement-grillagees`,
+    BG_ENT,
     "Barrière entièrement grillagée",
-    [1, 2, 3, 4, 5, 6],
+    [2, 3, 4, 5, 6],
   ),
 
   // Poteaux galvanisés — galerie par modèle (récepteur / support), voir categoryImagesBySelectionKey
@@ -154,11 +191,12 @@ export const categoryImages: Record<string, ImageSlot[]> = {
     },
   ],
 
-  // Barrières anglaises en bois exotique + portillons ganivelles (bois)
-  "barrieres-anglaises-en-bois-exotique-h-120-cm": [
-    ...seq(`${MAT}/barrieres-en-bois/barrieres-anglaises`,              "Barrière anglaise en bois exotique", [1, 2, 3, 4, 5, 6, 7, 8]),
-    ...seq(`${MAT}/barrieres-en-bois/portillons-en-ganivelles`,         "Portillon en ganivelles",            [1, 2, 3, 4]),
-  ],
+  // Barrières anglaises en bois exotique (sans portillons ganivelles)
+  "barrieres-anglaises-en-bois-exotique-h-120-cm": seq(
+    `${MAT}/barrieres-en-bois/barrieres-anglaises`,
+    "Barrière anglaise en bois exotique",
+    [1, 2, 3, 4, 5, 6, 7, 8],
+  ),
 
   // Poteaux en bois exotique pour barrières anglaises
   "poteaux-en-bois-exotique-pour-barrieres-anglaises": seq(
@@ -170,9 +208,9 @@ export const categoryImages: Record<string, ImageSlot[]> = {
   // Quincailleries barrières anglaises — galerie par article, voir categoryImagesBySelectionKey
   "quincailleries-pour-barrieres-anglaises": [],
 
-  // Brande de bruyère
+  // Brande de bruyère — galerie par hauteur via categoryImagesBySelectionKey
   "brande-de-bruyere-epaisse-100-opaque": seq(
-    `${MAT}/brise-vue-naturels/brandes-de-bruyeres`,
+    BR,
     "Brande de bruyère épaisse 100 % opaque",
     [1, 2, 3],
   ),
@@ -180,10 +218,10 @@ export const categoryImages: Record<string, ImageSlot[]> = {
   // Outillage & accessoires — galerie par référence, voir categoryImagesBySelectionKey
   "outillage-et-accessoires-clotures": [],
 
-  // Ganivelles en robinier faux acacia + portillons ganivelles
+  // Ganivelles — galerie par modèle via categoryImagesBySelectionKey
   "ganivelles-en-robiniers-faux-acacia": [
-    ...seq(`${MAT}/ganivelles/ganivelles`,             "Ganivelle en robinier faux acacia", [1, 2, 3, 4, 5, 6]),
-    ...seq(`${MAT}/ganivelles/portillons-en-ganivelles`, "Portillon en ganivelles",         [1, 2, 3, 4]),
+    ...seq(`${GV_P}`, "Ganivelle en robinier faux acacia", [1, 2, 3, 4, 5, 6]),
+    ...seq(`${PG}`, "Portillon en ganivelles", [1, 2, 3, 4, 5, 6, 7, 8]),
   ],
 
   // ── Clôture équestre — clés alignées sur les catégories feuilles ────────────
@@ -249,8 +287,89 @@ export const categoryImages: Record<string, ImageSlot[]> = {
 /** Galeries photo liées à une option de configuration (ex. modèle récepteur / support). */
 const categoryImagesBySelectionKey: Record<
   string,
-  { axisKey: string; galleries: Record<string, ImageSlot[]> }
+  {
+    axisKey: string;
+    lookupKeys?: string[];
+    galleries: Record<string, ImageSlot[]>;
+  }
 > = {
+  "grillage-a-mailles-identiques": {
+    axisKey: "reference",
+    galleries: {
+      "13/122/7,5": modelGallery(`${GI_P}/1.webp`, `${GI}/2.webp`, `${GI}/7.webp`, "Grillage 13/122/7,5"),
+      "13/122/5": modelGallery(`${GI_P}/2.webp`, `${GI}/1.webp`, `${GI}/6.webp`, "Grillage 13/122/5"),
+      "15/140/7,5": modelGallery(`${GI_P}/3.webp`, `${GI}/3.webp`, `${GI}/8.webp`, "Grillage 15/140/7,5"),
+      "16/150/5": modelGallery(`${GI_P}/4.webp`, `${GI}/4.webp`, `${GI}/9.webp`, "Grillage 16/150/5"),
+      "19/180/5": modelGallery(`${GI_P}/5.webp`, `${GI}/5.webp`, `${GI}/10.webp`, "Grillage 19/180/5"),
+    },
+  },
+  "grillage-a-mailles-progressives": {
+    axisKey: "reference",
+    galleries: {
+      "8/80/15": modelGallery(`${GP_P}/1.webp`, `${GP}/5.webp`, `${GP}/10.webp`, "Grillage 8/80/15"),
+      "10/100/15": modelGallery(`${GP_P}/2.webp`, `${GP}/1.webp`, `${GP}/6.webp`, "Grillage 10/100/15"),
+      "11/122/15": modelGallery(`${GP_P}/3.webp`, `${GP}/2.webp`, `${GP}/7.webp`, "Grillage 11/122/15"),
+      "13/150/15": modelGallery(`${GP_P}/4.webp`, `${GP}/3.webp`, `${GP}/8.webp`, "Grillage 13/150/15"),
+      "17/200/15": modelGallery(`${GP_P}/5.webp`, `${GP}/4.webp`, `${GP}/9.webp`, "Grillage 17/200/15"),
+      "20/244/15": [img(`${GP_P}/5.webp`, "Grillage 20/244/15 — photo produit")],
+    },
+  },
+  "brande-de-bruyere-epaisse-100-opaque": {
+    axisKey: "reference",
+    galleries: {
+      "150 cm": modelGalleryRecap(`${BR}/1.webp`, BR_RECAP, "Brande de bruyère 150 cm"),
+      "180 cm": modelGalleryRecap(`${BR}/2.webp`, BR_RECAP, "Brande de bruyère 180 cm"),
+      "200 cm": modelGalleryRecap(`${BR}/3.webp`, BR_RECAP, "Brande de bruyère 200 cm"),
+    },
+  },
+  "barrieres-fixes-en-7-tubes-h-120-cm": {
+    axisKey: "reference",
+    galleries: {
+      "365 cm": modelGalleryRecap(`${BG_7T}/1.webp`, BG_TUBES_RECAP, "7 tubes fixes 365 cm"),
+      "460 cm": modelGalleryRecap(`${BG_7T}/2.webp`, BG_TUBES_RECAP, "7 tubes fixes 460 cm"),
+      "600 cm": modelGalleryRecap(`${BG_7T}/3.webp`, BG_TUBES_RECAP, "7 tubes fixes 600 cm"),
+    },
+  },
+  "barrieres-extensibles-en-5-tubes-h-120-cm": {
+    axisKey: "reference",
+    galleries: {
+      "4 => 5 mètres": modelGalleryRecap(`${BG_EXT}/1.webp`, BG_TUBES_RECAP, "Extensible 4 => 5 m"),
+      "5 => 6 mètres": modelGalleryRecap(`${BG_EXT}/2.webp`, BG_TUBES_RECAP, "Extensible 5 => 6 m"),
+    },
+  },
+  "barrieres-demi-grillagees-h-120-cm": {
+    axisKey: "reference",
+    galleries: {
+      "120 cm": modelGalleryRecap(`${BG_DEMI}/2.webp`, BG_DEMI_RECAP, "Demi-grillagée 120 cm"),
+      "300 cm": modelGalleryRecap(`${BG_DEMI}/3.webp`, BG_DEMI_RECAP, "Demi-grillagée 300 cm"),
+      "365 cm": modelGalleryRecap(`${BG_DEMI}/4.webp`, BG_DEMI_RECAP, "Demi-grillagée 365 cm"),
+      "460 cm": modelGalleryRecap(`${BG_DEMI}/5.webp`, BG_DEMI_RECAP, "Demi-grillagée 460 cm"),
+    },
+  },
+  "barrieres-entierement-grillagees-h-150-cm-et-h-180-cm": {
+    axisKey: "reference",
+    galleries: {
+      "H.150 x 120 cm": modelGalleryRecap(`${BG_ENT}/2.webp`, BG_ENT_RECAP, "Entièrement grillagée H.150 x 120 cm"),
+      "H.150 x 365 cm": modelGalleryRecap(`${BG_ENT}/3.webp`, BG_ENT_RECAP, "Entièrement grillagée H.150 x 365 cm"),
+      "H.150 x 460 cm": modelGalleryRecap(`${BG_ENT}/4.webp`, BG_ENT_RECAP, "Entièrement grillagée H.150 x 460 cm"),
+      "H.180 x 120 cm": modelGalleryRecap(`${BG_ENT}/5.webp`, BG_ENT_RECAP, "Entièrement grillagée H.180 x 120 cm"),
+      "H.180 x 365 cm": modelGalleryRecap(`${BG_ENT}/6.webp`, BG_ENT_RECAP, "Entièrement grillagée H.180 x 365 cm"),
+      "H.180 x 460 cm": modelGalleryRecap(`${BG_ENT}/4.webp`, BG_ENT_RECAP, "Entièrement grillagée H.180 x 460 cm"),
+    },
+  },
+  "ganivelles-en-robiniers-faux-acacia": {
+    axisKey: "reference",
+    lookupKeys: ["taille_rouleau", "reference"],
+    galleries: {
+      "H.50 cm": modelGalleryRecap(`${GV_P}/1.webp`, GV_RECAP, "Ganivelle H.50 cm"),
+      "H.100 cm": modelGalleryRecap(`${GV_P}/2.webp`, GV_RECAP, "Ganivelle H.100 cm"),
+      "H.120 cm": modelGalleryRecap(`${GV_P}/3.webp`, GV_RECAP, "Ganivelle H.120 cm"),
+      "H.150 cm": modelGalleryRecap(`${GV_P}/4.webp`, GV_RECAP, "Ganivelle H.150 cm"),
+      "H.175 cm": modelGalleryRecap(`${GV_P}/5.webp`, GV_RECAP, "Ganivelle H.175 cm"),
+      "H.120 cm x 100 cm": modelGalleryRecap(`${PG}/1.webp`, GV_RECAP, "Portillon H.120 x 100 cm"),
+      "H.120 cm x 200 cm": modelGalleryRecap(`${PG}/3.webp`, GV_RECAP, "Portillon H.120 x 200 cm"),
+    },
+  },
   "poteaux-galvanises-pour-barrieres": {
     axisKey: "modele",
     galleries: {
@@ -342,7 +461,7 @@ const categoryImagesBySelectionKey: Record<
       "Easy Petrol Post Driver 50 CC": seq(
         `${MAT}/outils-et-accessoires/enfonce-pieux-thermique/50-cc`,
         "Enfonce-pieux thermique 50 CC",
-        [1, 2, 3, 4],
+        [1, 2, 3, 4, 5],
       ),
       "Adaptateur pour cornières métalliques": slots([
         [
@@ -353,7 +472,7 @@ const categoryImagesBySelectionKey: Record<
       "Pour mini pelles et autres": seq(
         `${MAT}/outils-et-accessoires/derouleuses-de-grillage`,
         "Dérouleuse de grillage",
-        [1, 2, 3, 4, 5],
+        [1, 2, 3, 4, 5, 6, 7, 8],
       ),
       "Cloche de battage pour brise roche": seq(
         `${MAT}/outils-et-accessoires/cloche-pour-brise-roche`,
@@ -363,7 +482,7 @@ const categoryImagesBySelectionKey: Record<
       "Protech Evo": seq(
         `${MAT}/outils-et-accessoires/autoporteur-protech-evo`,
         "Autoporteur Protech Evo",
-        [1, 2, 3, 4, 5, 6],
+        [1, 2, 3, 4, 5, 6, 7, 8],
       ),
       "Gripple plus médium": seq(
         `${MAT}/outils-et-accessoires/gripple/gripple-plus-medium`,
@@ -404,16 +523,32 @@ const categoryGalleryPreview: Record<
     /** Vignette pour une référence / dimension précise. */
     byReference?: Record<string, number>;
   }
-> = {
-  "barrieres-demi-grillagees-h-120-cm": { defaultIndex: 2 },
-  "barrieres-entierement-grillagees-h-150-cm-et-h-180-cm": {
-    byReference: { "H.150 x 120 cm": 1 },
-  },
-};
+> = {};
 
-/** Retourne la galerie d'images d'une catégorie (tableau vide si inconnue). */
+/** Exclut récapitulatifs et dessins techniques des galeries « famille / catégorie ». */
+function isCatalogRecapOrTechnicalImage(src: string | null): boolean {
+  if (!src) return false;
+  if (src.endsWith("/recap.webp")) return true;
+  if (src.includes("/recap-tubes-demi-extensibles.webp")) return true;
+  if (src.includes("/grillage-a-mailles-identiques/") && !src.includes("/produit/")) {
+    return true;
+  }
+  if (
+    src.includes("/grillage-a-mailles-progressives/") &&
+    !src.includes("/produit/") &&
+    !src.includes("/barbeles/") &&
+    !src.includes("/fil-lisses/")
+  ) {
+    return true;
+  }
+  return false;
+}
+
+/** Retourne la galerie d'images d'une catégorie (produit uniquement, sans récap). */
 export function getCategoryImages(categoryId: string): ImageSlot[] {
-  return categoryImages[categoryId] ?? [];
+  return (categoryImages[categoryId] ?? []).filter(
+    (slot) => !isCatalogRecapOrTechnicalImage(slot.src),
+  );
 }
 
 /**
@@ -427,8 +562,14 @@ export function getCategoryImagesForSelection(
   const config = categoryImagesBySelectionKey[categoryId];
   if (!config) return getCategoryImages(categoryId);
 
-  const value = selection[config.axisKey]?.trim();
-  if (value && config.galleries[value]) return config.galleries[value];
+  const keysToTry = config.lookupKeys ?? [config.axisKey];
+  for (const key of keysToTry) {
+    const value = selection[key]?.trim();
+    if (value && config.galleries[value]) return config.galleries[value];
+  }
+
+  const axisValue = selection[config.axisKey]?.trim();
+  if (axisValue && config.galleries[axisValue]) return config.galleries[axisValue];
 
   const fallback = Object.values(config.galleries)[0];
   return fallback ?? [];
@@ -488,9 +629,9 @@ export const productFamilyImages: Record<string, ImageSlot> = {
     hint: `${MAT}/piquets-en-robiniers-faux-acacia/1.webp`,
   },
   "morel-wire-grillages-barbeles-et-fils-galvanises": {
-    src: `${MAT}/grillage-et-barbele/grillage-a-mailles-progressives/1.webp`,
+    src: `${GP_P}/1.webp`,
     alt: "Grillages & fils galvanisés Morel Wire",
-    hint: `${MAT}/grillage-et-barbele/grillage-a-mailles-progressives/1.webp`,
+    hint: `${GP_P}/1.webp`,
   },
   "barrieres-galvanisees": {
     src: `${MAT}/barrieres-galvanisees/7-tubes-fixes/1.webp`,
@@ -503,9 +644,9 @@ export const productFamilyImages: Record<string, ImageSlot> = {
     hint: `${MAT}/barrieres-en-bois/barrieres-anglaises/1.webp`,
   },
   "brandes-de-bruyere": {
-    src: `${MAT}/brise-vue-naturels/brandes-de-bruyeres/1.webp`,
+    src: `${BR}/1.webp`,
     alt: "Brandes de bruyère — brise-vue naturel",
-    hint: `${MAT}/brise-vue-naturels/brandes-de-bruyeres/1.webp`,
+    hint: `${BR}/1.webp`,
   },
   "outillage-et-accessoires-clotures": {
     src: `${MAT}/outils-et-accessoires/autoporteur-protech-evo/1.webp`,
@@ -513,9 +654,9 @@ export const productFamilyImages: Record<string, ImageSlot> = {
     hint: `${MAT}/outils-et-accessoires/autoporteur-protech-evo/1.webp`,
   },
   "ganivelles-en-robiniers-faux-acacia": {
-    src: `${MAT}/ganivelles/ganivelles/1.webp`,
+    src: `${GV_P}/1.webp`,
     alt: "Ganivelles en robinier faux acacia",
-    hint: `${MAT}/ganivelles/ganivelles/1.webp`,
+    hint: `${GV_P}/1.webp`,
   },
   "cloture-equestre": {
     src: `${MAT}/cloture-equestre-en-bois/post-and-rail-en-robiniers-faux-acacia/poteaux/1.webp`,
@@ -537,30 +678,74 @@ export function getFamilyImage(familyId: string, label: string): ImageSlot {
 
 // ── Helpers pour la page Notre matériel ──────────────────────────────────────
 
-/** Galerie autoporteur Protech Evo (6 photos). */
+const OUTILS = `${MAT}/outils-et-accessoires`;
+
+/** Galerie autoporteur Protech Evo. */
 export const materielAutoporteurImages: ImageSlot[] = seq(
-  `${MAT}/outils-et-accessoires/autoporteur-protech-evo`,
+  `${OUTILS}/autoporteur-protech-evo`,
   "Autoporteur Protech Evo",
+  [1, 2, 3, 4, 5, 6, 7, 8],
+);
+
+/** Pelle forestière et accessoires. */
+export const materielPelleForesterieImages: ImageSlot[] = seq(
+  `${OUTILS}/pelle-foresterie`,
+  "Pelle forestière",
   [1, 2, 3, 4, 5, 6],
 );
 
-/** Enfonceuse thermique 50 CC (4 photos). */
-export const materielEnfonceusesImages: ImageSlot[] = seq(
-  `${MAT}/outils-et-accessoires/enfonce-pieux-thermique/50-cc`,
-  "Enfonce-pieux thermique 50 CC",
-  [1, 2, 3, 4],
+/** Enfonce-pieux hydraulique. */
+export const materielEnfoncePieuxHydrauliqueImages: ImageSlot[] = seq(
+  `${OUTILS}/enfonce-pieux-hydraulique`,
+  "Enfonce-pieux hydraulique",
+  [1, 2, 3],
 );
 
-/** Stockade ST 315I (2 photos). */
+/** Enfonceuse thermique 50 CC. */
+export const materielEnfonceusesImages: ImageSlot[] = seq(
+  `${OUTILS}/enfonce-pieux-thermique/50-cc`,
+  "Enfonce-pieux thermique 50 CC",
+  [1, 2, 3, 4, 5],
+);
+
+/** Stockade ST 315I. */
 export const materielStockadeImages: ImageSlot[] = seq(
-  `${MAT}/outils-et-accessoires/stockade/st-315i`,
+  `${OUTILS}/stockade/st-315i`,
   "Stockade ST 315I",
   [1, 2],
 );
 
-/** Dérouleuses de grillage (5 photos). */
+/** Dérouleuses de grillage. */
 export const materielDerouleuseImages: ImageSlot[] = seq(
-  `${MAT}/outils-et-accessoires/derouleuses-de-grillage`,
+  `${OUTILS}/derouleuses-de-grillage`,
   "Dérouleuse de grillage",
-  [1, 2, 3, 4, 5],
+  [1, 2, 3, 4, 5, 6, 7, 8],
+);
+
+/** Transport & logistique (Manitou, camions). */
+export const materielTransportImages: ImageSlot[] = seq(
+  `${OUTILS}/transport-logistique`,
+  "Transport et logistique",
+  [1, 2, 3, 4, 5, 6, 7, 8],
+);
+
+/** Travaux préparatoires de chantier. */
+export const materielPreparationChantierImages: ImageSlot[] = seq(
+  `${OUTILS}/preparation-chantier`,
+  "Préparation de chantier",
+  [1, 2, 3, 4, 5, 6, 7, 8],
+);
+
+/** Déneigement & salage. */
+export const materielDeneigementImages: ImageSlot[] = seq(
+  `${OUTILS}/deneigement`,
+  "Déneigement",
+  [1, 2, 3],
+);
+
+/** Atelier soudure & ferronnerie. */
+export const materielAtelierImages: ImageSlot[] = seq(
+  `${OUTILS}/atelier-soudure`,
+  "Atelier de soudure",
+  [1, 2, 3, 4, 5, 6, 7, 8],
 );

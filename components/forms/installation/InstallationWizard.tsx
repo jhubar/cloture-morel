@@ -26,7 +26,19 @@ function validateStep(step: number, state: InstallationFormState): Record<string
       errors.projectAddress = "L'adresse du chantier est requise.";
     }
     if (state.projectLines.length === 0) {
-      errors.projectLines = "Ajoutez au moins une ligne de clôture.";
+      errors.projectLines = "Ajoutez au moins une clôture.";
+    } else if (state.projectLines.some((line) => !(line.amount > 0))) {
+      errors.projectLines =
+        "Indiquez une longueur ou une quantité pour chaque clôture.";
+    }
+  }
+
+  if (step === 3) {
+    if (!state.photos.some((p) => p.kind === "aerienne")) {
+      errors.photosAerienne = "Ajoutez au moins une vue aérienne.";
+    }
+    if (!state.photos.some((p) => p.kind === "terrain")) {
+      errors.photosTerrain = "Ajoutez au moins une photo du terrain.";
     }
   }
 
@@ -66,10 +78,12 @@ function buildPayload(state: InstallationFormState, honeypot: string) {
     undergroundHazards: state.undergroundHazards || undefined,
     timing: state.timing || undefined,
     message: state.message || undefined,
-    photos:
-      state.photos.length > 0
-        ? state.photos.map(({ name, data, type }) => ({ name, data, type }))
-        : undefined,
+    photos: state.photos.map(({ name, data, type, kind }) => ({
+      name,
+      data,
+      type,
+      kind,
+    })),
     disclaimerAccepted: state.disclaimerAccepted as true,
     _hp: honeypot,
   };
@@ -205,9 +219,23 @@ export function InstallationWizard() {
             );
           })}
         </ol>
-        <p className="mt-2 text-xs text-bark-muted">
-          Étape {step} sur {WIZARD_STEPS.length} — {currentStep.label}
-        </p>
+
+        {/* Thin progress track */}
+        <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-sand-200">
+          <div
+            className="h-full rounded-full bg-terracotta transition-all duration-500"
+            style={{ width: `${(step / WIZARD_STEPS.length) * 100}%` }}
+          />
+        </div>
+
+        <div className="mt-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+          <p className="text-xs text-bark-muted">
+            Étape {step} sur {WIZARD_STEPS.length} — {currentStep.label}
+          </p>
+          <p className="text-xs text-bark-muted">
+            ≈ 2 min · sans engagement · réponse rapide
+          </p>
+        </div>
       </nav>
 
       {step === 1 && <StepProject state={state} errors={errors} onChange={patch} />}
