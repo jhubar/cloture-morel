@@ -17,6 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/materiel", priority: 0.8, changeFrequency: "monthly" },
     { path: "/contact", priority: 0.7, changeFrequency: "yearly" },
     { path: "/mentions-legales", priority: 0.2, changeFrequency: "yearly" },
+    { path: "/politique-de-confidentialite", priority: 0.2, changeFrequency: "yearly" },
     ...getFamilies().map((family) => ({
       path: `/catalogue?famille=${family.id}`,
       priority: 0.8,

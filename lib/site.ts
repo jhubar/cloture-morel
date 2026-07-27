@@ -55,5 +55,8 @@ export const footerLinks = {
     { href: "/catalogue", label: "Devis matériaux" },
     { href: "/pose#devis", label: "Devis pose" },
   ],
-  legal: [{ href: "/mentions-legales", label: "Mentions légales" }],
+  legal: [
+    { href: "/mentions-legales", label: "Mentions légales" },
+    { href: "/politique-de-confidentialite", label: "Confidentialité" },
+  ],
 } as const;

@@ -14,6 +14,7 @@ import {
 import { PageContainer } from "@/components/ui/PageContainer";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import { ContactForm } from "@/components/forms/ContactForm";
+import { GoogleMapEmbed } from "@/components/contact/GoogleMapEmbed";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -116,16 +117,7 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="overflow-hidden rounded-card border border-sand-300 shadow-card">
-              <iframe
-                src={site.mapsEmbedUrl}
-                className="h-56 w-full border-0 sm:h-64"
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title={`Localisation de ${site.name} — ${site.address.street}, ${site.address.city}`}
-              />
-            </div>
+            <GoogleMapEmbed />
             <a
               href={site.mapsLink}
               target="_blank"

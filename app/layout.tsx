@@ -3,6 +3,7 @@ import { Fraunces, Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { CookieBanner } from "@/components/legal/CookieBanner";
 import { LocalBusinessJsonLd } from "@/components/seo/LocalBusinessJsonLd";
 import { site } from "@/lib/site";
 
@@ -78,6 +79,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <CookieBanner />
       </body>
     </html>
   );
