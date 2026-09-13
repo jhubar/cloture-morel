@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { CookieBanner } from "@/components/legal/CookieBanner";
 import { LocalBusinessJsonLd } from "@/components/seo/LocalBusinessJsonLd";
 import { site } from "@/lib/site";
+import { isProductionSite } from "@/lib/env";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -52,7 +53,10 @@ export const metadata: Metadata = {
     description:
       "Matériaux de clôture et pose professionnelle à Sprimont, Esneux et Liège.",
   },
-  robots: { index: true, follow: true },
+  // En staging/preview (et local), on empêche l'indexation via <meta robots>.
+  robots: isProductionSite()
+    ? { index: true, follow: true }
+    : { index: false, follow: false },
 };
 
 export const viewport: Viewport = {

@@ -1,8 +1,21 @@
 import type { MetadataRoute } from "next";
 import { site } from "@/lib/site";
+import { isProductionSite } from "@/lib/env";
 
 export default function robots(): MetadataRoute.Robots {
   const base = site.url.replace(/\/$/, "");
+
+  // Hors production (staging/preview, local) : on bloque toute indexation pour
+  // éviter que Google référence une version de test.
+  if (!isProductionSite()) {
+    return {
+      rules: {
+        userAgent: "*",
+        disallow: "/",
+      },
+    };
+  }
+
   return {
     rules: {
       userAgent: "*",

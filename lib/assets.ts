@@ -458,6 +458,26 @@ const categoryImagesBySelectionKey: Record<
         "Consommable Stockade",
         [1, 2],
       ),
+      "Clames 33 mm": seq(
+        `${MAT}/outils-et-accessoires/stockade/consommables`,
+        "Clames Stockade 33 mm",
+        [1, 2],
+      ),
+      "Clames 40 mm": seq(
+        `${MAT}/outils-et-accessoires/stockade/consommables`,
+        "Clames Stockade 40 mm",
+        [1, 2],
+      ),
+      "Cartouche de gaz": seq(
+        `${MAT}/outils-et-accessoires/stockade/consommables`,
+        "Cartouche de gaz Stockade",
+        [1, 2],
+      ),
+      "Carton de cartouches de gaz": seq(
+        `${MAT}/outils-et-accessoires/stockade/consommables`,
+        "Carton de cartouches de gaz Stockade",
+        [1, 2],
+      ),
       "Easy Petrol Post Driver 50 CC": seq(
         `${MAT}/outils-et-accessoires/enfonce-pieux-thermique/50-cc`,
         "Enfonce-pieux thermique 50 CC",
@@ -472,7 +492,7 @@ const categoryImagesBySelectionKey: Record<
       "Pour mini pelles et autres": seq(
         `${MAT}/outils-et-accessoires/derouleuses-de-grillage`,
         "Dérouleuse de grillage",
-        [1, 2, 3, 4, 5, 6, 7, 8],
+        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
       ),
       "Cloche de battage pour brise roche": seq(
         `${MAT}/outils-et-accessoires/cloche-pour-brise-roche`,
@@ -719,7 +739,7 @@ export const materielStockadeImages: ImageSlot[] = seq(
 export const materielDerouleuseImages: ImageSlot[] = seq(
   `${OUTILS}/derouleuses-de-grillage`,
   "Dérouleuse de grillage",
-  [1, 2, 3, 4, 5, 6, 7, 8],
+  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 );
 
 /** Transport & logistique (Manitou, camions). */
@@ -748,4 +768,11 @@ export const materielAtelierImages: ImageSlot[] = seq(
   `${OUTILS}/atelier-soudure`,
   "Atelier de soudure",
   [1, 2, 3, 4, 5, 6, 7, 8],
+);
+
+/** Bacs en acier corten (atelier / ferronnerie). */
+export const materielBacsCortenImages: ImageSlot[] = seq(
+  `${OUTILS}/atelier-soudure/ferronnerie/bacs-corten`,
+  "Bac en acier corten",
+  [1, 2],
 );

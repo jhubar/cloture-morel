@@ -26,50 +26,49 @@
           "label": "Piquets en robiniers faux acacia — 160 cm diamètre 8/10 cm",
           "article": "Piquets en robiniers faux acacia",
           "reference": "160 cm diamètre 8/10 cm",
-          "prixUnitaireHTVA": 5.02,
+          "prixUnitaireHTVA": 5.29,
           "disponibilite": "Sur commande",
           "details": {
             "nombre_par_palette": "100",
             "nombre_par_palette_camion": "100",
             "note_camion": "Sur commande"
           },
-          "prixCamionCompletHTVA": 4.64
+          "prixCamionCompletHTVA": 4.9
         },
         {
           "id": "piquets-en-robiniers-faux-acacia-ronds-160-cm-diametre-10-12-cm-1",
           "label": "Piquets en robiniers faux acacia — 160 cm diamètre 10/12 cm",
           "article": "Piquets en robiniers faux acacia",
           "reference": "160 cm diamètre 10/12 cm",
-          "prixUnitaireHTVA": 7.49,
+          "prixUnitaireHTVA": 7.9,
           "disponibilite": "Sur commande",
           "details": {
-            "nombre_par_palette": "70",
-            "nombre_par_palette_camion": "70",
-            "note_palette": "Le nombre de pièces par palette peut varier de 65 à 75 selon les lots.",
+            "nombre_par_palette": "100",
+            "nombre_par_palette_camion": "100",
             "note_camion": "Sur commande"
           },
-          "prixCamionCompletHTVA": 6.93
+          "prixCamionCompletHTVA": 7.32
         },
         {
           "id": "piquets-en-robiniers-faux-acacia-ronds-180-cm-diametre-8-10-cm-2",
           "label": "Piquets en robiniers faux acacia — 180 cm diamètre 8/10 cm",
           "article": "Piquets en robiniers faux acacia",
           "reference": "180 cm diamètre 8/10 cm",
-          "prixUnitaireHTVA": 5.64,
+          "prixUnitaireHTVA": 5.95,
           "disponibilite": "En stock",
           "details": {
             "nombre_par_palette": "100",
             "nombre_par_palette_camion": "100",
             "note_camion": "En stock"
           },
-          "prixCamionCompletHTVA": 5.22
+          "prixCamionCompletHTVA": 5.51
         },
         {
           "id": "piquets-en-robiniers-faux-acacia-ronds-180-cm-diametre-10-12-cm-3",
           "label": "Piquets en robiniers faux acacia — 180 cm diamètre 10/12 cm",
           "article": "Piquets en robiniers faux acacia",
           "reference": "180 cm diamètre 10/12 cm",
-          "prixUnitaireHTVA": 8.43,
+          "prixUnitaireHTVA": 8.89,
           "disponibilite": "En stock",
           "details": {
             "nombre_par_palette": "70",
@@ -77,28 +76,28 @@
             "note_palette": "Le nombre de pièces par palette peut varier de 65 à 75 selon les lots.",
             "note_camion": "En stock"
           },
-          "prixCamionCompletHTVA": 7.8
+          "prixCamionCompletHTVA": 8.23
         },
         {
           "id": "piquets-en-robiniers-faux-acacia-ronds-200-cm-diametre-8-10-cm-4",
           "label": "Piquets en robiniers faux acacia — 200 cm diamètre 8/10 cm",
           "article": "Piquets en robiniers faux acacia",
           "reference": "200 cm diamètre 8/10 cm",
-          "prixUnitaireHTVA": 6.27,
+          "prixUnitaireHTVA": 6.61,
           "disponibilite": "En stock",
           "details": {
             "nombre_par_palette": "100",
             "nombre_par_palette_camion": "100",
             "note_camion": "En stock"
           },
-          "prixCamionCompletHTVA": 5.81
+          "prixCamionCompletHTVA": 6.12
         },
         {
           "id": "piquets-en-robiniers-faux-acacia-ronds-200-cm-diametre-10-12-cm-5",
           "label": "Piquets en robiniers faux acacia — 200 cm diamètre 10/12 cm",
           "article": "Piquets en robiniers faux acacia",
           "reference": "200 cm diamètre 10/12 cm",
-          "prixUnitaireHTVA": 9.37,
+          "prixUnitaireHTVA": 9.88,
           "disponibilite": "En stock",
           "details": {
             "nombre_par_palette": "70",
@@ -106,28 +105,28 @@
             "note_palette": "Le nombre de pièces par palette peut varier de 65 à 75 selon les lots.",
             "note_camion": "En stock"
           },
-          "prixCamionCompletHTVA": 8.67
+          "prixCamionCompletHTVA": 9.15
         },
         {
           "id": "piquets-en-robiniers-faux-acacia-ronds-250-cm-diametre-8-10-cm-6",
           "label": "Piquets en robiniers faux acacia — 250 cm diamètre 8/10 cm",
           "article": "Piquets en robiniers faux acacia",
           "reference": "250 cm diamètre 8/10 cm",
-          "prixUnitaireHTVA": 7.84,
+          "prixUnitaireHTVA": 8.27,
           "disponibilite": "En stock",
           "details": {
             "nombre_par_palette": "100",
             "nombre_par_palette_camion": "100",
             "note_camion": "En stock"
           },
-          "prixCamionCompletHTVA": 7.26
+          "prixCamionCompletHTVA": 7.65
         },
         {
           "id": "piquets-en-robiniers-faux-acacia-ronds-250-cm-diametre-10-12-cm-7",
           "label": "Piquets en robiniers faux acacia — 250 cm diamètre 10/12 cm",
           "article": "Piquets en robiniers faux acacia",
           "reference": "250 cm diamètre 10/12 cm",
-          "prixUnitaireHTVA": 11.71,
+          "prixUnitaireHTVA": 12.35,
           "disponibilite": "En stock",
           "details": {
             "nombre_par_palette": "70",
@@ -135,14 +134,14 @@
             "note_palette": "Le nombre de pièces par palette peut varier de 65 à 75 selon les lots.",
             "note_camion": "En stock"
           },
-          "prixCamionCompletHTVA": 10.84
+          "prixCamionCompletHTVA": 11.43
         },
         {
           "id": "piquets-en-robiniers-faux-acacia-ronds-300-cm-diametre-10-12-cm-8",
           "label": "Piquets en robiniers faux acacia — 300 cm diamètre 10/12 cm",
           "article": "Piquets en robiniers faux acacia",
           "reference": "300 cm diamètre 10/12 cm",
-          "prixUnitaireHTVA": 14.05,
+          "prixUnitaireHTVA": 14.82,
           "disponibilite": "En stock",
           "details": {
             "nombre_par_palette": "70",
@@ -150,22 +149,21 @@
             "note_palette": "Le nombre de pièces par palette peut varier de 65 à 75 selon les lots.",
             "note_camion": "En stock"
           },
-          "prixCamionCompletHTVA": 13.01
+          "prixCamionCompletHTVA": 13.72
         },
         {
           "id": "piquets-en-robiniers-faux-acacia-ronds-350-cm-diametre-10-12-cm-9",
           "label": "Piquets en robiniers faux acacia — 350 cm diamètre 10/12 cm",
           "article": "Piquets en robiniers faux acacia",
           "reference": "350 cm diamètre 10/12 cm",
-          "prixUnitaireHTVA": 18.86,
+          "prixUnitaireHTVA": 17.29,
           "disponibilite": "Sur commande",
           "details": {
-            "nombre_par_palette": "60",
-            "nombre_par_palette_camion": "60",
-            "note_palette": "Le nombre de pièces par palette peut varier de 50 à 60 selon les lots.",
+            "nombre_par_palette": "70",
+            "nombre_par_palette_camion": "70",
             "note_camion": "Sur commande"
           },
-          "prixCamionCompletHTVA": 17.46
+          "prixCamionCompletHTVA": 16.0
         },
         {
           "id": "piquets-en-robiniers-faux-acacia-ronds-350-cm-diametre-12-14-cm-10",
@@ -1043,6 +1041,52 @@
           "disponibilite": "En stock",
           "details": {
             "quantite_pack": "1800 clames + 3 cartouches de gaz"
+          }
+        },
+        {
+          "id": "outillage-et-accessoires-clotures-clames-33-mm-11",
+          "label": "Clameuse — Clames 33 mm",
+          "article": "Clameuse",
+          "reference": "Clames 33 mm",
+          "prixUnitaireHTVA": 147.0,
+          "disponibilite": "En stock",
+          "details": {
+            "conditionnement": "1 seau de 2700 clames",
+            "note": "Recommandées pour les bois durs (acacia)."
+          }
+        },
+        {
+          "id": "outillage-et-accessoires-clotures-clames-40-mm-12",
+          "label": "Clameuse — Clames 40 mm",
+          "article": "Clameuse",
+          "reference": "Clames 40 mm",
+          "prixUnitaireHTVA": 128.0,
+          "disponibilite": "En stock",
+          "details": {
+            "conditionnement": "1 seau de 2100 clames",
+            "note": "Recommandées pour les bois tendres (pin) ; les clames de 33 mm conviennent aussi."
+          }
+        },
+        {
+          "id": "outillage-et-accessoires-clotures-cartouche-de-gaz-13",
+          "label": "Clameuse — Cartouche de gaz",
+          "article": "Clameuse",
+          "reference": "Cartouche de gaz",
+          "prixUnitaireHTVA": 12.0,
+          "disponibilite": "En stock",
+          "details": {
+            "conditionnement": "Par pièce"
+          }
+        },
+        {
+          "id": "outillage-et-accessoires-clotures-carton-cartouches-de-gaz-14",
+          "label": "Clameuse — Carton de cartouches de gaz",
+          "article": "Clameuse",
+          "reference": "Carton de cartouches de gaz",
+          "prixUnitaireHTVA": 120.0,
+          "disponibilite": "En stock",
+          "details": {
+            "conditionnement": "Carton de 12 cartouches (10 €/pièce)"
           }
         },
         {

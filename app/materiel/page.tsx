@@ -23,6 +23,7 @@ import {
   materielPreparationChantierImages,
   materielDeneigementImages,
   materielAtelierImages,
+  materielBacsCortenImages,
 } from "@/lib/assets";
 
 export const metadata: Metadata = {
@@ -47,6 +48,27 @@ const stockadeImages: LightboxImage[] = [
   slot(`${MAT}/outils-et-accessoires/stockade/consommables/2.webp`, "Consommables Stockade — vue 2"),
 ];
 
+/** Placeholder de description tant que le texte définitif n'est pas fourni. */
+const DESC_A_COMPLETER = "Description à compléter.";
+
+/**
+ * Un sous-paragraphe d'activité atelier : un titre, un court texte et sa propre
+ * galerie de photos. Les galeries vides affichent "Photos à venir".
+ */
+interface AtelierSubsection {
+  id: string;
+  title: string;
+  description: string;
+  images: LightboxImage[];
+}
+
+/** Un regroupement de sous-paragraphes (ex. "Ferronnerie", "Soudure"...). */
+interface AtelierGroup {
+  id: string;
+  title: string;
+  subsections: AtelierSubsection[];
+}
+
 const categories: {
   id: string;
   icon: React.ElementType;
@@ -54,6 +76,8 @@ const categories: {
   description: string;
   items: { name: string; detail: string }[];
   images: LightboxImage[];
+  /** Optionnel : sous-paragraphes groupés, rendus en pleine largeur sous l'intro. */
+  groups?: AtelierGroup[];
 }[] = [
   {
     id: "autoporteur",
@@ -183,6 +207,41 @@ const categories: {
       { name: "Conception ferronnerie", detail: "Portails, grilles, garde-corps et ouvrages métalliques" },
     ],
     images: toGallery(materielAtelierImages),
+    // Sous-paragraphes détaillés. Pour ajouter un groupe (ex. "Soudure"),
+    // dupliquer un bloc AtelierGroup. Pour ajouter les photos d'un sous-paragraphe :
+    // 1) déposer les WebP optimisés dans le dossier indiqué en commentaire,
+    // 2) remplacer `images: []` par `seq(...)` importé depuis lib/assets.ts.
+    groups: [
+      {
+        id: "ferronnerie",
+        title: "Ferronnerie",
+        subsections: [
+          {
+            id: "bacs-corten",
+            title: "Réalisation de bacs en corten",
+            description:
+              "Fabrication sur mesure de bacs en acier corten pour jardinières, potagers et aménagements extérieurs. L'acier corten développe une patine protectrice naturellement, sans traitement. Dimensions, hauteurs et compartiments adaptés à votre projet.",
+            images: toGallery(materielBacsCortenImages),
+          },
+          {
+            id: "couvre-mur-corten",
+            title: "Couvre-mur en corten",
+            description:
+              "Fabrication sur mesure de couvre-murs en acier corten pour protéger et habiller murets, soubassements et jardinières. La patine naturelle de l'acier corten assure une finition durable sans entretien. Longueurs, retombées et pentes adaptées à votre ouvrage.",
+            // Photos → .../atelier-soudure/ferronnerie/couvre-mur-corten/
+            images: [],
+          },
+          {
+            id: "equilibrage-rotors",
+            title: "Équilibrage de rotors à axe horizontal",
+            description: DESC_A_COMPLETER,
+            // Broyeur, épareuse, moissonneuse-batteuse, etc.
+            // Photos → .../atelier-soudure/ferronnerie/equilibrage-rotors/
+            images: [],
+          },
+        ],
+      },
+    ],
   },
 ];
 
@@ -208,7 +267,7 @@ export default function MaterielPage() {
 
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="space-y-16">
-          {categories.map(({ id, icon: Icon, title, description, items, images }, index) => (
+          {categories.map(({ id, icon: Icon, title, description, items, images, groups }, index) => (
             <section key={id} aria-labelledby={`materiel-${id}`}>
               <div className="grid items-center gap-8 lg:grid-cols-2">
                 <div className={index % 2 === 1 ? "lg:order-2" : ""}>
@@ -253,6 +312,51 @@ export default function MaterielPage() {
                   )}
                 </div>
               </div>
+
+              {groups && groups.length > 0 && (
+                <div className="mt-12 space-y-12">
+                  {groups.map((group) => (
+                    <div key={group.id}>
+                      <h3
+                        id={`materiel-${id}-${group.id}`}
+                        className="border-b border-sand-200 pb-2 font-display text-lg font-semibold text-forest-dark"
+                      >
+                        {group.title}
+                      </h3>
+                      <div className="mt-8 space-y-10">
+                        {group.subsections.map((sub, subIndex) => (
+                          <div
+                            key={sub.id}
+                            className="grid items-start gap-6 lg:grid-cols-2"
+                          >
+                            <div className={subIndex % 2 === 1 ? "lg:order-2" : ""}>
+                              <h4 className="font-display text-base font-semibold text-forest-dark">
+                                {sub.title}
+                              </h4>
+                              <p className="mt-2 text-sm text-bark-muted">
+                                {sub.description}
+                              </p>
+                            </div>
+                            <div className={subIndex % 2 === 1 ? "lg:order-1" : ""}>
+                              {sub.images.length > 0 ? (
+                                <MachineGallery
+                                  images={sub.images}
+                                  className="aspect-[4/3] w-full rounded-card border border-sand-300 shadow-card"
+                                />
+                              ) : (
+                                <div className="flex aspect-[4/3] w-full items-center justify-center rounded-card border border-dashed border-sand-300 bg-sand-200/40 text-sm text-bark-muted">
+                                  Photos à venir
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
               {index < categories.length - 1 && (
                 <hr className="mt-16 border-sand-200" />
               )}

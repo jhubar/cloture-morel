@@ -231,7 +231,7 @@ function sortValues(key: string, values: string[]): string[] {
     });
   }
 
-  // Clameuse Stockade : machine avant consommables
+  // Clameuse Stockade : machine, puis pack, puis consommables détaillés
   if (
     key === "reference" &&
     unique.some((v) => /stockade st315i/i.test(v)) &&
@@ -240,7 +240,11 @@ function sortValues(key: string, values: string[]): string[] {
     const order = (value: string): number => {
       if (/stockade st315i/i.test(value)) return 0;
       if (/consommable st 315i/i.test(value)) return 1;
-      return 2;
+      if (/clames 33/i.test(value)) return 2;
+      if (/clames 40/i.test(value)) return 3;
+      if (/carton de cartouches de gaz/i.test(value)) return 5;
+      if (/cartouche de gaz/i.test(value)) return 4;
+      return 6;
     };
     return unique.sort((a, b) => {
       const diff = order(a) - order(b);

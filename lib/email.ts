@@ -1,6 +1,7 @@
 import "server-only";
 import { site } from "@/lib/site";
 import type { MaterialsQuote } from "@/lib/quote";
+import { renderQuoteLinesTable } from "@/lib/email-quote-html";
 import type { InstallationQuoteInput, ContactInput } from "@/lib/validation";
 import { formatLineAmount } from "@/lib/installation-project";
 
@@ -13,8 +14,11 @@ import { formatLineAmount } from "@/lib/installation-project";
  *
  * Required env (see .env.example):
  *   RESEND_API_KEY            Resend API key
- *   EMAIL_FROM                Verified sender, e.g. "Clôtures Morel <devis@clotures-morel.be>"
- *   QUOTE_NOTIFICATION_EMAIL  Nicolas inbox (Clotures-morel@outlook.com)
+ *   EMAIL_FROM                Verified sender, e.g. "Clôtures Morel <info@clotures-morel.be>"
+ *                             (send-only via Resend — not a real mailbox)
+ *   QUOTE_NOTIFICATION_EMAIL  Nicolas inbox (Clotures-morel@outlook.com).
+ *                             Also used as Reply-To on client confirmations so
+ *                             replies reach Nicolas instead of devis@.
  *   EMAIL_TEST_REDIRECT       (optional) When set, EVERY recipient (admin and
  *                             client) is overridden with this address. Use for
  *                             testing only; leave empty in production.
@@ -161,23 +165,7 @@ export async function sendMaterialsQuoteEmails(
     content: pdf.toString("base64"),
   };
 
-  const lineRows = quote.lines
-    .map((l) => {
-      const qtyLabel = l.piecesPerPalette
-        ? `x${l.quantity} palette(s) - ${l.quantity * l.piecesPerPalette} pièces`
-        : l.piecesPerPack
-          ? l.packUnit === "carton"
-            ? `x${l.quantity} carton(s) - ${l.quantity * l.piecesPerPack} pièces`
-            : `x${l.quantity} sachet(s) - ${l.quantity * l.piecesPerPack} pièces`
-          : `x${l.quantity}`;
-      return `<tr><td style="padding:4px 0;border-bottom:1px solid #e3ddd2;">${htmlEscape(l.reference)} <span style="color:#5b6b61;">${qtyLabel}</span></td><td style="padding:4px 0;border-bottom:1px solid #e3ddd2;text-align:right;">${l.lineTotal !== null ? eur(l.lineTotal) : "Sur demande"}</td></tr>`;
-    })
-    .join("");
-
-  const summaryTable = `<table style="width:100%;border-collapse:collapse;font-size:14px;margin:12px 0;">
-    ${lineRows}
-    <tr><td style="padding:8px 0;font-weight:bold;">Total estimatif HTVA</td><td style="padding:8px 0;text-align:right;font-weight:bold;color:#1e3d29;">${eur(quote.totalHTVA)}</td></tr>
-  </table>`;
+  const summaryTable = renderQuoteLinesTable(quote);
 
   try {
     const adminResult = await sendViaResend(resend, {
@@ -208,6 +196,7 @@ export async function sendMaterialsQuoteEmails(
     const clientResult = await sendViaResend(resend, {
       from,
       to: recipient(customer.email),
+      replyTo: admin,
       subject: `Votre demande de devis - ${site.name} (${quote.reference})`,
       html: layout(
         `Merci ${htmlEscape(customer.firstName)}, nous avons bien recu votre demande`,
@@ -312,6 +301,7 @@ export async function sendInstallationEmail(
     return sendViaResend(resend, {
       from,
       to: recipient(data.email),
+      replyTo: admin,
       subject: `Votre demande de pose - ${site.name}`,
       html: layout(
         `Merci ${htmlEscape(data.firstName)}, votre demande est bien recue`,
@@ -363,6 +353,7 @@ export async function sendContactEmail(data: ContactInput): Promise<SendResult> 
     return sendViaResend(resend, {
       from,
       to: recipient(data.email),
+      replyTo: admin,
       subject: `Votre message - ${site.name}`,
       html: layout(
         `Merci ${htmlEscape(data.firstName)}, nous avons bien recu votre message`,
