@@ -16,7 +16,7 @@ export const site = {
     "https://www.google.com/maps/search/?api=1&query=Rue+d%27Esneux+220,+4140+Sprimont,+Belgique",
   phone: "0497 91 77 39",
   phoneTel: "+32497917739",
-  email: "Clotures-morel@outlook.com",
+  email: "info@clotures-morel.be",
   hours: {
     confirmed: true,
     label: "Lundi – vendredi : 7h30 – 17h",
